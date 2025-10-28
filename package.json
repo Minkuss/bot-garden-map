@@ -7,10 +7,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@pbe/react-yandex-maps": "^1.2.5",
     "axios": "^1.13.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.9.4"
+    "react-router-dom": "^7.9.4",
+    "typescript-eslint": "^8.46.2"
   },
   "devDependencies": {
     "@types/node": "^20.12.11",
@@ -19,6 +21,12 @@
     "@vitejs/plugin-react": "^4.2.1",
     "pkg-dir": "^8.0.0",
     "typescript": "^5.4.5",
-    "vite": "^5.2.11"
+    "vite": "^5.2.11",
+    "@typescript-eslint/eslint-plugin": "^8.21.0",
+    "@typescript-eslint/parser": "^8.21.0",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "14.2.23",
+    "eslint-plugin-next": "^0.0.0",
+    "eslint-plugin-react": "^7.37.4"
   }
 }
