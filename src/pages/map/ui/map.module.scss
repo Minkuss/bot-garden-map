@@ -1,0 +1,9 @@
+.map {
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+
+  .heading {
+    text-transform: uppercase;
+  }
+}

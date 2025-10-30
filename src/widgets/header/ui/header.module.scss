@@ -1,0 +1,14 @@
+.nav {
+  width: 100%;
+
+  &__list {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    align-items: center;
+  }
+}
+
+.bot-sad-logo {
+  height: 45px;
+}
