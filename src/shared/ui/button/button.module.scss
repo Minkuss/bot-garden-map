@@ -1,0 +1,17 @@
+.button {
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid #35B44A;
+  border-radius: 14px;
+  font-family: 'Instrument Sans', sans-serif;
+
+  &--contained {
+    background-color: #35B44A;
+    color: #fff;
+  }
+
+  &--outlined {
+    color: #000;
+  }
+}

@@ -1,0 +1,21 @@
+@import 'config/setup.scss';
+@import 'config/variables.scss';
+@import 'config/mixins.scss';
+@import '../assets/instrument-sans/stylesheet.css';
+@import '../../features/billboardBalloonCard/ui/billboardBalloonCard.scss';
+
+#root {
+  height: 100%;
+}
+
+html, body {
+  font-family: 'Instrument Sans', sans-serif !important;
+  font-style: normal;
+  height: 100%;
+  background-color: $bg-primary;
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: 600;
+}

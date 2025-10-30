@@ -1,0 +1,21 @@
+@mixin paddingLeftRight($padding) {
+  padding-left: $padding;
+  padding-right: $padding;
+}
+
+@mixin paddingTopBottom($padding) {
+  padding-top: $padding;
+  padding-bottom: $padding;
+}
+
+@mixin flexRow($gap) {
+  display: flex;
+  flex-direction: row;
+  gap: $gap;
+}
+
+@mixin flexColumn($gap) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
