@@ -7,7 +7,7 @@ const packageRoot = packageDirectorySync();
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    base: '/',
+    base: '/bot-garden-map/',
     plugins: [ react() ],
     css: {
         preprocessorOptions: {

@@ -1,3 +1,3 @@
 export const routes = {
-    MAP: '/',
+    MAP: '/bot-garden-map/',
 };

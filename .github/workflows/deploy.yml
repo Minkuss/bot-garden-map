@@ -32,6 +32,9 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          VITE_REACT_APP_API_URL: ${{ secrets.VITE_REACT_APP_API_URL }}
+          VITE_YANDEX_MAPS_API_KEY: ${{ secrets.VITE_YANDEX_MAPS_API_KEY }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
