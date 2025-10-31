@@ -2,9 +2,16 @@ import { Map, YMaps } from '@pbe/react-yandex-maps';
 import { useEffect, useState } from 'react';
 import { billboardApi, BillboardMarkerDto } from 'src/entities/billboard';
 import { SelectableBillboardMarker } from 'src/features/selectableBillboardMarker';
+import { useCart } from 'src/entities/cart';
 
 export const BillboardsMap = () => {
     const [ billboardsMarkers, setBillboardsMarkers ] = useState<BillboardMarkerDto[]>([]);
+    const { add } = useCart();
+
+    window.addEventListener('cartClicked', e => {
+        const { id } = (e as CustomEvent<{ id: string }>).detail;
+        add(id);
+    });
 
     useEffect(() => {
         const loadBillBoardsMarkers = async() => {

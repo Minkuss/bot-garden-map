@@ -10,6 +10,7 @@
     "@pbe/react-yandex-maps": "^1.2.5",
     "axios": "^1.13.0",
     "classnames": "^2.5.1",
+    "plural-ru": "^2.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.9.4",

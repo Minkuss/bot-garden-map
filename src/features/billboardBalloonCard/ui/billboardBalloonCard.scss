@@ -54,11 +54,12 @@
   padding: 10px 14px;
   font-size: 13px;
   font-weight: 500;
-  border: 1px solid #35B44A;
+  border: 1px solid #35B44A !important;
   border-radius: 14px;
   font-family: 'Instrument Sans', sans-serif;
   background: #fff;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .balloon-card__button--contained {
@@ -67,7 +68,16 @@
   border: none;
 }
 
+.balloon-card__button--contained:hover {
+  background-color: #287939;
+}
+
 .balloon-card__button--outlined {
   color: #000;
   background: #fff;
+}
+
+.balloon-card__button--outlined:hover {
+  background-color: #35B44A;
+  color: #fff;
 }
