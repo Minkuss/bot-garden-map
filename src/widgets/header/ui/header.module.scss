@@ -1,14 +1,38 @@
 .nav {
   width: 100%;
+  padding: 15px;
+  box-shadow: 1px 4px 9px 9px rgba(42,142,58,0.33);
+  border-radius: 15px;
 
   &__list {
     display: flex;
     justify-content: space-between;
     list-style: none;
     align-items: center;
+
+    .cart {
+      position: relative;
+
+      &-count {
+        position: absolute;
+        transform: translate(-40%, -30%);
+        left: 100%;
+        background-color: #35B44A;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        padding: 6px;
+      }
+    }
   }
 }
 
 .bot-sad-logo {
   height: 45px;
+  cursor: pointer;
 }

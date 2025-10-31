@@ -36,11 +36,29 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
                 this.constructor.superclass.build.call(this);
                 const events = this.getData().geoObject.events;
 
+                this.getParentElement().querySelector('.balloon-card__dates-btn')
+                    ?.addEventListener('click', () => {
+                        window.dispatchEvent(new CustomEvent('datesClicked', { detail: { id: billboardInfo?.id } }));
+                    });
+
+                this.getParentElement().querySelector('.balloon-card__cart-btn')
+                    ?.addEventListener('click', () => {
+                        window.dispatchEvent(new CustomEvent('cartClicked', { detail: { id: billboardInfo?.id } }));
+                    });
+
+                this.getParentElement().querySelector('.balloon-card__request-btn')
+                    ?.addEventListener('click', () => {
+                        window.dispatchEvent(new CustomEvent('requestClicked', { detail: { id: billboardInfo?.id } }));
+                    });
+
                 events.add('balloonclose', () => {
                     document.getElementById(selectedPlaceMarkId)
                         ?.classList
                         .remove('billboard-marker__active');
                 });
+            },
+            clear: function() {
+                this.constructor.superclass.clear.call(this);
             },
         },
     );

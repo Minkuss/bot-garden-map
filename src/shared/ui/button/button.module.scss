@@ -5,13 +5,23 @@
   border: 1px solid #35B44A;
   border-radius: 14px;
   font-family: 'Instrument Sans', sans-serif;
+  transition: all 0.2s ease-in-out;
 
   &--contained {
     background-color: #35B44A;
     color: #fff;
+
+    &:hover {
+      background-color: #287939;
+    }
   }
 
   &--outlined {
     color: #000;
+
+    &:hover {
+      background-color: #35B44A;
+      color: #fff;
+    }
   }
 }
