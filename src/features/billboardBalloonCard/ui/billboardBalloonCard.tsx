@@ -7,7 +7,7 @@ export function BillboardBalloonCard(billboardInfo: BillboardDetailDto | undefin
     <div class="balloon-card">
       <div class="balloon-card__image-wrapper">
         <img
-          src="https://rpk-rostov.ru/wp-content/uploads/2021/10/fl1455871649-2048x1574-min-1024x787.jpg"
+          src=${billboardInfo?.image_url}
           alt="Баннер"
           class="balloon-card__image"
         />

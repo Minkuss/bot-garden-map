@@ -3,6 +3,7 @@ import { Placemark, withYMaps } from '@pbe/react-yandex-maps';
 import { billboardApi, BillboardDetailDto, BillboardMarkerDto } from 'src/entities/billboard';
 import './selectableBillboardMarker.scss';
 import { BillboardBalloonCard } from 'src/features/billboardBalloonCard';
+import { imagesApi } from 'src/shared/api/images-service';
 
 interface IBillboardMarkerProps {
     billboard: BillboardMarkerDto;
@@ -16,6 +17,12 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
     const getBillboard = async(id: string) => {
         try {
             const billboard = await billboardApi.getBillboardInfo(id);
+            const billboardImages = await imagesApi.getBillboardImages({
+                id,
+                side: billboard.side,
+            });
+
+            billboard.image_url = import.meta.env.VITE_REACT_APP_API_URL + billboardImages.images[0].file_path;
             setBillboardInfo(billboard);
         } catch (error) {
             console.error(error);
