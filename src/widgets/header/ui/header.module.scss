@@ -6,8 +6,15 @@
   .divider {
     border-bottom: 1px solid #373737;
     padding-top: 32px;
-    margin-left: calc(-1 * $container-padding);
-    margin-right: calc(-1 * $container-padding);
+    margin: auto calc(-1 * $container-padding);
+
+    @media (max-width: $breakpoint-lg) {
+      margin: auto -100px;
+    }
+
+    @media (max-width: $breakpoint-md) {
+      margin: auto -50px;
+    }
   }
 
   &__list {
