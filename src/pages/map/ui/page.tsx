@@ -8,7 +8,17 @@ export const MapPage = () => (
         <h1
             className={s['heading']}
         >
-            -Выберите объект.
+            <span
+                className={s['dash']}
+            >
+                -
+            </span>
+            Выберите объект
+            <span
+                className={s['point']}
+            >
+                .
+            </span>
         </h1>
         <BillboardsMap/>
     </div>
