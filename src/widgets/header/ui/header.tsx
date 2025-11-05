@@ -5,68 +5,76 @@ import BasketLight from 'src/app/assets/images/svg/basket-light.svg?react';
 import { useCart } from 'src/entities/cart';
 import { routes } from 'src/shared/routes';
 import { HeaderLink } from 'src/features/header';
+import { Container } from 'src/shared/ui/container/container';
 
 export const Header = () => {
     const { cart } = useCart();
 
     return (
-        <nav
-            className={s['nav']}
+        <Container
+            anchor={'header'}
+            style={{
+                scrollSnapAlign: 'start',
+            }}
         >
-            <ul
-                className={s['nav__list']}
+            <nav
+                className={s['nav']}
             >
-                <div
-                    className={s['wrapper']}
+                <ul
+                    className={s['nav__list']}
                 >
-                    <li>
-                        <img
-                            src={botSadLogo}
-                            alt={'БотСад'}
-                            className={s['bot-sad-logo']}
-                        />
-                    </li>
-                    <li>
-                        <HeaderLink
-                            href={'https://bot-sad.com/'}
-                        >
-                            главная
-                        </HeaderLink>
-                    </li>
-                    <li>
-                        <HeaderLink
-                            href={routes.MAP}
-                        >
-                            карта
-                        </HeaderLink>
-                    </li>
-                    <li>
-                        <HeaderLink
-                            href={'https://bot-sad.com/contacts/'}
-                        >
-                            контакты
-                        </HeaderLink>
-                    </li>
-                </div>
-                <li
-                    className={s['cart']}
-                >
+                    <div
+                        className={s['wrapper']}
+                    >
+                        <li>
+                            <img
+                                src={botSadLogo}
+                                alt={'БотСад'}
+                                className={s['bot-sad-logo']}
+                            />
+                        </li>
+                        <li>
+                            <HeaderLink
+                                href={'https://bot-sad.com/'}
+                            >
+                                главная
+                            </HeaderLink>
+                        </li>
+                        <li>
+                            <HeaderLink
+                                href={routes.MAP}
+                            >
+                                карта
+                            </HeaderLink>
+                        </li>
+                        <li>
+                            <HeaderLink
+                                href={'https://bot-sad.com/contacts/'}
+                            >
+                                контакты
+                            </HeaderLink>
+                        </li>
+                    </div>
+                    <li
+                        className={s['cart']}
+                    >
                     <span
                         className={s['cart-count']}
                     >
                         {cart.length}
                     </span>
-                    <BasketLight/>
-                    <Link
-                        href={routes.CART}
-                    >
-                        корзина
-                    </Link>
-                </li>
-            </ul>
-            <div
-                className={s['divider']}
-            />
-        </nav>
+                        <BasketLight/>
+                        <Link
+                            href={routes.CART}
+                        >
+                            корзина
+                        </Link>
+                    </li>
+                </ul>
+                <div
+                    className={s['divider']}
+                />
+            </nav>
+        </Container>
     );
 };

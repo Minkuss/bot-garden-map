@@ -1,11 +1,21 @@
-import { PropsWithChildren } from 'react';
+import { forwardRef, PropsWithChildren } from 'react';
 
 import s from './container.module.scss';
 
-export const Container = ({ children }: PropsWithChildren) => (
-    <div
-        className={s['container']}
-    >
-        {children}
-    </div>
+interface IContainerProps extends PropsWithChildren {
+    anchor?: string;
+    style?: React.CSSProperties | undefined;
+}
+
+export const Container = forwardRef<HTMLElement, IContainerProps>(
+    ({ children, anchor, style }, ref) => (
+        <section
+            className={s['container']}
+            style={style}
+            id={anchor}
+            ref={ref}
+        >
+            {children}
+        </section>
+    ),
 );

@@ -3,9 +3,7 @@
   @include flexColumn(53px);
 
   width: 100%;
-  height: 100vh;
   padding-top: $container-padding-top-bottom;
-  padding-bottom: $container-padding-top-bottom;
 
   @media (max-width: $breakpoint-lg) {
     @include paddingLeftRight(100px)

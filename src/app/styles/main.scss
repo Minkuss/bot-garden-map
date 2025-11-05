@@ -12,6 +12,7 @@ html, body {
   font-family: 'Hero Light Regular', sans-serif !important;
   height: 100%;
   background-color: $bg-primary;
+  scroll-snap-type: y mandatory;
 }
 
 h1 {

@@ -1,4 +1,3 @@
-import { Container } from 'src/shared/ui/container/container';
 import { Header } from 'src/widgets/header/ui/header';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Footer } from 'src/widgets/footer/ui/footer';
@@ -8,13 +7,17 @@ export const AppLayout = () => {
     const location = useLocation();
 
     return (
-        <Container>
+        <div
+            style={{
+                height: '100%',
+            }}
+        >
             <Header/>
             <Outlet/>
             {
                 location.pathname === routes.MAP &&
                 <Footer/>
             }
-        </Container>
+        </div>
     );
 };
