@@ -16,7 +16,10 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
 
     const getBillboard = async(id: string) => {
         try {
-            const billboard = await billboardApi.getBillboardInfo(id);
+            const billboard = await billboardApi.getBillboardInfo({
+                id,
+                side: 'A',
+            });
             const billboardImages = await imagesApi.getBillboardImages({
                 id,
                 side: billboard.side,

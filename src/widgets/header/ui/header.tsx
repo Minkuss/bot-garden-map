@@ -28,21 +28,21 @@ export const Header = () => {
                     </li>
                     <li>
                         <HeaderLink
-                            href={'#'}
+                            href={'https://bot-sad.com/'}
                         >
                             главная
                         </HeaderLink>
                     </li>
                     <li>
                         <HeaderLink
-                            href={'#'}
+                            href={routes.MAP}
                         >
                             карта
                         </HeaderLink>
                     </li>
                     <li>
                         <HeaderLink
-                            href={'#'}
+                            href={'https://bot-sad.com/contacts/'}
                         >
                             контакты
                         </HeaderLink>

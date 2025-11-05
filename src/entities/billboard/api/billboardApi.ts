@@ -7,8 +7,12 @@ export const billboardApi = {
         const response = await baseApi.get('/billboards/coordinates');
         return response.data;
     },
-    async getBillboardInfo(id: string): Promise<BillboardDetailDto> {
-        const response = await baseApi.get(`/billboards/${id}`);
+    async getBillboardInfo(params: { id: string, side: string }): Promise<BillboardDetailDto> {
+        const response = await baseApi.get(`/billboards/${params.id}`, {
+            params: {
+                billboard_side: params.side,
+            },
+        });
         return response.data;
     },
 };

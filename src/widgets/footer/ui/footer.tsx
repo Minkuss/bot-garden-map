@@ -56,6 +56,7 @@ export const Footer = () => (
                     >
                         <a
                             className={s['link']}
+                            href={'https://bot-sad.com/'}
                         >
                             Главная
                         </a>
@@ -65,6 +66,7 @@ export const Footer = () => (
                     >
                         <a
                             className={s['link']}
+                            href={'https://bot-sad.com/company/'}
                         >
                             О нас
                         </a>
@@ -74,6 +76,7 @@ export const Footer = () => (
                     >
                         <a
                             className={s['link']}
+                            href={'https://bot-sad.com/contacts/'}
                         >
                             Контакты
                         </a>
@@ -83,6 +86,7 @@ export const Footer = () => (
                     >
                         <a
                             className={s['link']}
+                            href={'https://bot-sad.com/projects/'}
                         >
                             Проекты
                         </a>
@@ -92,6 +96,7 @@ export const Footer = () => (
                     >
                         <a
                             className={s['link']}
+                            href={'https://bot-sad.com/services/'}
                         >
                             Услуги
                         </a>
@@ -103,6 +108,7 @@ export const Footer = () => (
                             >
                                 <a
                                     className={s['link']}
+                                    href={'https://bot-sad.com/services/outdoor-advertising/'}
                                 >
                                     Наружная реклама
                                 </a>
@@ -112,6 +118,7 @@ export const Footer = () => (
                             >
                                 <a
                                     className={s['link']}
+                                    href={'https://bot-sad.com/services/polygraphy/'}
                                 >
                                     Полиграфия
                                 </a>
@@ -121,6 +128,7 @@ export const Footer = () => (
                             >
                                 <a
                                     className={s['link']}
+                                    href={'https://bot-sad.com/services/mobile-constructions/'}
                                 >
                                     Мобильные конструкции
                                 </a>
@@ -130,6 +138,7 @@ export const Footer = () => (
                             >
                                 <a
                                     className={s['link']}
+                                    href={'https://bot-sad.com/services/souvenirs/'}
                                 >
                                     Сувениры
                                 </a>
@@ -139,6 +148,7 @@ export const Footer = () => (
                             >
                                 <a
                                     className={s['link']}
+                                    href={'https://bot-sad.com/services/interior-print/'}
                                 >
                                     Стенды, таблички, уголки покупателей
                                 </a>
@@ -148,6 +158,7 @@ export const Footer = () => (
                             >
                                 <a
                                     className={s['link']}
+                                    href={'https://bot-sad.com/services/car-branding/'}
                                 >
                                     Брендирование автомобилей
                                 </a>
@@ -157,6 +168,7 @@ export const Footer = () => (
                             >
                                 <a
                                     className={s['link']}
+                                    href={'https://bot-sad.com/services/custom-products/'}
                                 >
                                     Нестандартные изделия
                                 </a>
@@ -166,6 +178,7 @@ export const Footer = () => (
                             >
                                 <a
                                     className={s['link']}
+                                    href={'https://bot-sad.com/services/design/'}
                                 >
                                     Дизайн и техдизайн
                                 </a>
@@ -177,6 +190,7 @@ export const Footer = () => (
                     >
                         <a
                             className={s['link']}
+                            href={'https://bot-sad.com/blog/'}
                         >
                             Блог
                         </a>
@@ -186,6 +200,7 @@ export const Footer = () => (
                     >
                         <a
                             className={s['link']}
+                            href={'https://bot-sad.com/portfolio/'}
                         >
                             Портфолио
                         </a>
@@ -195,6 +210,7 @@ export const Footer = () => (
                     >
                         <a
                             className={s['link']}
+                            href={'https://bot-sad.com/for-property-developers/'}
                         >
                             Застройщикам
                         </a>
@@ -204,10 +220,14 @@ export const Footer = () => (
             <div
                 className={s['links']}
             >
-                <a>
+                <a
+                    href={'https://bot-sad.com/upload/iblock/65e/alixperdsn5rwow0fnnzv4ngvdy1e1eu/%D0%BF%D1%80%D0%B0%D0%B9%D1%81%2005.10.2023.pdf'}
+                >
                     Прайс лист
                 </a>
-                <a>
+                <a
+                    href={'https://bot-sad.com/upload/iblock/544/min3x17ql052c5974zbo3vt7mixg4c12/%D0%A2%D0%95%D0%A5.%20%D0%A2%D0%A0%D0%95%D0%91%D0%9E%D0%92%D0%90%D0%9D%D0%98%D0%AF.pdf'}
+                >
                     Тех. требования к макетам
                 </a>
             </div>
