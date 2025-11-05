@@ -16,7 +16,10 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
 
     const getBillboard = async(id: string) => {
         try {
-            const billboard = await billboardApi.getBillboardInfo(id);
+            const billboard = await billboardApi.getBillboardInfo({
+                id,
+                side: 'A',
+            });
             const billboardImages = await imagesApi.getBillboardImages({
                 id,
                 side: billboard.side,
@@ -117,7 +120,8 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
                 balloonContentLayout,
                 balloonPanelMaxMapArea: 0,
                 hideIconOnBalloonOpen: false,
-                balloonMaxWidth: 500,
+                balloonMaxWidth: 700,
+                balloonMaxHeight: 700,
                 balloonOffset: [ -2, -54 ],
                 iconImageSize: [ 40, 50 ],
                 iconImageOffset: [ -20, -50 ],

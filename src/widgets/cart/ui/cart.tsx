@@ -20,7 +20,10 @@ export const Cart = () => {
 
                 const cartItems = await Promise.all(
                     cart.map(async(id: string) => {
-                        const billboard = await billboardApi.getBillboardInfo(id);
+                        const billboard = await billboardApi.getBillboardInfo({
+                            id,
+                            side: 'A',
+                        });
                         const billboardImages = await imagesApi.getBillboardImages({
                             id,
                             side: billboard.side,
@@ -67,12 +70,20 @@ export const Cart = () => {
                 ) : cart.length === 0 ? (
                     <span className={s['empty']}>Корзина пуста</span>
                 )
-                    : cartItems.map((item: BillboardDetailDto) => (
-                        <CartItem
-                            key={item.id}
-                            cartItem={item}
-                            onDelete={remove}
-                        />
+                    : cartItems.map((item: BillboardDetailDto, index) => (
+                        <>
+                            <CartItem
+                                key={item.id}
+                                cartItem={item}
+                                onDelete={remove}
+                            />
+                            {
+                                cartItems.length - 1 !== index &&
+                                <div
+                                    className={s['divider']}
+                                />
+                            }
+                        </>
                     ))
                 }
             </div>

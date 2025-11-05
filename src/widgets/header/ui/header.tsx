@@ -1,75 +1,80 @@
 import s from './header.module.scss';
 import { Link } from 'src/shared/ui/link/link';
 import botSadLogo from 'src/app/assets/images/bot-sad-logo.png';
+import BasketLight from 'src/app/assets/images/svg/basket-light.svg?react';
 import { useCart } from 'src/entities/cart';
 import { routes } from 'src/shared/routes';
-import { useNavigate } from 'react-router-dom';
+import { HeaderLink } from 'src/features/header';
+import { Container } from 'src/shared/ui/container/container';
 
 export const Header = () => {
     const { cart } = useCart();
 
-    const navigate = useNavigate();
-
     return (
-        <nav
-            className={s['nav']}
+        <Container
+            anchor={'header'}
+            style={{
+                scrollSnapAlign: 'start',
+            }}
         >
-            <ul
-                className={s['nav__list']}
+            <nav
+                className={s['nav']}
             >
-                <li>
-                    <img
-                        src={botSadLogo}
-                        alt={'БотСад'}
-                        className={s['bot-sad-logo']}
-                        onClick={() => {
-                            navigate(routes.MAP);
-                        }}
-                    />
-                </li>
-                <li>
-                    <Link
-                        href={'tel:+79635666772'}
-                    >
-                        +7 963 566-67-72
-                    </Link>
-                </li>
-                <li>
-                    <Link
-                        href={'tel:+74212707000'}
-                    >
-                        +7(4212) 707 000
-                    </Link>
-                </li>
-                <li>
-                    <Link
-                        href={'mailto:mail@bot-sad.com'}
-                    >
-                        mail@bot-sad.com
-                    </Link>
-                </li>
-                <li
-                    className={s['cart']}
+                <ul
+                    className={s['nav__list']}
                 >
+                    <div
+                        className={s['wrapper']}
+                    >
+                        <li>
+                            <img
+                                src={botSadLogo}
+                                alt={'БотСад'}
+                                className={s['bot-sad-logo']}
+                            />
+                        </li>
+                        <li>
+                            <HeaderLink
+                                href={'https://bot-sad.com/'}
+                            >
+                                главная
+                            </HeaderLink>
+                        </li>
+                        <li>
+                            <HeaderLink
+                                href={routes.MAP}
+                            >
+                                карта
+                            </HeaderLink>
+                        </li>
+                        <li>
+                            <HeaderLink
+                                href={'https://bot-sad.com/contacts/'}
+                            >
+                                контакты
+                            </HeaderLink>
+                        </li>
+                    </div>
+                    <li
+                        className={s['cart']}
+                    >
                     <span
                         className={s['cart-count']}
                     >
                         {cart.length}
                     </span>
-                    <Link
-                        href={routes.CART}
-                    >
-                        Корзина
-                    </Link>
-                </li>
-                <li>
-                    <Link
-                        href={'#'}
-                    >
-                        Аккаунт
-                    </Link>
-                </li>
-            </ul>
-        </nav>
+                        <BasketLight/>
+                        <Link
+                            href={routes.CART}
+                        >
+                            корзина
+                        </Link>
+                    </li>
+                </ul>
+                <div
+                    className={s['divider']}
+                />
+            </nav>
+        </Container>
     );
 };

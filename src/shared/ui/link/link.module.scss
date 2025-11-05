@@ -1,10 +1,10 @@
 .link {
+  font-family: 'Hero Light Bold', sans-serif;
   font-size: 20px;
-  color: #000;
+  color: #373737;
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    padding: 5px;
     color: #35B44A;
   }
 }

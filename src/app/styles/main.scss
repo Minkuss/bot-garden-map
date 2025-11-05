@@ -1,7 +1,7 @@
 @import 'config/setup.scss';
 @import 'config/variables.scss';
 @import 'config/mixins.scss';
-@import '../assets/instrument-sans/stylesheet.css';
+@import '../assets/hero/style.css';
 @import '../../features/billboardBalloonCard/ui/billboardBalloonCard.scss';
 
 #root {
@@ -9,10 +9,10 @@
 }
 
 html, body {
-  font-family: 'Instrument Sans', sans-serif !important;
-  font-style: normal;
+  font-family: 'Hero Light Regular', sans-serif !important;
   height: 100%;
   background-color: $bg-primary;
+  scroll-snap-type: y mandatory;
 }
 
 h1 {

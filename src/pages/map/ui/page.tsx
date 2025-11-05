@@ -1,15 +1,33 @@
 import { BillboardsMap } from 'src/widgets/billboardsMap';
 import s from './map.module.scss';
+import { Container } from 'src/shared/ui/container/container';
 
 export const MapPage = () => (
-    <div
-        className={s['map']}
+    <Container
+        style={{
+            height: '100vh',
+            scrollSnapAlign: 'start',
+        }}
     >
-        <h1
-            className={s['heading']}
+        <div
+            className={s['map']}
         >
-            -Выберите объект.
-        </h1>
-        <BillboardsMap/>
-    </div>
+            <h1
+                className={s['heading']}
+            >
+                <span
+                    className={s['dash']}
+                >
+                    -
+                </span>
+                Выберите объект
+                <span
+                    className={s['point']}
+                >
+                    .
+                </span>
+            </h1>
+            <BillboardsMap/>
+        </div>
+    </Container>
 );

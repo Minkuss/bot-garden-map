@@ -25,9 +25,18 @@ export function BillboardBalloonCard(billboardInfo: BillboardDetailDto | undefin
         <span>
           Тип: ${billboardInfo?.type ? BillboardTypeEnum[billboardInfo?.type].name : 'Неизвестен'}
         </span>
-        <span>
-          Занятость: ${billboardInfo?.status ? BillboardStatusEnum[billboardInfo?.status].name : 'Неизвестен'}
-        </span>
+        <p>
+          Занятость:${' '}
+          <span
+            class=${
+                billboardInfo?.status === 'available'
+                    ? 'status--available'
+                    : 'status--unavailable'
+            }
+          >
+            ${billboardInfo?.status ? BillboardStatusEnum[billboardInfo?.status].name : 'Неизвестен'}
+          </span>
+        </p>
       </div>
       <div class="balloon-card__button-group">
         <button class="balloon-card__button balloon-card__button--outlined balloon-card__dates-btn">Свободные даты</button>

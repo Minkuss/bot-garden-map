@@ -1,9 +1,9 @@
 .container {
   @include paddingLeftRight($container-padding);
-  @include paddingTopBottom($container-padding-top-bottom);
   @include flexColumn(53px);
 
   width: 100%;
+  padding-top: $container-padding-top-bottom;
 
   @media (max-width: $breakpoint-lg) {
     @include paddingLeftRight(100px)

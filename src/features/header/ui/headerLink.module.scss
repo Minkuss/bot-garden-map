@@ -1,0 +1,22 @@
+.link {
+  font-size: 13px;
+  color: #979797;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #979797;
+  padding: 5px;
+  border-radius: 6px;
+  transition: all .2s;
+
+  &:hover {
+    color: #35B44A;
+    border-color: #35B44A;
+
+    svg {
+      path {
+        stroke: #35B44A;
+      }
+    }
+  }
+}

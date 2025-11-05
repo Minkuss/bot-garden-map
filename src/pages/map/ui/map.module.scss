@@ -1,9 +1,16 @@
 .map {
   display: flex;
   flex-direction: column;
-  gap: 21px;
+  gap: 53px;
 
   .heading {
-    text-transform: uppercase;
+
+    .dash {
+      color: #35B44A;
+    }
+
+    .point {
+      color: #35B44A;
+    }
   }
 }
