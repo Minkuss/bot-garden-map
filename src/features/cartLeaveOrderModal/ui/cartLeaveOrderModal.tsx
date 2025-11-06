@@ -10,11 +10,12 @@ import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { MaskedInput } from 'src/shared/ui/maskedInput/maskedInput';
 
-type Inputs = {
-    secondName: string;
+export type Inputs = {
+    lastName: string;
     firstName: string;
     middleName: string;
     phoneNumber: string;
+    organization: string;
     email: string;
 }
 
@@ -98,9 +99,9 @@ export default NiceModal.create(() => {
                         label={'Фамилия'}
                         fullWidth={true}
                         placeholder={'Иванов'}
-                        error={!!errors.secondName}
+                        error={!!errors.lastName}
                         errorText={'Заполните фамилию'}
-                        {...register('secondName', { required: true })}
+                        {...register('lastName', { required: true })}
                     />
                     <Input
                         label={'Имя'}
@@ -117,6 +118,14 @@ export default NiceModal.create(() => {
                         error={!!errors.middleName}
                         errorText={'Заполните отчество'}
                         {...register('middleName', { required: true })}
+                    />
+                    <Input
+                        label={'Название организации'}
+                        fullWidth={true}
+                        placeholder={'ООО'}
+                        error={!!errors.organization}
+                        errorText={'Заполните название организации'}
+                        {...register('organization', { required: true })}
                     />
                     <Controller
                         name={'phoneNumber'}

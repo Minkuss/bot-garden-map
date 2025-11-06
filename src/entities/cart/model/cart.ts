@@ -1,3 +1,6 @@
+import { BookingCreateParams, cartApi } from 'src/entities/cart';
+import toast from 'react-hot-toast';
+
 export type CartItem = {
     id: string;
     start: string;
@@ -39,6 +42,14 @@ export function removeFromCart(itemId: string) {
 /**
  * Оставить заявку
  */
-export function leaveOrder() {
-    localStorage.removeItem('billboardCart');
+export async function leaveOrder(params: BookingCreateParams) {
+    try {
+        await cartApi.createBooking(params);
+        toast.success('Заявка успешно отправлена');
+
+        localStorage.removeItem('billboardCart');
+    } catch (error) {
+        console.error(error);
+        toast.error('Произошла ошибка, обратитесь в службу поддержки.');
+    }
 }

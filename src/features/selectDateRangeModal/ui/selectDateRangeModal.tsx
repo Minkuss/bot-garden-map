@@ -9,12 +9,6 @@ import { addDays, differenceInDays } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { Button } from 'src/shared/ui/button/button';
 
-//todo: для теста, убрать потом
-const bookedDates = [
-    new Date(2025, 10, 10),
-    new Date(2025, 10, 15),
-];
-
 export default NiceModal.create(() => {
     const modal = useModal();
     const [ state, setState ] = useState([
@@ -61,7 +55,6 @@ export default NiceModal.create(() => {
                     ranges={state}
                     locale={ru}
                     rangeColors={[ '#35B44A' ]}
-                    disabledDates={bookedDates}
                 />
                 <Button
                     label={

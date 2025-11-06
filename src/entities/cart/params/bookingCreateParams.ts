@@ -1,10 +1,16 @@
-export interface BookingCreateParams {
+interface BillboardInCart {
     billboard_id: string;
-    billboard_side: string;
-    client_name: string;
-    client_phone: string;
+    side: string;
     start_date: string;
     end_date: string;
-    total_price: number;
-    notes?: string;
+}
+
+export interface BookingCreateParams {
+    billboards: BillboardInCart[];
+    first_name: string;
+    last_name: string;
+    middle_name: string;
+    organization: string;
+    phone: string;
+    email: string;
 }

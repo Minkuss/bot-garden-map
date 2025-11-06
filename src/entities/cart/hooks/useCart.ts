@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getCart, addToCart, removeFromCart, leaveOrder, CartItem } from '../model/cart';
+import { BookingCreateParams } from 'src/entities/cart';
 
 export function useCart() {
     const [ cart, setCart ] = useState<CartItem[]>([]);
@@ -30,9 +31,10 @@ export function useCart() {
         window.dispatchEvent(new CustomEvent('_cart_changed'));
     };
 
-    const clearCart = () => {
-        leaveOrder();
-        window.dispatchEvent(new CustomEvent('_cart_changed'));
+    const clearCart = (params: BookingCreateParams) => {
+        leaveOrder(params).then(() => {
+            window.dispatchEvent(new CustomEvent('_cart_changed'));
+        });
     };
 
     return { cart, add, remove, clearCart };

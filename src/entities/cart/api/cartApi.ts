@@ -3,7 +3,7 @@ import { BookingCreateParams, BookingDetailDto } from 'src/entities/cart';
 
 export const cartApi = {
     async createBooking(booking: BookingCreateParams): Promise<BookingDetailDto> {
-        const response = await baseApi.post('/billboards/coordinates', booking);
+        const response = await baseApi.post('/bookings/cart/checkout', booking);
         return response.data;
     },
 };

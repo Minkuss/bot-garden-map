@@ -1,21 +1,16 @@
-import { useCart } from 'src/entities/cart';
+import { BookingCreateParams, useCart } from 'src/entities/cart';
 import { CartItem } from 'src/entities/cart/ui/cartItem';
 import plural from 'plural-ru';
 import s from './cart.module.scss';
 import { Button } from 'src/shared/ui/button/button';
 import { useEffect, useState } from 'react';
-import { billboardApi, BillboardDetailDto } from 'src/entities/billboard';
-import { imagesApi } from 'src/shared/api/images-service';
 import NiceModal from '@ebay/nice-modal-react';
-import CartLeaveOrderModal from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
-
-export interface ModifiedCartItem extends BillboardDetailDto {
-    start_date: string;
-    end_date: string;
-}
+import CartLeaveOrderModal, { Inputs } from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
+import { format, parse } from 'date-fns';
+import { getModifiedBillboard, ModifiedCartItem } from 'src/shared/utils/getModifiedBillboard';
 
 export const Cart = () => {
-    const { cart, remove } = useCart();
+    const { cart, remove, clearCart } = useCart();
     const [ cartItems, setCartItems ] = useState<ModifiedCartItem[]>([]);
     const [ totalCost, setTotalCost ] = useState<number>(0);
     const [ loading, setLoading ] = useState(false);
@@ -26,26 +21,7 @@ export const Cart = () => {
                 setLoading(true);
 
                 const cartItems = await Promise.all(
-                    cart.map(async item => {
-                        const billboard = await billboardApi.getBillboardInfo({
-                            id: item.id,
-                            side: 'A',
-                        });
-                        const billboardImages = await imagesApi.getBillboardImages({
-                            id: item.id,
-                            side: billboard.side,
-                        });
-
-                        billboard.image_url = import.meta.env.VITE_REACT_APP_API_URL + billboardImages.images[0].file_path;
-
-                        const modifiedBillboard: ModifiedCartItem = {
-                            ...billboard,
-                            start_date: item.start,
-                            end_date: item.end,
-                        };
-
-                        return modifiedBillboard;
-                    }),
+                    cart.map(async item => await getModifiedBillboard(item.id, item.start, item.end)),
                 );
 
                 setCartItems(cartItems);
@@ -64,8 +40,26 @@ export const Cart = () => {
 
     const handleShowModal = async() => {
         try {
-            const result = await NiceModal.show(CartLeaveOrderModal);
+            const result: Inputs = await NiceModal.show(CartLeaveOrderModal);
+
+            const params: BookingCreateParams = {
+                billboards: cartItems.map(it => ({
+                    billboard_id: it.id,
+                    side: it.side,
+                    start_date: format(parse(it.start_date, 'dd.MM.yyyy', new Date()), 'yyyy-MM-dd'),
+                    end_date: format(parse(it.end_date, 'dd.MM.yyyy', new Date()), 'yyyy-MM-dd'),
+                })),
+                email: result.email,
+                first_name: result.firstName,
+                last_name: result.lastName,
+                middle_name: result.middleName,
+                organization: result.organization,
+                phone: result.phoneNumber.replace(/[^\d+]/g, ''),
+            };
+
+            clearCart(params);
         } catch (error) {
+            console.log(error);
             console.log('Модальное окно закрыто без сохранения');
         }
     };
