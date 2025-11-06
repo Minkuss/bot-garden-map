@@ -1,0 +1,56 @@
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.checkboxInput {
+  display: none;
+
+  &:checked ~ .checkboxLabel .checkboxBox {
+    border-color: #4a4a4a;
+  }
+
+  &:checked ~ .checkboxLabel .icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 8px;
+  user-select: none;
+
+  .labelText {
+    padding-left: 26px;
+  }
+}
+
+.checkboxBox {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #373737;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #999999;
+  }
+}
+
+.icon {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 20px;
+}

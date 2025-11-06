@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { getCart, addToCart, removeFromCart, leaveOrder } from '../model/cart';
+import { getCart, addToCart, removeFromCart, leaveOrder, CartItem } from '../model/cart';
+import { BookingCreateParams } from 'src/entities/cart';
 
 export function useCart() {
-    const [ cart, setCart ] = useState<string[]>([]);
+    const [ cart, setCart ] = useState<CartItem[]>([]);
 
     useEffect(() => {
         setCart(getCart());
@@ -16,8 +17,12 @@ export function useCart() {
     }, []);
 
     // Диспатчеры
-    const add = (id: string) => {
-        addToCart(id);
+    const add = (id: string, start: string, end: string) => {
+        addToCart({
+            id,
+            start,
+            end,
+        });
         window.dispatchEvent(new CustomEvent('_cart_changed'));
     };
 
@@ -26,9 +31,10 @@ export function useCart() {
         window.dispatchEvent(new CustomEvent('_cart_changed'));
     };
 
-    const clearCart = () => {
-        leaveOrder();
-        window.dispatchEvent(new CustomEvent('_cart_changed'));
+    const clearCart = (params: BookingCreateParams) => {
+        leaveOrder(params).then(() => {
+            window.dispatchEvent(new CustomEvent('_cart_changed'));
+        });
     };
 
     return { cart, add, remove, clearCart };

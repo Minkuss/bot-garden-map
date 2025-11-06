@@ -7,10 +7,6 @@
   border: 0;
 }
 
-*:focus-visible {
-  background-color: deepskyblue;
-}
-
 input,
 button,
 select,
@@ -22,6 +18,10 @@ textarea {
 
 input {
   width: 100%;
+}
+
+input:focus-visible {
+  outline: none;
 }
 
 button {

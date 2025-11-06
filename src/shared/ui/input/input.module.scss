@@ -1,0 +1,33 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #35B44A;
+
+  input {
+    padding: 5px;
+  }
+
+  &--full {
+    width: 100%;
+  }
+
+  &--error {
+    border-bottom: 1px solid #E40101;
+  }
+
+  .label--error {
+    color: #E40101;
+  }
+}
+
+.error-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-family: 'Hero Light Regular', sans-serif;
+  font-size: 15px;
+
+  .error {
+    color: #E40101;
+  }
+}

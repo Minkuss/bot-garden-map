@@ -39,7 +39,6 @@ export function BillboardBalloonCard(billboardInfo: BillboardDetailDto | undefin
         </p>
       </div>
       <div class="balloon-card__button-group">
-        <button class="balloon-card__button balloon-card__button--outlined balloon-card__dates-btn">Свободные даты</button>
         <button class="balloon-card__button balloon-card__button--outlined balloon-card__cart-btn">Добавить в корзину</button>
         <button class="balloon-card__button balloon-card__button--contained balloon-card__request-btn">Оставить заявку</button>
       </div>

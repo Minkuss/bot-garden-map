@@ -7,6 +7,11 @@
   font-family: 'Hero Light Bold', sans-serif;
   transition: all 0.2s ease-in-out;
 
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   &--contained {
     background-color: #35B44A;
     color: #fff;
