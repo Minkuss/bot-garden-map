@@ -6,10 +6,17 @@ import { Button } from 'src/shared/ui/button/button';
 import { useEffect, useState } from 'react';
 import { billboardApi, BillboardDetailDto } from 'src/entities/billboard';
 import { imagesApi } from 'src/shared/api/images-service';
+import NiceModal from '@ebay/nice-modal-react';
+import CartLeaveOrderModal from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
+
+export interface ModifiedCartItem extends BillboardDetailDto {
+    start_date: string;
+    end_date: string;
+}
 
 export const Cart = () => {
-    const { cart, remove, clearCart } = useCart();
-    const [ cartItems, setCartItems ] = useState<BillboardDetailDto[]>([]);
+    const { cart, remove } = useCart();
+    const [ cartItems, setCartItems ] = useState<ModifiedCartItem[]>([]);
     const [ totalCost, setTotalCost ] = useState<number>(0);
     const [ loading, setLoading ] = useState(false);
 
@@ -19,18 +26,25 @@ export const Cart = () => {
                 setLoading(true);
 
                 const cartItems = await Promise.all(
-                    cart.map(async(id: string) => {
+                    cart.map(async item => {
                         const billboard = await billboardApi.getBillboardInfo({
-                            id,
+                            id: item.id,
                             side: 'A',
                         });
                         const billboardImages = await imagesApi.getBillboardImages({
-                            id,
+                            id: item.id,
                             side: billboard.side,
                         });
 
                         billboard.image_url = import.meta.env.VITE_REACT_APP_API_URL + billboardImages.images[0].file_path;
-                        return billboard;
+
+                        const modifiedBillboard: ModifiedCartItem = {
+                            ...billboard,
+                            start_date: item.start,
+                            end_date: item.end,
+                        };
+
+                        return modifiedBillboard;
                     }),
                 );
 
@@ -47,6 +61,14 @@ export const Cart = () => {
 
         getCartItems();
     }, [ cart ]);
+
+    const handleShowModal = async() => {
+        try {
+            const result = await NiceModal.show(CartLeaveOrderModal);
+        } catch (error) {
+            console.log('Модальное окно закрыто без сохранения');
+        }
+    };
 
     return (
         <div
@@ -70,7 +92,7 @@ export const Cart = () => {
                 ) : cart.length === 0 ? (
                     <span className={s['empty']}>Корзина пуста</span>
                 )
-                    : cartItems.map((item: BillboardDetailDto, index) => (
+                    : cartItems.map((item: ModifiedCartItem, index) => (
                         <>
                             <CartItem
                                 key={item.id}
@@ -98,7 +120,7 @@ export const Cart = () => {
                 <Button
                     label={'Оставить заявку'}
                     variant={'contained'}
-                    onClick={clearCart}
+                    onClick={handleShowModal}
                 />
             </div>
         </div>

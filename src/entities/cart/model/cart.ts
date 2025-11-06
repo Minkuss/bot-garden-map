@@ -1,4 +1,8 @@
-export type CartItem = string;
+export type CartItem = {
+    id: string;
+    start: string;
+    end: string;
+};
 
 /**
  * Получить корзину
@@ -25,10 +29,10 @@ export function addToCart(item: CartItem) {
 
 /**
  * Удалить из корзины
- * @param item
+ * @param itemId
  */
-export function removeFromCart(item: CartItem) {
-    const cart = getCart().filter(id => id !== item);
+export function removeFromCart(itemId: string) {
+    const cart = getCart().filter(item => item.id !== itemId);
     localStorage.setItem('billboardCart', JSON.stringify(cart));
 }
 

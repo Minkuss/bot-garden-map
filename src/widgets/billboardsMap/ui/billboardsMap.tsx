@@ -3,15 +3,41 @@ import { useEffect, useState } from 'react';
 import { billboardApi, BillboardMarkerDto } from 'src/entities/billboard';
 import { SelectableBillboardMarker } from 'src/features/selectableBillboardMarker';
 import { useCart } from 'src/entities/cart';
+import NiceModal from '@ebay/nice-modal-react';
+import SelectDateRangeModal from 'src/features/selectDateRangeModal/ui/selectDateRangeModal';
+import { format } from 'date-fns';
+import toast from 'react-hot-toast';
 
 export const BillboardsMap = () => {
     const [ billboardsMarkers, setBillboardsMarkers ] = useState<BillboardMarkerDto[]>([]);
     const { add } = useCart();
 
-    window.addEventListener('cartClicked', e => {
-        const { id } = (e as CustomEvent<{ id: string }>).detail;
-        add(id);
-    });
+    useEffect(() => {
+        const handleCartClicked = async e => {
+            try {
+                const result: [{
+                    startDate: Date,
+                    endDate: Date,
+                }] = await NiceModal.show(SelectDateRangeModal);
+
+                const start = format(result[0].startDate, 'dd.MM.yyyy');
+                const end = format(result[0].endDate, 'dd.MM.yyyy');
+
+                const { id } = (e as CustomEvent<{ id: string }>).detail;
+                add(id, start, end);
+
+                toast.success('Товар добавлен в корзину');
+            } catch (error) {
+                console.log('Модальное окно закрыто без сохранения');
+            }
+        };
+
+        window.addEventListener('cartClicked', handleCartClicked);
+
+        return () => {
+            window.removeEventListener('cartClicked', handleCartClicked);
+        };
+    }, [ add ]);
 
     useEffect(() => {
         const loadBillBoardsMarkers = async() => {

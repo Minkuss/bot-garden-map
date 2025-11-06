@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { getCart, addToCart, removeFromCart, leaveOrder } from '../model/cart';
+import { getCart, addToCart, removeFromCart, leaveOrder, CartItem } from '../model/cart';
 
 export function useCart() {
-    const [ cart, setCart ] = useState<string[]>([]);
+    const [ cart, setCart ] = useState<CartItem[]>([]);
 
     useEffect(() => {
         setCart(getCart());
@@ -16,8 +16,12 @@ export function useCart() {
     }, []);
 
     // Диспатчеры
-    const add = (id: string) => {
-        addToCart(id);
+    const add = (id: string, start: string, end: string) => {
+        addToCart({
+            id,
+            start,
+            end,
+        });
         window.dispatchEvent(new CustomEvent('_cart_changed'));
     };
 

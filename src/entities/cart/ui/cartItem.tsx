@@ -1,9 +1,9 @@
 import s from './cartItem.module.scss';
 import { Button } from 'src/shared/ui/button/button';
-import { BillboardDetailDto } from 'src/entities/billboard';
+import { ModifiedCartItem } from 'src/widgets/cart/ui/cart';
 
 interface ICartItemProps {
-    cartItem: BillboardDetailDto;
+    cartItem: ModifiedCartItem;
     onDelete: (id: string) => void;
 }
 
@@ -37,7 +37,7 @@ export const CartItem = (props: ICartItemProps) => {
                         {cartItem?.address}
                     </span>
                     <span>
-                        Срок аренды: 02 нояб - 22 нояб
+                        {`Срок аренды: ${cartItem.start_date} - ${cartItem.end_date}`}
                     </span>
                 </div>
             </div>
