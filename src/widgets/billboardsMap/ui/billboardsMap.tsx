@@ -9,6 +9,7 @@ import { format, parse } from 'date-fns';
 import toast from 'react-hot-toast';
 import CartLeaveOrderModal, { Inputs } from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
 import { getModifiedBillboard } from 'src/shared/utils/getModifiedBillboard';
+import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
 
 export const BillboardsMap = () => {
     const [ billboardsMarkers, setBillboardsMarkers ] = useState<BillboardMarkerDto[]>([]);
@@ -17,15 +18,13 @@ export const BillboardsMap = () => {
     useEffect(() => {
         const handleCartClicked = async e => {
             try {
-                const result: [{
-                    startDate: Date,
-                    endDate: Date,
-                }] = await NiceModal.show(SelectDateRangeModal);
-
-                const start = format(result[0].startDate, 'dd.MM.yyyy');
-                const end = format(result[0].endDate, 'dd.MM.yyyy');
-
                 const { id } = (e as CustomEvent<{ id: string }>).detail;
+
+                const result: DateRange = await NiceModal.show(SelectDateRangeModal, { billboardId: id });
+
+                const start = format(result.startDate, 'dd.MM.yyyy');
+                const end = format(result.endDate, 'dd.MM.yyyy');
+
                 add(id, start, end);
 
                 toast.success('Товар добавлен в корзину');
@@ -44,15 +43,11 @@ export const BillboardsMap = () => {
     useEffect(() => {
         const handleRequestClicked = async e => {
             try {
-                const result: [{
-                    startDate: Date,
-                    endDate: Date,
-                }] = await NiceModal.show(SelectDateRangeModal);
-
-                const start = format(result[0].startDate, 'dd.MM.yyyy');
-                const end = format(result[0].endDate, 'dd.MM.yyyy');
-
                 const { id } = (e as CustomEvent<{ id: string }>).detail;
+                const result: DateRange = await NiceModal.show(SelectDateRangeModal, { billboardId: id });
+
+                const start = format(result.startDate, 'dd.MM.yyyy');
+                const end = format(result.endDate, 'dd.MM.yyyy');
 
                 const info: Inputs = await NiceModal.show(CartLeaveOrderModal);
 

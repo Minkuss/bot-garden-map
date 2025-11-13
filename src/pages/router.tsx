@@ -19,5 +19,5 @@ export const router = createBrowserRouter([
         ],
     },
 ], {
-    basename: '/map'
+    basename: '/map',
 });

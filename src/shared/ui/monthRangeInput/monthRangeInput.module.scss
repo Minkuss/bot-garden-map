@@ -1,0 +1,15 @@
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  .months {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+
+    button {
+      font-family: 'Hero Light Regular', sans-serif;
+    }
+  }
+}
