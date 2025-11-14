@@ -17,9 +17,10 @@ export function useCart() {
     }, []);
 
     // Диспатчеры
-    const add = (id: string, start: string, end: string) => {
+    const add = (id: string, side: string, start: string, end: string) => {
         addToCart({
             id,
+            side,
             start,
             end,
         });

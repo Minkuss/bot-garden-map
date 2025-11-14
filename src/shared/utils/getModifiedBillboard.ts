@@ -6,10 +6,10 @@ export interface ModifiedCartItem extends BillboardDetailDto {
     end_date: string;
 }
 
-export const getModifiedBillboard = async(id: string, start: string, end: string) => {
+export const getModifiedBillboard = async(id: string, side: string, start: string, end: string) => {
     const billboard = await billboardApi.getBillboardInfo({
         id: id,
-        side: 'A',
+        side,
     });
     const billboardImages = await imagesApi.getBillboardImages({
         id: id,

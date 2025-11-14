@@ -2,7 +2,7 @@ import { BillboardDetailDto } from 'src/entities/billboard';
 import { BillboardTypeEnum } from 'src/entities/billboard/enums/billboardTypeEnum';
 import { BillboardStatusEnum } from 'src/entities/billboard/enums/billboardStatusEnum';
 
-export function BillboardBalloonCard(billboardInfo: BillboardDetailDto | undefined) {
+export function BillboardBalloonCard(billboardInfo: BillboardDetailDto | undefined, isLastIndex: boolean) {
     return `
     <div class="balloon-card">
       <div class="balloon-card__image-wrapper">
@@ -11,6 +11,21 @@ export function BillboardBalloonCard(billboardInfo: BillboardDetailDto | undefin
           alt="Баннер"
           class="balloon-card__image"
         />
+        <button
+            class="balloon-card__side-btn"
+        >
+            ${
+                isLastIndex
+                    ? '<span><</span>'
+                    : ''
+            }
+            Сторона ${billboardInfo?.side}
+            ${
+                !isLastIndex
+                    ? '<span>></span>'
+                    : ''
+            }
+        </button>
       </div>
       <div class="balloon-card__info">
         <span class="balloon-card__price">

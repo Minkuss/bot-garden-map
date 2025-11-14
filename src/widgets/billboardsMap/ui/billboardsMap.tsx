@@ -18,14 +18,14 @@ export const BillboardsMap = () => {
     useEffect(() => {
         const handleCartClicked = async e => {
             try {
-                const { id } = (e as CustomEvent<{ id: string }>).detail;
+                const { id, side } = (e as CustomEvent<{ id: string, side: string }>).detail;
 
-                const result: DateRange = await NiceModal.show(SelectDateRangeModal, { billboardId: id });
+                const result: DateRange = await NiceModal.show(SelectDateRangeModal, { billboardId: id, side });
 
                 const start = format(result.startDate, 'dd.MM.yyyy');
                 const end = format(result.endDate, 'dd.MM.yyyy');
 
-                add(id, start, end);
+                add(id, side, start, end);
 
                 toast.success('Товар добавлен в корзину');
             } catch (error) {
@@ -43,15 +43,15 @@ export const BillboardsMap = () => {
     useEffect(() => {
         const handleRequestClicked = async e => {
             try {
-                const { id } = (e as CustomEvent<{ id: string }>).detail;
-                const result: DateRange = await NiceModal.show(SelectDateRangeModal, { billboardId: id });
+                const { id, side } = (e as CustomEvent<{ id: string, side: string }>).detail;
+                const result: DateRange = await NiceModal.show(SelectDateRangeModal, { billboardId: id, side });
 
                 const start = format(result.startDate, 'dd.MM.yyyy');
                 const end = format(result.endDate, 'dd.MM.yyyy');
 
                 const info: Inputs = await NiceModal.show(CartLeaveOrderModal);
 
-                const billboard = await getModifiedBillboard(id, start, end);
+                const billboard = await getModifiedBillboard(id, side, start, end);
 
                 const params: BookingCreateParams = {
                     billboards: [ {
