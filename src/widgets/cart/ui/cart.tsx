@@ -21,7 +21,7 @@ export const Cart = () => {
                 setLoading(true);
 
                 const cartItems = await Promise.all(
-                    cart.map(async item => await getModifiedBillboard(item.id, item.start, item.end)),
+                    cart.map(async item => await getModifiedBillboard(item.id, item.side, item.start, item.end)),
                 );
 
                 setCartItems(cartItems);
@@ -59,7 +59,6 @@ export const Cart = () => {
 
             clearCart(params);
         } catch (error) {
-            console.log(error);
             console.log('Модальное окно закрыто без сохранения');
         }
     };

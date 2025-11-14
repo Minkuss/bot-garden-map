@@ -4,6 +4,7 @@ import { billboardApi, BillboardDetailDto, BillboardMarkerDto } from 'src/entiti
 import './selectableBillboardMarker.scss';
 import { BillboardBalloonCard } from 'src/features/billboardBalloonCard';
 import { imagesApi } from 'src/shared/api/images-service';
+import toast from 'react-hot-toast';
 
 interface IBillboardMarkerProps {
     billboard: BillboardMarkerDto;
@@ -13,13 +14,21 @@ interface IBillboardMarkerProps {
 const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboardMarkerProps) => {
     const [ billboardInfo, setBillboardInfo ] = useState<BillboardDetailDto>();
     const [ selectedPlaceMarkId, setSelectedPlaceMarkId ] = useState<string>('');
+    const [ billboardSides, setBillboardSides ] = useState<string[]>([]);
+    const [ billboardSideIndex, setBillboardSideIndex ] = useState<number>(0);
 
-    const getBillboard = async(id: string) => {
+    const getBillboard = async(id: string, sideIndex: number) => {
         try {
+            const billboardFetchedSides = [ 'A', 'B' ]; //todo: пример (нужен новый хвост)
+            setBillboardSides(billboardFetchedSides);
+
             const billboard = await billboardApi.getBillboardInfo({
                 id,
-                side: 'A',
+                side: billboardFetchedSides[sideIndex],
             });
+
+            setBillboardSideIndex(sideIndex);
+
             const billboardImages = await imagesApi.getBillboardImages({
                 id,
                 side: billboard.side,
@@ -28,12 +37,13 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
             billboard.image_url = import.meta.env.VITE_REACT_APP_API_URL + billboardImages.images[0].file_path;
             setBillboardInfo(billboard);
         } catch (error) {
+            toast.error(error.response.data.detail);
             console.error(error);
         }
     };
 
     const balloonContentLayout = ymaps.templateLayoutFactory.createClass(
-        BillboardBalloonCard(billboardInfo),
+        BillboardBalloonCard(billboardInfo, billboardSideIndex === billboardSides.length - 1),
         {
             build() {
                 this.constructor.superclass.build.call(this);
@@ -41,12 +51,18 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
 
                 this.getParentElement().querySelector('.balloon-card__cart-btn')
                     ?.addEventListener('click', () => {
-                        window.dispatchEvent(new CustomEvent('cartClicked', { detail: { id: billboardInfo?.id } }));
+                        window.dispatchEvent(new CustomEvent('cartClicked', { detail: { id: billboardInfo?.id, side: billboardInfo?.side } }));
                     });
 
                 this.getParentElement().querySelector('.balloon-card__request-btn')
                     ?.addEventListener('click', () => {
-                        window.dispatchEvent(new CustomEvent('requestClicked', { detail: { id: billboardInfo?.id } }));
+                        window.dispatchEvent(new CustomEvent('requestClicked', { detail: { id: billboardInfo?.id, side: billboardInfo?.side } }));
+                    });
+
+                this.getParentElement().querySelector('.balloon-card__side-btn')
+                    ?.addEventListener('click', () => {
+                        if (!billboardInfo) return;
+                        getBillboard(billboardInfo?.id, billboardSideIndex + 1 !== billboardSides.length ? billboardSideIndex + 1 : 0);
                     });
 
                 events.add('balloonclose', () => {
@@ -95,7 +111,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
 
                         this.getData().geoObject.events.add('click', () => {
                             setSelectedPlaceMarkId(billboard.id);
-                            getBillboard(billboard.id);
+                            getBillboard(billboard.id, 0);
                         });
                     }
                 },

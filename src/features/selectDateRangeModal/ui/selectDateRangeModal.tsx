@@ -10,7 +10,7 @@ import { getDateRangeFromSelection } from 'src/features/selectDateRangeModal/uti
 import { billboardApi, BillboardDetailDto } from 'src/entities/billboard';
 import plural from 'plural-ru';
 
-export default NiceModal.create(({ billboardId }: {billboardId: string}) => {
+export default NiceModal.create(({ billboardId, side }: {billboardId: string, side: string}) => {
     const modal = useModal();
     const [ selectedMonths, setSelectedMonths ] = useState<SelectedMonth[]>([]);
     const [ totalMonths, setTotalMonths ] = useState<number>(0);
@@ -24,8 +24,7 @@ export default NiceModal.create(({ billboardId }: {billboardId: string}) => {
             try {
                 const data = await billboardApi.getBillboardInfo({
                     id: billboardId,
-                    //todo: это для теста, потом добавить выбор стороны
-                    side: 'A',
+                    side,
                 });
 
                 setBillboardInfo(data);
@@ -35,7 +34,7 @@ export default NiceModal.create(({ billboardId }: {billboardId: string}) => {
         };
 
         loadBillboardInfo();
-    }, [ billboardId ]);
+    }, [ billboardId, side ]);
 
     const countTotalCount = useCallback(() => {
         let totalMonths = 0;
