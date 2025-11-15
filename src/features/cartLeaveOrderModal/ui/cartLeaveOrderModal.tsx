@@ -9,24 +9,28 @@ import { useState } from 'react';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { MaskedInput } from 'src/shared/ui/maskedInput/maskedInput';
+import { SelectDateRange } from 'src/shared/ui/selectDateRange/selectDateRange';
+import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
 
-export type Inputs = {
+export type LeaveOrderInputs = {
     lastName: string;
     firstName: string;
     middleName: string;
     phoneNumber: string;
     organization: string;
     email: string;
+    dates: DateRange;
 }
 
 const PHONE_PATTERN = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export default NiceModal.create(() => {
+export default NiceModal.create(({ billboardId, side }: {billboardId: string, side: string}) => {
     const modal = useModal();
     const [ checked, setChecked ] = useState(false);
     const [ phoneError, setPhoneError ] = useState(false);
     const [ emailError, setEmailError ] = useState(false);
+    const [ dates, setDates ] = useState<DateRange | null>(null);
 
     const {
         register,
@@ -34,7 +38,7 @@ export default NiceModal.create(() => {
         formState: { errors },
         control,
         watch,
-    } = useForm<Inputs>();
+    } = useForm<LeaveOrderInputs>();
 
     const phoneValue = watch('phoneNumber');
     const emailValue = watch('email');
@@ -49,7 +53,7 @@ export default NiceModal.create(() => {
         return EMAIL_PATTERN.test(value);
     };
 
-    const onSubmit: SubmitHandler<Inputs> = data => {
+    const onSubmit: SubmitHandler<LeaveOrderInputs> = data => {
         if (!checked) {
             toast.error('Пожалуйста, подтвердите согласие на обработку персональных данных.');
             return;
@@ -64,6 +68,13 @@ export default NiceModal.create(() => {
             toast.error('Введите корректный email');
             return;
         }
+
+        if (!dates) {
+            toast.error('Выберите даты');
+            return;
+        }
+
+        data.dates = dates;
 
         modal.resolve(data);
         modal.remove();
@@ -168,6 +179,11 @@ export default NiceModal.create(() => {
                                 }}
                             />
                         )}
+                    />
+                    <SelectDateRange
+                        billboardId={billboardId}
+                        side={side}
+                        onMonthRangeChange={setDates}
                     />
                     <Checkbox
                         id={'my-checkbox'}

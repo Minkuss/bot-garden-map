@@ -7,7 +7,7 @@ import NiceModal from '@ebay/nice-modal-react';
 import SelectDateRangeModal from 'src/features/selectDateRangeModal/ui/selectDateRangeModal';
 import { format, parse } from 'date-fns';
 import toast from 'react-hot-toast';
-import CartLeaveOrderModal, { Inputs } from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
+import CartLeaveOrderModal, { LeaveOrderInputs } from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
 import { getModifiedBillboard } from 'src/shared/utils/getModifiedBillboard';
 import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
 
@@ -44,12 +44,11 @@ export const BillboardsMap = () => {
         const handleRequestClicked = async e => {
             try {
                 const { id, side } = (e as CustomEvent<{ id: string, side: string }>).detail;
-                const result: DateRange = await NiceModal.show(SelectDateRangeModal, { billboardId: id, side });
 
-                const start = format(result.startDate, 'dd.MM.yyyy');
-                const end = format(result.endDate, 'dd.MM.yyyy');
+                const info: LeaveOrderInputs = await NiceModal.show(CartLeaveOrderModal, { billboardId: id, side });
 
-                const info: Inputs = await NiceModal.show(CartLeaveOrderModal);
+                const start = format(info.dates.startDate, 'dd.MM.yyyy');
+                const end = format(info.dates.endDate, 'dd.MM.yyyy');
 
                 const billboard = await getModifiedBillboard(id, side, start, end);
 

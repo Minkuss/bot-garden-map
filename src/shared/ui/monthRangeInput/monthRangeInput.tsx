@@ -107,7 +107,10 @@ export const MonthRangeInput = (props: IMonthRangeInputProps) => {
                         label={month}
                         variant={isMonthSelected(index) ? 'contained' : 'outlined'}
                         disabled={isMonthDisabled(index)}
-                        onClick={() => handleMonthSelect(index)}
+                        onClick={e => {
+                            e.preventDefault();
+                            handleMonthSelect(index);
+                        }}
                     />
                 ))}
             </div>

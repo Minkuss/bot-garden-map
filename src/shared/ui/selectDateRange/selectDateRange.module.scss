@@ -1,0 +1,17 @@
+.title {
+  font-family: 'Hero Light Bold', sans-serif;
+  font-size: 17px;
+}
+
+.price-info {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  font-size: 15px;
+  gap: 4px;
+
+  .total-price {
+    font-family: 'Hero Light Bold', sans-serif;
+    font-size: 18px;
+  }
+}

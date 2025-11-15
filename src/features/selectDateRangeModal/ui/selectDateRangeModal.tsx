@@ -3,76 +3,14 @@ import classNames from 'classnames';
 import s from './selectDateRangeModal.module.scss';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from 'src/shared/ui/button/button';
-import { MonthRangeInput, SelectedMonth } from 'src/shared/ui/monthRangeInput/monthRangeInput';
-import { getDateRangeFromSelection } from 'src/features/selectDateRangeModal/utils/getDateRangeFromSelection';
-import { billboardApi, BillboardDetailDto } from 'src/entities/billboard';
-import plural from 'plural-ru';
+import { SelectDateRange } from 'src/shared/ui/selectDateRange/selectDateRange';
+import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
 
 export default NiceModal.create(({ billboardId, side }: {billboardId: string, side: string}) => {
     const modal = useModal();
-    const [ selectedMonths, setSelectedMonths ] = useState<SelectedMonth[]>([]);
-    const [ totalMonths, setTotalMonths ] = useState<number>(0);
-    const [ billboardInfo, setBillboardInfo ] = useState<BillboardDetailDto>();
-
-    const [ totalPrice, setTotalPrice ] = useState<number>(0);
-    const [ totalRentPrice, setTotalRentPrice ] = useState<number>(0);
-
-    useEffect(() => {
-        const loadBillboardInfo = async() => {
-            try {
-                const data = await billboardApi.getBillboardInfo({
-                    id: billboardId,
-                    side,
-                });
-
-                setBillboardInfo(data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        loadBillboardInfo();
-    }, [ billboardId, side ]);
-
-    const countTotalCount = useCallback(() => {
-        let totalMonths = 0;
-
-        selectedMonths.forEach(month => {
-            totalMonths += month.monthIndexes.length;
-        });
-
-        setTotalMonths(totalMonths);
-    }, [ selectedMonths ]);
-
-    const countTotalRentPrice = useCallback(() => {
-        if (!billboardInfo) {
-            return;
-        }
-
-        const totalRentPrice = billboardInfo?.rent_price * totalMonths;
-
-        setTotalRentPrice(totalRentPrice);
-    }, [ billboardInfo, totalMonths ]);
-
-    const countTotalPrice = useCallback(() => {
-        if (!billboardInfo) {
-            return;
-        }
-
-        const totalPrice = totalRentPrice + billboardInfo?.service_price + billboardInfo?.manufacturing_cost;
-
-        setTotalPrice(totalPrice);
-    }, [ billboardInfo, totalRentPrice ]);
-
-    useEffect(() => {
-        countTotalCount();
-
-        countTotalRentPrice();
-
-        countTotalPrice();
-    }, [ countTotalCount, countTotalPrice, countTotalRentPrice, selectedMonths ]);
+    const [ dates, setDates ] = useState<DateRange | null>(null);
 
     const handleOverlayClick = (e: React.MouseEvent) => {
         if (e.target === e.currentTarget) {
@@ -81,8 +19,6 @@ export default NiceModal.create(({ billboardId, side }: {billboardId: string, si
     };
 
     const handleCloseModal = () => {
-        const dates = getDateRangeFromSelection(selectedMonths);
-
         modal.resolve(dates);
         modal.remove();
     };
@@ -98,35 +34,16 @@ export default NiceModal.create(({ billboardId, side }: {billboardId: string, si
             <div
                 className={s['content']}
             >
-                <h4>
-                    Месяц(ы) для бронирования:
-                </h4>
-                <MonthRangeInput
-                    onMonthsChange={setSelectedMonths}
+                <SelectDateRange
+                    billboardId={billboardId}
+                    side={side}
+                    onMonthRangeChange={setDates}
                 />
-                <p
-                    className={s['price-info']}
-                >
-                    <span>
-                        {`Цена баннера за ${totalMonths} ${plural(totalMonths, 'месяц', 'месяца', 'месяцев')}: ${totalRentPrice} руб`}
-                    </span>
-                    <span>
-                        {`Монтаж / Демонтаж: ${billboardInfo?.service_price} руб`}
-                    </span>
-                    <span>
-                        {`Изготовление: ${billboardInfo?.manufacturing_cost} руб`}
-                    </span>
-                    <span
-                        className={s['total-price']}
-                    >
-                        {`Итого: ${totalRentPrice === 0 ? 0 : totalPrice}`}
-                    </span>
-                </p>
                 <Button
                     label={'Выбрать даты'}
                     variant={'contained'}
                     onClick={handleCloseModal}
-                    disabled={selectedMonths.length === 0}
+                    disabled={!dates}
                 />
             </div>
         </div>

@@ -12,7 +12,9 @@ const YearPicker: React.FC<YearPickerProps> = ({
 }) => {
     const [ year, setYear ] = useState(initialYear);
 
-    const handlePrevYear = () => {
+    const handlePrevYear = e => {
+        e.preventDefault();
+
         const newYear = year - 1;
         if (newYear < initialYear) {
             return;
@@ -21,7 +23,9 @@ const YearPicker: React.FC<YearPickerProps> = ({
         onYearChange?.(newYear);
     };
 
-    const handleNextYear = () => {
+    const handleNextYear = e => {
+        e.preventDefault();
+
         const newYear = year + 1;
         setYear(newYear);
         onYearChange?.(newYear);
