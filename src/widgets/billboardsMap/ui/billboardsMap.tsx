@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import CartLeaveOrderModal, { LeaveOrderInputs } from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
 import { getModifiedBillboard } from 'src/shared/utils/getModifiedBillboard';
 import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
+import s from './billboardsMap.module.scss';
 
 export const BillboardsMap = () => {
     const [ billboardsMarkers, setBillboardsMarkers ] = useState<BillboardMarkerDto[]>([]);
@@ -120,9 +121,7 @@ export const BillboardsMap = () => {
 
     return (
         <div
-            style={{
-                height: '600px',
-            }}
+            className={s['map']}
         >
             <YMaps
                 query={{
