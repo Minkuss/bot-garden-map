@@ -29,7 +29,7 @@ export function BillboardBalloonCard(billboardInfo: BillboardDetailDto | undefin
                                 : ''
                         }
                     </button>`
-                : '<span class="skeleton"/>'
+                : '<span class="skeleton skeleton--img"/>'
         }
       </div>
       <div class="balloon-card__info">
@@ -60,7 +60,7 @@ export function BillboardBalloonCard(billboardInfo: BillboardDetailDto | undefin
                         ${billboardInfo?.status ? BillboardStatusEnum[billboardInfo?.status].name : 'Неизвестен'}
                       </span>
                     </p>`
-                : '<div class="skeleton"/>'
+                : '<div class="skeleton skeleton--info"/>'
         }
       </div>
       <div class="balloon-card__button-group">
