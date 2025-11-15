@@ -114,7 +114,9 @@ export const BillboardsMap = () => {
         mapRef.current.events.add('click', handleMapClick);
 
         return () => {
-            mapRef.current.events.remove('click', handleMapClick);
+            if (mapRef.current) {
+                mapRef.current.events.remove('click', handleMapClick);
+            }
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ mapRef.current ]);

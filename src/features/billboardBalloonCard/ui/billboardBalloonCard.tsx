@@ -71,7 +71,6 @@ export function BillboardBalloonCard(billboardInfo: BillboardDetailDto | undefin
             Добавить в корзину
         </button>
         <button
-            disabled=${!billboardInfo}
             class="balloon-card__button balloon-card__button--contained balloon-card__request-btn
                 ${!billboardInfo ? 'balloon-card__button--disabled' : ''}"
         >
