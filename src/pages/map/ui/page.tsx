@@ -7,7 +7,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
 export const MapPage = () => {
-    const mapContainer = useRef();
+    const mapContainer = useRef<HTMLDivElement>(null);
     const [ showFilters, setShowFilters ] = useState<boolean>(false);
 
     useGSAP(() => {

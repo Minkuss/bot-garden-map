@@ -22,6 +22,7 @@ export const FilterSection = (props: IFilterSectionProps) => {
 
     return (
         <div
+            id={'type'}
             className={s['type']}
         >
             <h5
