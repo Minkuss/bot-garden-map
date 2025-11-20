@@ -19,7 +19,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
 
     const getBillboard = async(id: string, sideIndex: number) => {
         try {
-            const billboardFetchedSides = [ 'A', 'B' ]; //todo: пример (нужен новый хвост)
+            const billboardFetchedSides = [ 'A', 'B' ]; //todo temp: пример (нужен новый хвост)
             setBillboardSides(billboardFetchedSides);
 
             const billboard = await billboardApi.getBillboardInfo({
@@ -35,6 +35,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
             });
 
             billboard.image_url = import.meta.env.VITE_REACT_APP_API_URL + billboardImages.images[0].file_path;
+
             setBillboardInfo(billboard);
         } catch (error) {
             toast.error(error.response.data.detail);

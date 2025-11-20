@@ -2,7 +2,7 @@ import React, { InputHTMLAttributes, PropsWithChildren } from 'react';
 import s from './checkbox.module.scss';
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement>, PropsWithChildren {
-    icon?: React.ReactNode;
+    icon: React.ReactNode;
 }
 
 export const Checkbox: React.FC<CheckboxProps> = props => {
@@ -11,6 +11,7 @@ export const Checkbox: React.FC<CheckboxProps> = props => {
         id,
         className,
         children,
+        checked,
         ...rest
     } = props;
 
@@ -19,6 +20,7 @@ export const Checkbox: React.FC<CheckboxProps> = props => {
             <input
                 id={id}
                 type='checkbox'
+                checked={checked}
                 className={s.checkboxInput}
                 {...rest}
             />

@@ -10,12 +10,17 @@
 
 .balloon-card__image-wrapper {
   width: 100%;
+  min-height: 220px;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: 20px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   max-width: 300px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .balloon-card__image {
@@ -78,6 +83,11 @@
   transition: all 0.2s ease-in-out;
 }
 
+.balloon-card__button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .balloon-card__button--contained {
   background-color: #35B44A;
   color: #fff;
@@ -104,4 +114,49 @@
 
 .status--unavailable {
   color: #E40101;
+}
+
+.skeleton {
+  --skeleton-color: #e0e0e0;
+  --shimmer-color: #f5f5f5;
+
+  width: 100%;
+  border-radius: 20px;
+
+  background-color: var(--skeleton-color);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--shimmer-color),
+      transparent
+    );
+    animation: shimmer 1.5s infinite ease-in-out;
+  }
+}
+
+.skeleton--img {
+  height: 220px;
+}
+
+.skeleton--info {
+  height: 175px;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
 }

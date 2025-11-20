@@ -6,56 +6,76 @@ export function BillboardBalloonCard(billboardInfo: BillboardDetailDto | undefin
     return `
     <div class="balloon-card">
       <div class="balloon-card__image-wrapper">
-        <img
-          src=${billboardInfo?.image_url}
-          alt="Баннер"
-          class="balloon-card__image"
-        />
-        <button
-            class="balloon-card__side-btn"
-        >
-            ${
-                isLastIndex
-                    ? '<span><</span>'
-                    : ''
-            }
-            Сторона ${billboardInfo?.side}
-            ${
-                !isLastIndex
-                    ? '<span>></span>'
-                    : ''
-            }
-        </button>
+        ${
+            billboardInfo
+                ? `
+                    <img
+                      src=${billboardInfo?.image_url}
+                      alt="Баннер"
+                      class="balloon-card__image"
+                    />
+                    <button
+                        class="balloon-card__side-btn"
+                    >
+                        ${
+                            isLastIndex
+                                ? '<span><</span>'
+                                : ''
+                        }
+                        Сторона ${billboardInfo?.side}
+                        ${
+                            !isLastIndex
+                                ? '<span>></span>'
+                                : ''
+                        }
+                    </button>`
+                : '<span class="skeleton skeleton--img"/>'
+        }
       </div>
       <div class="balloon-card__info">
-        <span class="balloon-card__price">
-          Цена: ${billboardInfo?.rent_price ?? ''} руб/мес
-        </span>
-        <span>
-          Адрес: ${billboardInfo?.address ?? ''}
-        </span>
-        <span>
-          Размер: ${billboardInfo?.width ?? ''}x${billboardInfo?.height ?? ''}
-        </span>
-        <span>
-          Тип: ${billboardInfo?.type ? BillboardTypeEnum[billboardInfo?.type].name : 'Неизвестен'}
-        </span>
-        <p>
-          Занятость:${' '}
-          <span
-            class=${
-                billboardInfo?.status === 'available'
-                    ? 'status--available'
-                    : 'status--unavailable'
-            }
-          >
-            ${billboardInfo?.status ? BillboardStatusEnum[billboardInfo?.status].name : 'Неизвестен'}
-          </span>
-        </p>
+        ${
+            billboardInfo
+                ? `
+                    <span class="balloon-card__price">
+                      Цена: ${billboardInfo?.rent_price ?? ''} руб/мес
+                    </span>
+                    <span>
+                      Адрес: ${billboardInfo?.address ?? ''}
+                    </span>
+                    <span>
+                      Размер: ${billboardInfo?.width ?? ''}x${billboardInfo?.height ?? ''}
+                    </span>
+                    <span>
+                      Тип: ${billboardInfo?.type ? BillboardTypeEnum[billboardInfo?.type].name : 'Неизвестен'}
+                    </span>
+                    <p>
+                      Занятость:${' '}
+                      <span
+                        class=${
+                                billboardInfo?.status === 'available'
+                                    ? 'status--available'
+                                    : 'status--unavailable'
+                            }
+                      >
+                        ${billboardInfo?.status ? BillboardStatusEnum[billboardInfo?.status].name : 'Неизвестен'}
+                      </span>
+                    </p>`
+                : '<div class="skeleton skeleton--info"/>'
+        }
       </div>
       <div class="balloon-card__button-group">
-        <button class="balloon-card__button balloon-card__button--outlined balloon-card__cart-btn">Добавить в корзину</button>
-        <button class="balloon-card__button balloon-card__button--contained balloon-card__request-btn">Оставить заявку</button>
+        <button
+            class="balloon-card__button balloon-card__button--outlined balloon-card__cart-btn
+                ${!billboardInfo ? 'balloon-card__button--disabled' : ''}"
+        >
+            Добавить в корзину
+        </button>
+        <button
+            class="balloon-card__button balloon-card__button--contained balloon-card__request-btn
+                ${!billboardInfo ? 'balloon-card__button--disabled' : ''}"
+        >
+            Оставить заявку
+        </button>
       </div>
     </div>
   `;

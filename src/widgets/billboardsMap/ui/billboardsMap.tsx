@@ -1,5 +1,5 @@
 import { Map, YMaps } from '@pbe/react-yandex-maps';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { billboardApi, BillboardMarkerDto } from 'src/entities/billboard';
 import { SelectableBillboardMarker } from 'src/features/selectableBillboardMarker';
 import { BookingCreateParams, useCart } from 'src/entities/cart';
@@ -10,11 +10,23 @@ import toast from 'react-hot-toast';
 import CartLeaveOrderModal, { LeaveOrderInputs } from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
 import { getModifiedBillboard } from 'src/shared/utils/getModifiedBillboard';
 import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
+import s from './billboardsMap.module.scss';
+import { BillboardsMapFilters } from 'src/features/billboardsMapFilters/ui/billboardsMapFilters';
 
-export const BillboardsMap = () => {
+interface IBillboardsMapProps {
+    showFilters: boolean;
+}
+
+export const BillboardsMap = (props: IBillboardsMapProps) => {
+    const { showFilters } = props;
+
     const [ billboardsMarkers, setBillboardsMarkers ] = useState<BillboardMarkerDto[]>([]);
     const { add, clearCart } = useCart();
+    const mapRef = useRef<any>(null);
 
+    /**
+     * Слушаем ивент на нажатие "Добавить в корзину" в карточке баннера на карте
+     */
     useEffect(() => {
         const handleCartClicked = async e => {
             try {
@@ -40,6 +52,9 @@ export const BillboardsMap = () => {
         };
     }, [ add ]);
 
+    /**
+     * Слушаем ивент на нажатие клавиши "Оставить заявку" в карточке баннера на карте
+     */
     useEffect(() => {
         const handleRequestClicked = async e => {
             try {
@@ -93,12 +108,33 @@ export const BillboardsMap = () => {
         loadBillBoardsMarkers();
     }, []);
 
+    /**
+     * Сайд эффект для закрытия балуна при клике на свободное место на карте
+     */
+    useEffect(() => {
+        if (!mapRef.current) return;
+
+        const handleMapClick = () => {
+            mapRef.current.balloon.close();
+        };
+
+        mapRef.current.events.add('click', handleMapClick);
+
+        return () => {
+            if (mapRef.current) {
+                mapRef.current.events.remove('click', handleMapClick);
+            }
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ mapRef.current ]);
+
     return (
         <div
-            style={{
-                height: '600px',
-            }}
+            className={s['map']}
         >
+            <BillboardsMapFilters
+                show={showFilters}
+            />
             <YMaps
                 query={{
                     apikey: import.meta.env.VITE_YANDEX_MAPS_API_KEY,
@@ -112,6 +148,11 @@ export const BillboardsMap = () => {
                     }}
                     width='100%'
                     height='100%'
+                    defaultOptions={{
+                        suppressMapOpenBlock: false,
+                        yandexMapDisablePoiInteractivity: true,
+                    }}
+                    instanceRef={ref => mapRef.current = ref}
                 >
                     {
                         billboardsMarkers.length !== 0 &&

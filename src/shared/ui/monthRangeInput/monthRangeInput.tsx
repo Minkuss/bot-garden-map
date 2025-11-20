@@ -25,14 +25,21 @@ export interface SelectedMonth {
 
 interface IMonthRangeInputProps {
     onMonthsChange: (months: SelectedMonth[]) => void;
+    value?: SelectedMonth[];
 }
 
 export const MonthRangeInput = (props: IMonthRangeInputProps) => {
-    const { onMonthsChange } = props;
+    const { onMonthsChange, value } = props;
 
     const [ selectedMonthIndexes, setSelectedMonthIndexes ] = useState<SelectedMonth[]>([]);
     const [ selectedYear, setSelectedYear ] = useState<number>(new Date().getFullYear());
     const [ disabledMonthsIndexes, setDisabledMonthsIndexes ] = useState<SelectedMonth[]>([]);
+
+    useEffect(() => {
+        if (value) {
+            setSelectedMonthIndexes(value);
+        }
+    }, [ value ]);
 
     useEffect(() => {
         const currentMonth = new Date().getMonth();
