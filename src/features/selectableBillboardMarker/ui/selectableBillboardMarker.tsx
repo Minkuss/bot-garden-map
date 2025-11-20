@@ -17,6 +17,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
     const [ selectedPlaceMarkId, setSelectedPlaceMarkId ] = useState<string>('');
     const [ billboardSides, setBillboardSides ] = useState<string[]>([]);
     const [ billboardSideIndex, setBillboardSideIndex ] = useState<number>(0);
+    const [ changedSideFlag, setChangedSideFlag ] = useState(false);
 
     const getBillboard = async(id: string, sideIndex: number) => {
         try {
@@ -55,7 +56,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
                     const events = this.getData().geoObject.events;
                     const balloonElement = this.getParentElement();
 
-                    if (billboardInfo) {
+                    if (billboardInfo && !changedSideFlag) {
                         // Создаем timeline с небольшой задержкой
                         const tl = gsap.timeline({
                             defaults: { ease: 'power2.out' },
@@ -110,6 +111,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
                         ?.addEventListener('click', () => {
                             if (!billboardInfo) return;
                             getBillboard(billboardInfo?.id, billboardSideIndex + 1 !== billboardSides.length ? billboardSideIndex + 1 : 0);
+                            setChangedSideFlag(true);
                         });
 
                     events.add('balloonclose', () => {
@@ -117,6 +119,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
                             ?.classList
                             .remove('billboard-marker__active');
                         setBillboardInfo(undefined);
+                        setChangedSideFlag(false);
                     });
                 },
                 clear: function() {
@@ -127,7 +130,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
                 },
             },
         );
-    }, [ ymaps.templateLayoutFactory, billboardInfo, billboardSideIndex, billboardSides.length, selectedPlaceMarkId ]);
+    }, [ ymaps.templateLayoutFactory, billboardInfo, billboardSideIndex, billboardSides.length, changedSideFlag, selectedPlaceMarkId ]);
 
     const iconLayout = useMemo(() => {
         if (!ymaps?.templateLayoutFactory) return null;
