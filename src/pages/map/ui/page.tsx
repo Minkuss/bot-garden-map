@@ -2,10 +2,22 @@ import { BillboardsMap } from 'src/widgets/billboardsMap';
 import s from './map.module.scss';
 import { Container } from 'src/shared/ui/container/container';
 import FilterIcon from 'src/app/assets/images/svg/filter-btn.svg?react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
 export const MapPage = () => {
+    const mapContainer = useRef();
     const [ showFilters, setShowFilters ] = useState<boolean>(false);
+
+    useGSAP(() => {
+        gsap.to(mapContainer.current, {
+            y: 0,
+            opacity: 1,
+            duration: 1.5,
+            ease: 'power3.out',
+        });
+    });
 
     return (
         <Container
@@ -15,6 +27,7 @@ export const MapPage = () => {
             }}
         >
             <div
+                ref={mapContainer}
                 className={s['map']}
             >
                 <div

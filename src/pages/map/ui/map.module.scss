@@ -3,6 +3,9 @@
   flex-direction: column;
   gap: 20px;
 
+  transform: translateY(70%);
+  opacity: 0;
+
   .map-header {
     display: grid;
     grid-template-rows: 1fr 1fr;

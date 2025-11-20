@@ -5,12 +5,14 @@ import { Input } from 'src/shared/ui/input/input';
 import { Checkbox } from 'src/shared/ui/checkbox/checkbox';
 import CheckedLight from 'src/app/assets/images/svg/checked_light.svg?react';
 import { Button } from 'src/shared/ui/button/button';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { MaskedInput } from 'src/shared/ui/maskedInput/maskedInput';
 import { SelectDateRange } from 'src/shared/ui/selectDateRange/selectDateRange';
 import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
 export type LeaveOrderInputs = {
     lastName: string;
@@ -26,6 +28,8 @@ const PHONE_PATTERN = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default NiceModal.create(({ billboardId, side }: {billboardId: string, side: string}) => {
+    const modalContent = useRef();
+
     const modal = useModal();
     const [ checked, setChecked ] = useState(false);
     const [ phoneError, setPhoneError ] = useState(false);
@@ -38,10 +42,28 @@ export default NiceModal.create(({ billboardId, side }: {billboardId: string, si
         formState: { errors },
         control,
         watch,
+        reset,
     } = useForm<LeaveOrderInputs>();
 
     const phoneValue = watch('phoneNumber');
     const emailValue = watch('email');
+
+    useEffect(() => {
+        if (modal.visible) {
+            reset({
+                lastName: '',
+                firstName: '',
+                middleName: '',
+                phoneNumber: '',
+                organization: '',
+                email: '',
+            });
+            setChecked(false);
+            setPhoneError(false);
+            setEmailError(false);
+            setDates(null);
+        }
+    }, [ modal.visible, reset ]);
 
     const validatePhone = (value: string) => {
         if (!value) return false;
@@ -82,9 +104,38 @@ export default NiceModal.create(({ billboardId, side }: {billboardId: string, si
 
     const handleOverlayClick = (e: React.MouseEvent) => {
         if (e.target === e.currentTarget) {
-            modal.hide();
+            modal.remove();
         }
     };
+
+    useGSAP(() => {
+        if (!modalContent.current) return;
+
+        if (modal.visible) {
+            // Анимация открытия
+            gsap.fromTo(
+                modalContent.current,
+                {
+                    scale: 0.8,
+                    opacity: 0,
+                },
+                {
+                    scale: 1,
+                    opacity: 1,
+                    duration: 0.7,
+                    ease: 'power2.out',
+                },
+            );
+        }
+    }, {
+        dependencies: [ modal.visible ],
+        scope: modalContent,
+    });
+
+    // Не рендерим ничего если модалка была удалена
+    if (!modal.visible && !modalContent.current) {
+        return null;
+    }
 
     return (
         <div
@@ -96,6 +147,7 @@ export default NiceModal.create(({ billboardId, side }: {billboardId: string, si
         >
             <div
                 className={s['content']}
+                ref={modalContent}
             >
                 <h1
                     className={s['heading']}
