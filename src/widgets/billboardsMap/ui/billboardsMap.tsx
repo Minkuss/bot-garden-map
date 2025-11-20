@@ -11,8 +11,15 @@ import CartLeaveOrderModal, { LeaveOrderInputs } from 'src/features/cartLeaveOrd
 import { getModifiedBillboard } from 'src/shared/utils/getModifiedBillboard';
 import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
 import s from './billboardsMap.module.scss';
+import { BillboardsMapFilters } from 'src/features/billboardsMapFilters/ui/billboardsMapFilters';
 
-export const BillboardsMap = () => {
+interface IBillboardsMapProps {
+    showFilters: boolean;
+}
+
+export const BillboardsMap = (props: IBillboardsMapProps) => {
+    const { showFilters } = props;
+
     const [ billboardsMarkers, setBillboardsMarkers ] = useState<BillboardMarkerDto[]>([]);
     const { add, clearCart } = useCart();
     const mapRef = useRef<any>(null);
@@ -125,6 +132,9 @@ export const BillboardsMap = () => {
         <div
             className={s['map']}
         >
+            <BillboardsMapFilters
+                show={showFilters}
+            />
             <YMaps
                 query={{
                     apikey: import.meta.env.VITE_YANDEX_MAPS_API_KEY,

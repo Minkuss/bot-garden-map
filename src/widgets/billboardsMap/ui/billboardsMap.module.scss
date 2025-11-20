@@ -1,6 +1,12 @@
 .map {
+  position: relative;
   height: 600px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 4px 35px 0 #35B44A80;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.01);
+  }
 }
