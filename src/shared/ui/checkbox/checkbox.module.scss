@@ -1,6 +1,12 @@
 .checkboxWrapper {
   display: flex;
   align-items: center;
+  transform: scale(1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
 .checkboxInput {

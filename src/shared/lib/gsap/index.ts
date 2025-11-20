@@ -1,7 +1,6 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { CustomEase } from 'gsap/CustomEase';
-import { CustomBounce } from 'gsap/CustomBounce';
+import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
 import { useGSAP } from '@gsap/react';
 import { registerFadeScaleEffect } from './effects';
 
@@ -11,6 +10,6 @@ export const initGSAPEffects = () => {
 };
 
 // Регистрация плагинов
-gsap.registerPlugin(useGSAP, ScrollTrigger, CustomEase, CustomBounce);
+gsap.registerPlugin(useGSAP, ScrollTrigger, DrawSVGPlugin);
 
 export { gsap, useGSAP, ScrollTrigger };
