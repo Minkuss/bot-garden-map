@@ -5,6 +5,7 @@ import './selectableBillboardMarker.scss';
 import { BillboardBalloonCard } from 'src/features/billboardBalloonCard';
 import { imagesApi } from 'src/shared/api/images-service';
 import toast from 'react-hot-toast';
+import gsap from 'gsap';
 
 interface IBillboardMarkerProps {
     billboard: BillboardMarkerDto;
@@ -43,40 +44,90 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
         }
     };
 
-    const balloonContentLayout = ymaps.templateLayoutFactory.createClass(
-        BillboardBalloonCard(billboardInfo, billboardSideIndex === billboardSides.length - 1),
-        {
-            build() {
-                this.constructor.superclass.build.call(this);
-                const events = this.getData().geoObject.events;
+    const balloonContentLayout = useMemo(() => {
+        if (!ymaps?.templateLayoutFactory) return null;
 
-                this.getParentElement().querySelector('.balloon-card__cart-btn')
-                    ?.addEventListener('click', () => {
-                        window.dispatchEvent(new CustomEvent('cartClicked', { detail: { id: billboardInfo?.id, side: billboardInfo?.side } }));
+        return ymaps.templateLayoutFactory.createClass(
+            BillboardBalloonCard(billboardInfo, billboardSideIndex === billboardSides.length - 1),
+            {
+                build() {
+                    this.constructor.superclass.build.call(this);
+                    const events = this.getData().geoObject.events;
+                    const balloonElement = this.getParentElement();
+
+                    if (billboardInfo) {
+                        // Создаем timeline с небольшой задержкой
+                        const tl = gsap.timeline({
+                            defaults: { ease: 'power2.out' },
+                            delay: 0.1,
+                        });
+
+                        tl.fromTo(balloonElement.querySelector('.balloon-card__image-wrapper'), {
+                            rotateY: '5deg',
+                        }, {
+                            rotateY: 0,
+                            duration: 0.4,
+                        }, 0)
+                        .fromTo(balloonElement.querySelector('.balloon-card__side-btn'), {
+                            opacity: 0,
+                            x: 100,
+                        }, {
+                            opacity: 1,
+                            x: -10,
+                            duration: 0.3,
+                        }, 0.1)
+                        .fromTo(balloonElement.querySelector('.balloon-card__info'), {
+                            opacity: 0,
+                        }, {
+                            opacity: 1,
+                            duration: 0.4,
+                        }, 0.2)
+                        .fromTo(balloonElement.querySelectorAll('.balloon-card__info > *'), {
+                            opacity: 0,
+                            x: -100,
+                        }, {
+                            opacity: 1,
+                            x: 0,
+                            stagger: 0.05,
+                            duration: 0.3,
+                        }, 0.3);
+
+                        // Сохраняем timeline для очистки
+                        this._gsapTimeline = tl;
+                    }
+
+                    this.getParentElement().querySelector('.balloon-card__cart-btn')
+                        ?.addEventListener('click', () => {
+                            window.dispatchEvent(new CustomEvent('cartClicked', { detail: { id: billboardInfo?.id, side: billboardInfo?.side } }));
+                        });
+
+                    this.getParentElement().querySelector('.balloon-card__request-btn')
+                        ?.addEventListener('click', () => {
+                            window.dispatchEvent(new CustomEvent('requestClicked', { detail: { id: billboardInfo?.id, side: billboardInfo?.side } }));
+                        });
+
+                    this.getParentElement().querySelector('.balloon-card__side-btn')
+                        ?.addEventListener('click', () => {
+                            if (!billboardInfo) return;
+                            getBillboard(billboardInfo?.id, billboardSideIndex + 1 !== billboardSides.length ? billboardSideIndex + 1 : 0);
+                        });
+
+                    events.add('balloonclose', () => {
+                        document.getElementById(selectedPlaceMarkId)
+                            ?.classList
+                            .remove('billboard-marker__active');
+                        setBillboardInfo(undefined);
                     });
-
-                this.getParentElement().querySelector('.balloon-card__request-btn')
-                    ?.addEventListener('click', () => {
-                        window.dispatchEvent(new CustomEvent('requestClicked', { detail: { id: billboardInfo?.id, side: billboardInfo?.side } }));
-                    });
-
-                this.getParentElement().querySelector('.balloon-card__side-btn')
-                    ?.addEventListener('click', () => {
-                        if (!billboardInfo) return;
-                        getBillboard(billboardInfo?.id, billboardSideIndex + 1 !== billboardSides.length ? billboardSideIndex + 1 : 0);
-                    });
-
-                events.add('balloonclose', () => {
-                    document.getElementById(selectedPlaceMarkId)
-                        ?.classList
-                        .remove('billboard-marker__active');
-                });
+                },
+                clear: function() {
+                    if (this._gsapTimeline) {
+                        this._gsapTimeline.kill();
+                    }
+                    this.constructor.superclass.clear.call(this);
+                },
             },
-            clear: function() {
-                this.constructor.superclass.clear.call(this);
-            },
-        },
-    );
+        );
+    }, [ ymaps.templateLayoutFactory, billboardInfo, billboardSideIndex, billboardSides.length, selectedPlaceMarkId ]);
 
     const iconLayout = useMemo(() => {
         if (!ymaps?.templateLayoutFactory) return null;
