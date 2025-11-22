@@ -1,11 +1,8 @@
 <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M8.95837 21.5L8.95837 7.16667" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
-<path d="M34.0416 35.8335L34.0416 32.2502" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
-<path d="M8.95837 35.8335L8.95837 28.6668" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
-<path d="M34.0416 21.5L34.0416 7.16667" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
-<path d="M21.5 12.5415L21.5 7.1665" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
-<path d="M21.5 35.8335L21.5 21.5002" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
-<circle cx="8.95833" cy="25.0833" r="3.58333" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
-<circle cx="21.5" cy="16.1248" r="3.58333" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
-<circle cx="34.0417" cy="26.8748" r="3.58333" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
+<path d="M9 36L8.95837 7.16667" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
+<path d="M34 36L34.0416 7.16667" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
+<path d="M21.25 36.002L21.25 7.16412" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
+<circle id="filter-circle" cx="8.95833" cy="25.0833" r="3.58333" fill="white" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
+<circle id="filter-circle" cx="21.5" cy="16.1248" r="3.58333" fill="white" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
+<circle id="filter-circle" cx="34.0417" cy="26.8748" r="3.58333" fill="white" stroke="#373737" stroke-width="2" stroke-linecap="round"/>
 </svg>

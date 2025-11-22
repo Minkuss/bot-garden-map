@@ -6,9 +6,37 @@ import { useCart } from 'src/entities/cart';
 import { routes } from 'src/shared/routes';
 import { HeaderLink } from 'src/features/header';
 import { Container } from 'src/shared/ui/container/container';
+import { useEffect, useRef } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
 export const Header = () => {
     const { cart } = useCart();
+    const cartRef = useRef<HTMLLIElement>(null);
+    const { contextSafe } = useGSAP({ scope: cartRef });
+
+    const handleCartClicked = contextSafe(() => {
+        const tl = gsap.timeline();
+
+        tl.to('#cart-count', {
+            duration: 0.3,
+            scale: 1.5,
+            ease: 'power2.out',
+        })
+            .to('#cart-count', {
+                duration: 0.3,
+                scale: 1,
+                ease: 'bounce.out',
+            });
+    });
+
+    useEffect(() => {
+        window.addEventListener('_cart_changed', handleCartClicked);
+
+        return () => {
+            window.removeEventListener('_cart_changed', handleCartClicked);
+        };
+    }, [ handleCartClicked ]);
 
     return (
         <Container
@@ -57,12 +85,14 @@ export const Header = () => {
                     </div>
                     <li
                         className={s['cart']}
+                        ref={cartRef}
                     >
-                    <span
-                        className={s['cart-count']}
-                    >
-                        {cart.length}
-                    </span>
+                        <span
+                            className={s['cart-count']}
+                            id={'cart-count'}
+                        >
+                            {cart.length}
+                        </span>
                         <BasketLight/>
                         <Link
                             href={routes.CART}

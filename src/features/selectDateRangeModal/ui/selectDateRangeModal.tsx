@@ -11,7 +11,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
 export default NiceModal.create(({ billboardId, side }: {billboardId: string, side: string}) => {
-    const modalContent = useRef();
+    const modalContent = useRef<HTMLDivElement>(null);
     const modal = useModal();
     const [ dates, setDates ] = useState<DateRange | null>(null);
 
