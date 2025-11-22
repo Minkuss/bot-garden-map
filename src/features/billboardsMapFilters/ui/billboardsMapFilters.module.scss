@@ -8,7 +8,7 @@
   padding: 50px 40px;
   z-index: 10;
   transform: translateX(100%);
-  transition: transform 0.3s ease-in-out;
+  opacity: 0;
   overflow: auto;
   gap: 23px;
   border-left: 1.5px solid rgba(0, 0, 0, 0.1);
@@ -17,10 +17,6 @@
     display: grid;
     gap: 21px;
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  &--show {
-    transform: translateX(0);
   }
 
   .title {

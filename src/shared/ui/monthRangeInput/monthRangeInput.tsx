@@ -1,7 +1,9 @@
 import s from './monthRangeInput.module.scss';
 import YearPicker from 'src/shared/ui/yearPicker/yearPicker';
 import { Button } from 'src/shared/ui/button/button';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
 const months = [
     'Январь',
@@ -34,6 +36,7 @@ export const MonthRangeInput = (props: IMonthRangeInputProps) => {
     const [ selectedMonthIndexes, setSelectedMonthIndexes ] = useState<SelectedMonth[]>([]);
     const [ selectedYear, setSelectedYear ] = useState<number>(new Date().getFullYear());
     const [ disabledMonthsIndexes, setDisabledMonthsIndexes ] = useState<SelectedMonth[]>([]);
+    const monthRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (value) {
@@ -102,12 +105,33 @@ export const MonthRangeInput = (props: IMonthRangeInputProps) => {
         });
     };
 
+    useGSAP(() => {
+        const tl = gsap.timeline({
+            ease: 'power3.in',
+        });
+
+        tl.to('button', {
+            scale: 1.5,
+        })
+            .to('button', {
+                scale: 1,
+                duration: 0.2,
+            });
+    }, {
+        scope: monthRef,
+    });
+
     return (
-        <div className={s['input-wrapper']}>
+        <div
+            className={s['input-wrapper']}
+        >
             <YearPicker
                 onYearChange={year => setSelectedYear(year)}
             />
-            <div className={s['months']}>
+            <div
+                className={s['months']}
+                ref={monthRef}
+            >
                 {months.map((month, index) => (
                     <Button
                         key={month}

@@ -67,8 +67,8 @@
 }
 
 .balloon-card__button-group {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
 
