@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import NiceModal from '@ebay/nice-modal-react';
 import CartLeaveOrderModal, { LeaveOrderInputs } from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
 import { format, parse } from 'date-fns';
-import { getModifiedBillboard, ModifiedCartItem } from 'src/shared/utils/getModifiedBillboard';
+import { getModifiedBillboardWithDates, ModifiedCartItem } from 'src/shared/utils/getModifiedBillboardWithDates';
 
 export const Cart = () => {
     const { cart, remove, clearCart } = useCart();
@@ -21,7 +21,7 @@ export const Cart = () => {
                 setLoading(true);
 
                 const cartItems = await Promise.all(
-                    cart.map(async item => await getModifiedBillboard(item.id, item.side, item.start, item.end)),
+                    cart.map(async item => await getModifiedBillboardWithDates(item.id, item.side, item.start, item.end)),
                 );
 
                 setCartItems(cartItems);

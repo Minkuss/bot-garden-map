@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MonthRangeInput, SelectedMonth } from 'src/shared/ui/monthRangeInput/monthRangeInput';
 import { billboardApi, BillboardDetailDto } from 'src/entities/billboard';
 import { getDateRangeFromSelection } from 'src/features/selectDateRangeModal/utils/getDateRangeFromSelection';
@@ -7,6 +7,7 @@ import s from './selectDateRange.module.scss';
 import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { useBillboardPrice } from 'src/shared/hooks/useBillboardPrice';
 
 interface ISelectDateRangeProps {
     billboardId: string;
@@ -18,14 +19,13 @@ export const SelectDateRange = (props: ISelectDateRangeProps) => {
     const { billboardId, side, onMonthRangeChange } = props;
 
     const [ selectedMonths, setSelectedMonths ] = useState<SelectedMonth[]>([]);
-    const [ totalMonths, setTotalMonths ] = useState<number>(0);
     const [ billboardInfo, setBillboardInfo ] = useState<BillboardDetailDto>();
-
-    const [ totalPrice, setTotalPrice ] = useState<number>(0);
-    const [ totalRentPrice, setTotalRentPrice ] = useState<number>(0);
 
     const rentPriceRef = useRef<HTMLSpanElement | null>(null);
     const totalPriceRef = useRef<HTMLSpanElement | null>(null);
+
+    const { totalMonths, totalPrice, totalRentPrice, countTotalCount, countTotalRentPrice, countTotalPrice } =
+        useBillboardPrice(billboardInfo, selectedMonths);
 
     useEffect(() => {
         const loadBillboardInfo = async() => {
@@ -43,36 +43,6 @@ export const SelectDateRange = (props: ISelectDateRangeProps) => {
 
         loadBillboardInfo();
     }, [ billboardId, side ]);
-
-    const countTotalCount = useCallback(() => {
-        let totalMonths = 0;
-
-        selectedMonths.forEach(month => {
-            totalMonths += month.monthIndexes.length;
-        });
-
-        setTotalMonths(totalMonths);
-    }, [ selectedMonths ]);
-
-    const countTotalRentPrice = useCallback(() => {
-        if (!billboardInfo) {
-            return;
-        }
-
-        const totalRentPrice = billboardInfo?.rent_price * totalMonths;
-
-        setTotalRentPrice(totalRentPrice);
-    }, [ billboardInfo, totalMonths ]);
-
-    const countTotalPrice = useCallback(() => {
-        if (!billboardInfo) {
-            return;
-        }
-
-        const totalPrice = totalRentPrice + billboardInfo?.service_price + billboardInfo?.manufacturing_cost;
-
-        setTotalPrice(totalPrice);
-    }, [ billboardInfo, totalRentPrice ]);
 
     useEffect(() => {
         countTotalCount();

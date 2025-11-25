@@ -8,10 +8,11 @@ import SelectDateRangeModal from 'src/features/selectDateRangeModal/ui/selectDat
 import { format, parse } from 'date-fns';
 import toast from 'react-hot-toast';
 import CartLeaveOrderModal, { LeaveOrderInputs } from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
-import { getModifiedBillboard } from 'src/shared/utils/getModifiedBillboard';
+import { getModifiedBillboardWithDates } from 'src/shared/utils/getModifiedBillboardWithDates';
 import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
 import s from './billboardsMap.module.scss';
 import { BillboardsMapFilters } from 'src/features/billboardsMapFilters/ui/billboardsMapFilters';
+import DetailedBillboardInfoModal from 'src/features/detailedBillboardInfoModal/ui/detailedBillboardInfoModal';
 
 interface IBillboardsMapProps {
     showFilters: boolean;
@@ -65,7 +66,7 @@ export const BillboardsMap = (props: IBillboardsMapProps) => {
                 const start = format(info.dates.startDate, 'dd.MM.yyyy');
                 const end = format(info.dates.endDate, 'dd.MM.yyyy');
 
-                const billboard = await getModifiedBillboard(id, side, start, end);
+                const billboard = await getModifiedBillboardWithDates(id, side, start, end);
 
                 const params: BookingCreateParams = {
                     billboards: [ {
@@ -94,6 +95,22 @@ export const BillboardsMap = (props: IBillboardsMapProps) => {
             window.removeEventListener('requestClicked', handleRequestClicked);
         };
     }, [ clearCart ]);
+
+    /**
+     * Слушаем ивент на нажатие кнопки "Подробная информация"
+     */
+    useEffect(() => {
+        const handleDetailedClicked = async e => {
+            const { id, side } = (e as CustomEvent<{ id: string, side: string }>).detail;
+            await NiceModal.show(DetailedBillboardInfoModal, { billboardId: id, side });
+        };
+
+        window.addEventListener('detailedClicked', handleDetailedClicked);
+
+        return () => {
+            window.removeEventListener('detailedClicked', handleDetailedClicked);
+        };
+    }, []);
 
     useEffect(() => {
         const loadBillBoardsMarkers = async() => {
