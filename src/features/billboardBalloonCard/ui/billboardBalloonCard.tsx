@@ -57,13 +57,19 @@ export function BillboardBalloonCard(billboardInfo: BillboardDetailDto | undefin
                                     : 'status--unavailable'
                             }
                       >
-                        ${billboardInfo?.status ? BillboardStatusEnum[billboardInfo?.status].name : 'Неизвестен'}
+                        ${billboardInfo?.status ? BillboardStatusEnum[billboardInfo?.status].name : 'Неизвестна'}
                       </span>
                     </p>`
                 : '<div class="skeleton skeleton--info"/>'
         }
       </div>
       <div class="balloon-card__button-group">
+        <button
+            class="balloon-card__button balloon-card__button--outlined balloon-card__detailed-btn
+                ${!billboardInfo ? 'balloon-card__button--disabled' : ''}"
+        >
+            Подробная информация
+        </button>
         <button
             class="balloon-card__button balloon-card__button--outlined balloon-card__cart-btn
                 ${!billboardInfo ? 'balloon-card__button--disabled' : ''}"

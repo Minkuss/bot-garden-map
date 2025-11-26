@@ -107,6 +107,12 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
                             window.dispatchEvent(new CustomEvent('requestClicked', { detail: { id: billboardInfo?.id, side: billboardInfo?.side } }));
                         });
 
+                    this.getParentElement().querySelector('.balloon-card__detailed-btn')
+                        ?.addEventListener('click', () => {
+                            window.dispatchEvent(new CustomEvent('detailedClicked',
+                                { detail: { id: billboardInfo?.id, side: billboardInfo?.side } }));
+                        });
+
                     this.getParentElement().querySelector('.balloon-card__side-btn')
                         ?.addEventListener('click', () => {
                             if (!billboardInfo) return;
