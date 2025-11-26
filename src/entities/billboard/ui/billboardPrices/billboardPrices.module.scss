@@ -5,9 +5,13 @@
   box-shadow: 0 10px 38.8px 0 #35B44A66;
   border-radius: 20px;
   padding: 20px;
-  font-family: 'Hero Light Bold', sans-serif;
-  font-size: 24px;
+  font-family: 'Hero Light Regular', sans-serif;
+  font-size: 20px;
   min-height: 240px;
+
+  .total-price {
+    font-family: 'Hero Light Bold', sans-serif;
+  }
 
   p {
     display: flex;

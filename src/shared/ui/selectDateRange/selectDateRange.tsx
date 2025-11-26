@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MonthRangeInput, SelectedMonth } from 'src/shared/ui/monthRangeInput/monthRangeInput';
 import { billboardApi, BillboardDetailDto } from 'src/entities/billboard';
 import { getDateRangeFromSelection } from 'src/features/selectDateRangeModal/utils/getDateRangeFromSelection';
@@ -24,36 +24,30 @@ export const SelectDateRange = (props: ISelectDateRangeProps) => {
     const rentPriceRef = useRef<HTMLSpanElement | null>(null);
     const totalPriceRef = useRef<HTMLSpanElement | null>(null);
 
-    const { totalMonths, totalPrice, totalRentPrice, countTotalCount, countTotalRentPrice, countTotalPrice } =
+    const { totalMonths, totalPrice, totalRentPrice } =
         useBillboardPrice(billboardInfo, selectedMonths);
 
-    useEffect(() => {
-        const loadBillboardInfo = async() => {
-            try {
-                const data = await billboardApi.getBillboardInfo({
-                    id: billboardId,
-                    side,
-                });
+    const loadBillboardInfo = useCallback(async() => {
+        try {
+            const data = await billboardApi.getBillboardInfo({
+                id: billboardId,
+                side,
+            });
 
-                setBillboardInfo(data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        loadBillboardInfo();
+            setBillboardInfo(data);
+        } catch (error) {
+            console.error(error);
+        }
     }, [ billboardId, side ]);
 
     useEffect(() => {
-        countTotalCount();
+        loadBillboardInfo();
+    }, [ billboardId, loadBillboardInfo, side ]);
 
-        countTotalRentPrice();
-
-        countTotalPrice();
-
+    useEffect(() => {
         const dates = getDateRangeFromSelection(selectedMonths);
         onMonthRangeChange(dates);
-    }, [ countTotalCount, countTotalPrice, countTotalRentPrice, onMonthRangeChange, selectedMonths ]);
+    }, [ onMonthRangeChange, selectedMonths ]);
 
     useGSAP(() => {
         if (!rentPriceRef.current) return;

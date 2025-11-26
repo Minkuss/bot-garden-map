@@ -7,12 +7,14 @@ import NiceModal from '@ebay/nice-modal-react';
 import SelectDateRangeModal from 'src/features/selectDateRangeModal/ui/selectDateRangeModal';
 import { format, parse } from 'date-fns';
 import toast from 'react-hot-toast';
-import CartLeaveOrderModal, { LeaveOrderInputs } from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
+import CartLeaveOrderModal from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
 import { getModifiedBillboardWithDates } from 'src/shared/utils/getModifiedBillboardWithDates';
 import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
 import s from './billboardsMap.module.scss';
 import { BillboardsMapFilters } from 'src/features/billboardsMapFilters/ui/billboardsMapFilters';
-import DetailedBillboardInfoModal from 'src/features/detailedBillboardInfoModal/ui/detailedBillboardInfoModal';
+import { generatePath, useNavigate } from 'react-router-dom';
+import { routes } from 'src/shared/routes';
+import { LeaveOrderInputs } from 'src/entities/order/ui/leaveOrderForm';
 
 interface IBillboardsMapProps {
     showFilters: boolean;
@@ -21,6 +23,7 @@ interface IBillboardsMapProps {
 export const BillboardsMap = (props: IBillboardsMapProps) => {
     const { showFilters } = props;
 
+    const navigate = useNavigate();
     const [ billboardsMarkers, setBillboardsMarkers ] = useState<BillboardMarkerDto[]>([]);
     const { add, clearCart } = useCart();
     const mapRef = useRef<any>(null);
@@ -63,6 +66,8 @@ export const BillboardsMap = (props: IBillboardsMapProps) => {
 
                 const info: LeaveOrderInputs = await NiceModal.show(CartLeaveOrderModal, { billboardId: id, side });
 
+                if (!info.dates) return;
+
                 const start = format(info.dates.startDate, 'dd.MM.yyyy');
                 const end = format(info.dates.endDate, 'dd.MM.yyyy');
 
@@ -102,7 +107,14 @@ export const BillboardsMap = (props: IBillboardsMapProps) => {
     useEffect(() => {
         const handleDetailedClicked = async e => {
             const { id, side } = (e as CustomEvent<{ id: string, side: string }>).detail;
-            await NiceModal.show(DetailedBillboardInfoModal, { billboardId: id, side });
+            window.open(
+                generatePath('/map' + routes.BILLBOARD_INFO, {
+                    billboardId: id,
+                    side,
+                }),
+                '_blank',
+                'noopener,noreferrer',
+            );
         };
 
         window.addEventListener('detailedClicked', handleDetailedClicked);
@@ -110,7 +122,7 @@ export const BillboardsMap = (props: IBillboardsMapProps) => {
         return () => {
             window.removeEventListener('detailedClicked', handleDetailedClicked);
         };
-    }, []);
+    }, [ navigate ]);
 
     useEffect(() => {
         const loadBillBoardsMarkers = async() => {

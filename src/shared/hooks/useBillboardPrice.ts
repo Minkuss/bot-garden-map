@@ -1,59 +1,37 @@
+import { useMemo } from 'react';
 import { BillboardDetailDto } from 'src/entities/billboard';
 import { SelectedMonth } from 'src/shared/ui/monthRangeInput/monthRangeInput';
-import { useState } from 'react';
 
-export function useBillboardPrice(billboardInfo?: BillboardDetailDto, selectedMonths?: SelectedMonth[]) {
-    const [ totalMonths, setTotalMonths ] = useState<number>(0);
-    const [ totalPrice, setTotalPrice ] = useState<number>(0);
-    const [ totalRentPrice, setTotalRentPrice ] = useState<number>(0);
+export function useBillboardPrice(
+    billboardInfo?: BillboardDetailDto,
+    selectedMonths: SelectedMonth[] = [],
+) {
+    const totalMonths = useMemo(() => {
+        if (!selectedMonths?.length) return 0;
 
-    if (!billboardInfo || !selectedMonths) {
-        return {
-            totalMonths,
-            totalPrice,
-            totalRentPrice,
-            countTotalCount: () => {},
-            countTotalRentPrice: () => {},
-            countTotalPrice: () => {},
-        };
-    }
+        return selectedMonths.reduce(
+            (acc, month) => acc + month.monthIndexes.length,
+            0,
+        );
+    }, [ selectedMonths ]);
 
-    const countTotalCount = () => {
-        let totalMonths = 0;
+    const totalRentPrice = useMemo(() => {
+        if (!billboardInfo) return 0;
+        return billboardInfo.rent_price * totalMonths;
+    }, [ billboardInfo, totalMonths ]);
 
-        selectedMonths.forEach(month => {
-            totalMonths += month.monthIndexes.length;
-        });
-
-        setTotalMonths(totalMonths);
-    };
-
-    const countTotalRentPrice = () => {
-        if (!billboardInfo) {
-            return;
-        }
-
-        const totalRentPrice = billboardInfo?.rent_price * totalMonths;
-
-        setTotalRentPrice(totalRentPrice);
-    };
-
-    const countTotalPrice = () => {
-        if (!billboardInfo) {
-            return;
-        }
-
-        const totalPrice = totalRentPrice + billboardInfo?.service_price + billboardInfo?.manufacturing_cost;
-
-        setTotalPrice(totalPrice);
-    };
+    const totalPrice = useMemo(() => {
+        if (!billboardInfo) return 0;
+        return (
+            totalRentPrice +
+            (billboardInfo.service_price ?? 0) +
+            (billboardInfo.manufacturing_cost ?? 0)
+        );
+    }, [ billboardInfo, totalRentPrice ]);
 
     return {
         totalMonths,
         totalPrice,
         totalRentPrice,
-        countTotalCount,
-        countTotalRentPrice,
-        countTotalPrice,
     };
 }

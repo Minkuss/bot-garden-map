@@ -5,9 +5,10 @@ import s from './cart.module.scss';
 import { Button } from 'src/shared/ui/button/button';
 import { useEffect, useState } from 'react';
 import NiceModal from '@ebay/nice-modal-react';
-import CartLeaveOrderModal, { LeaveOrderInputs } from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
+import CartLeaveOrderModal from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
 import { format, parse } from 'date-fns';
 import { getModifiedBillboardWithDates, ModifiedCartItem } from 'src/shared/utils/getModifiedBillboardWithDates';
+import { LeaveOrderInputs } from 'src/entities/order/ui/leaveOrderForm';
 
 export const Cart = () => {
     const { cart, remove, clearCart } = useCart();

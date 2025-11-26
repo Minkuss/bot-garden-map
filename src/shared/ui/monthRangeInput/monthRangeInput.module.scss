@@ -8,13 +8,8 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
 
-    @media screen and (max-width: $breakpoint-xl){
-      grid-template-columns: repeat(2, 1fr);
-    }
-
     button {
       font-family: 'Hero Light Regular', sans-serif;
-      //transform: scale(1);
     }
   }
 }
