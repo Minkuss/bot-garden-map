@@ -25,7 +25,15 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
                 side: billboard.side,
             });
 
-            billboard.image_url = import.meta.env.VITE_REACT_APP_API_URL + billboardImages.images[0].file_path;
+	    // Правильно формируем URL
+            const baseUrl = import.meta.env.VITE_API_URL || '';
+            const imagePath = billboardImages.images[0].file_path;
+
+            // Если file_path уже начинается с /, не добавляем baseUrl
+            billboard.image_url = imagePath.startsWith('http')
+                ? imagePath
+                : `${baseUrl}${imagePath}`;            
+
             setBillboardInfo(billboard);
         } catch (error) {
             console.error(error);
