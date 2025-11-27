@@ -1,11 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { Placemark, withYMaps } from '@pbe/react-yandex-maps';
-import { billboardApi, BillboardDetailDto, BillboardMarkerDto } from 'src/entities/billboard';
+import { BillboardDetailDto, BillboardMarkerDto } from 'src/entities/billboard';
 import './selectableBillboardMarker.scss';
 import { BillboardBalloonCard } from 'src/features/billboardBalloonCard';
-import { imagesApi } from 'src/shared/api/images-service';
 import toast from 'react-hot-toast';
 import gsap from 'gsap';
+import { getModifiedBillboardInfo } from 'src/shared/utils/getModifiedBillboardWithDates';
 
 interface IBillboardMarkerProps {
     billboard: BillboardMarkerDto;
@@ -24,19 +24,9 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
             const billboardFetchedSides = [ 'A', 'B' ]; //todo temp: пример (нужен новый хвост)
             setBillboardSides(billboardFetchedSides);
 
-            const billboard = await billboardApi.getBillboardInfo({
-                id,
-                side: billboardFetchedSides[sideIndex],
-            });
-
             setBillboardSideIndex(sideIndex);
 
-            const billboardImages = await imagesApi.getBillboardImages({
-                id,
-                side: billboard.side,
-            });
-
-            billboard.image_url = import.meta.env.VITE_REACT_APP_API_URL + billboardImages.images[0].file_path;
+            const billboard = await getModifiedBillboardInfo(id, billboardFetchedSides[sideIndex]);
 
             setBillboardInfo(billboard);
         } catch (error) {

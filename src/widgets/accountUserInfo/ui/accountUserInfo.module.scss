@@ -1,0 +1,11 @@
+.info {
+  box-shadow: 0 4px 45.7px 0 #35B44A66;
+  border-radius: 20px;
+  padding: 37px 33px;
+
+  transition: scale 0.3s ease-in-out;
+
+  &:hover {
+    scale: 1.02;
+  }
+}

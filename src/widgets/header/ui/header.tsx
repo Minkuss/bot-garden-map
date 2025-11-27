@@ -115,7 +115,7 @@ export const Header = () => {
                                 >
                                     <UserIcon/>
                                     <Link
-                                        href={'#'}
+                                        href={routes.ACCOUNT}
                                     >
                                         аккаунт
                                     </Link>

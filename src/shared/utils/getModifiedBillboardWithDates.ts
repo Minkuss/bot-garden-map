@@ -16,7 +16,12 @@ export const getModifiedBillboardWithDates = async(id: string, side: string, sta
         side: billboard.side,
     });
 
-    billboard.image_url = import.meta.env.VITE_REACT_APP_API_URL + billboardImages.images[0].file_path;
+    const baseUrl = import.meta.env.VITE_API_URL || '';
+    const imagePath = billboardImages.images[0].file_path;
+
+    billboard.image_url = imagePath.startsWith('http')
+        ? imagePath
+        : `${baseUrl}${imagePath}`;
 
     const modifiedBillboard: ModifiedCartItem = {
         ...billboard,
@@ -37,7 +42,12 @@ export const getModifiedBillboardInfo: (id: string, side: string) => Promise<Bil
         side: billboard.side,
     });
 
-    billboard.image_url = import.meta.env.VITE_REACT_APP_API_URL + billboardImages.images[0].file_path;
+    const baseUrl = import.meta.env.VITE_API_URL || '';
+    const imagePath = billboardImages.images[0].file_path;
+
+    billboard.image_url = imagePath.startsWith('http')
+        ? imagePath
+        : `${baseUrl}${imagePath}`;
 
     return billboard;
 };
