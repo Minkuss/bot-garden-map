@@ -4,18 +4,26 @@ import botSadLogo from 'src/app/assets/images/bot-sad-logo.png';
 import BasketLight from 'src/app/assets/images/svg/basket-light.svg?react';
 import { useCart } from 'src/entities/cart';
 import { routes } from 'src/shared/routes';
-import { HeaderLink } from 'src/features/header';
 import { Container } from 'src/shared/ui/container/container';
 import { useEffect, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import classNames from 'classnames';
+import { HeaderLink } from './headerLink/headerLink';
+import NiceModal from '@ebay/nice-modal-react';
+import LoginModal, { LoginInputs } from 'src/features/loginModal/ui/loginModal';
+import { useAuth } from 'src/shared/auth/hooks/useAuth';
+import toast from 'react-hot-toast';
+import UserIcon from 'src/app/assets/images/svg/user.svg?react';
 
 export const Header = () => {
     const { cart } = useCart();
+    const { login, user } = useAuth();
+
     const cartRef = useRef<HTMLLIElement>(null);
     const { contextSafe } = useGSAP({ scope: cartRef });
 
-    const handleCartClicked = contextSafe(() => {
+    const handleCartChanged = contextSafe(() => {
         const tl = gsap.timeline();
 
         tl.to('#cart-count', {
@@ -30,13 +38,23 @@ export const Header = () => {
             });
     });
 
+    const handleShowLoginModal = async() => {
+        const data: LoginInputs = await NiceModal.show(LoginModal);
+
+        try {
+            await login();
+        } catch (error) {
+            toast.error('Не удалось авторизоваться.');
+        }
+    };
+
     useEffect(() => {
-        window.addEventListener('_cart_changed', handleCartClicked);
+        window.addEventListener('_cart_changed', handleCartChanged);
 
         return () => {
-            window.removeEventListener('_cart_changed', handleCartClicked);
+            window.removeEventListener('_cart_changed', handleCartChanged);
         };
-    }, [ handleCartClicked ]);
+    }, [ handleCartChanged ]);
 
     return (
         <Container
@@ -83,23 +101,52 @@ export const Header = () => {
                             </HeaderLink>
                         </li>
                     </div>
-                    <li
-                        className={s['cart']}
-                        ref={cartRef}
+                    <div
+                        className={classNames(
+                            s['wrapper'],
+                            s['right'],
+                        )
+                    }
                     >
-                        <span
-                            className={s['cart-count']}
-                            id={'cart-count'}
+                        {
+                            user
+                                ? <li
+                                    className={s['account']}
+                                >
+                                    <UserIcon/>
+                                    <Link
+                                        href={'#'}
+                                    >
+                                        аккаунт
+                                    </Link>
+                                </li>
+                                : <li>
+                                    <Link
+                                        href={'#'}
+                                        onClick={handleShowLoginModal}
+                                    >
+                                        вход
+                                    </Link>
+                                </li>
+                        }
+                        <li
+                            className={s['cart']}
+                            ref={cartRef}
                         >
-                            {cart.length}
-                        </span>
-                        <BasketLight/>
-                        <Link
-                            href={routes.CART}
-                        >
-                            корзина
-                        </Link>
-                    </li>
+                            <span
+                                className={s['cart-count']}
+                                id={'cart-count'}
+                            >
+                                {cart.length}
+                            </span>
+                            <BasketLight/>
+                            <Link
+                                href={routes.CART}
+                            >
+                                корзина
+                            </Link>
+                        </li>
+                    </div>
                 </ul>
                 <div
                     className={s['divider']}

@@ -1,0 +1,35 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  font-size: 20px;
+  align-self: center;
+  max-width: 465px;
+  padding-bottom: 80px;
+  transform: translateY(100%);
+  opacity: 0;
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  button {
+    align-self: center;
+    padding: 13px 33px;
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    gap: 31px;
+    align-items: center;
+
+    .title {
+      font-size: 30px;
+      font-family: "Hero Light Bold", sans-serif;
+    }
+  }
+}

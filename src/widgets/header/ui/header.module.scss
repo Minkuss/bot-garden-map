@@ -29,6 +29,16 @@
       gap: 11px;
     }
 
+    .right {
+      gap: 45px;
+    }
+
+    .account {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
     .cart {
       position: relative;
       display: flex;

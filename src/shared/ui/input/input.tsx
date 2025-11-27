@@ -8,10 +8,11 @@ interface IInputProps {
     errorText?: string;
     fullWidth?: boolean;
     placeholder?: string;
+    type?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
-    const { label, errorText = 'Ошибка', error = false, fullWidth = false, placeholder, ...rest } = props;
+    const { label, errorText = 'Ошибка', error = false, fullWidth = false, placeholder, type, ...rest } = props;
 
     return (
         <div
@@ -36,6 +37,7 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>((props, ref) => {
                 <input
                     placeholder={placeholder}
                     ref={ref}
+                    type={type}
                     {...rest}
                 />
             </div>
