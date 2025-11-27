@@ -8,6 +8,7 @@ export const Footer = () => (
         anchor={'footer'}
         style={{
             scrollSnapAlign: 'start',
+            marginTop: '265px',
         }}
     >
         <footer

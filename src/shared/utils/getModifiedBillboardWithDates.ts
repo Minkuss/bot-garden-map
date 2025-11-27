@@ -6,10 +6,10 @@ export interface ModifiedCartItem extends BillboardDetailDto {
     end_date: string;
 }
 
-export const getModifiedBillboard = async(id: string, start: string, end: string) => {
+export const getModifiedBillboardWithDates = async(id: string, side: string, start: string, end: string) => {
     const billboard = await billboardApi.getBillboardInfo({
         id: id,
-        side: 'A',
+        side,
     });
     const billboardImages = await imagesApi.getBillboardImages({
         id: id,
@@ -25,4 +25,19 @@ export const getModifiedBillboard = async(id: string, start: string, end: string
     };
 
     return modifiedBillboard;
+};
+
+export const getModifiedBillboardInfo: (id: string, side: string) => Promise<BillboardDetailDto> = async(id: string, side: string) => {
+    const billboard = await billboardApi.getBillboardInfo({
+        id: id,
+        side,
+    });
+    const billboardImages = await imagesApi.getBillboardImages({
+        id: id,
+        side: billboard.side,
+    });
+
+    billboard.image_url = import.meta.env.VITE_REACT_APP_API_URL + billboardImages.images[0].file_path;
+
+    return billboard;
 };

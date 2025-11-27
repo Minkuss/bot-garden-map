@@ -1,6 +1,6 @@
 import s from './cartItem.module.scss';
 import { Button } from 'src/shared/ui/button/button';
-import { ModifiedCartItem } from 'src/shared/utils/getModifiedBillboard';
+import { ModifiedCartItem } from 'src/shared/utils/getModifiedBillboardWithDates';
 
 interface ICartItemProps {
     cartItem: ModifiedCartItem;

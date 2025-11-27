@@ -5,9 +5,10 @@ import s from './cart.module.scss';
 import { Button } from 'src/shared/ui/button/button';
 import { useEffect, useState } from 'react';
 import NiceModal from '@ebay/nice-modal-react';
-import CartLeaveOrderModal, { Inputs } from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
+import CartLeaveOrderModal from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
 import { format, parse } from 'date-fns';
-import { getModifiedBillboard, ModifiedCartItem } from 'src/shared/utils/getModifiedBillboard';
+import { getModifiedBillboardWithDates, ModifiedCartItem } from 'src/shared/utils/getModifiedBillboardWithDates';
+import { LeaveOrderInputs } from 'src/entities/order/ui/leaveOrderForm';
 
 export const Cart = () => {
     const { cart, remove, clearCart } = useCart();
@@ -21,7 +22,7 @@ export const Cart = () => {
                 setLoading(true);
 
                 const cartItems = await Promise.all(
-                    cart.map(async item => await getModifiedBillboard(item.id, item.start, item.end)),
+                    cart.map(async item => await getModifiedBillboardWithDates(item.id, item.side, item.start, item.end)),
                 );
 
                 setCartItems(cartItems);
@@ -40,7 +41,7 @@ export const Cart = () => {
 
     const handleShowModal = async() => {
         try {
-            const result: Inputs = await NiceModal.show(CartLeaveOrderModal);
+            const result: LeaveOrderInputs = await NiceModal.show(CartLeaveOrderModal);
 
             const params: BookingCreateParams = {
                 billboards: cartItems.map(it => ({
@@ -59,7 +60,6 @@ export const Cart = () => {
 
             clearCart(params);
         } catch (error) {
-            console.log(error);
             console.log('Модальное окно закрыто без сохранения');
         }
     };

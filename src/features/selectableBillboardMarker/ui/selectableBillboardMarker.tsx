@@ -4,6 +4,8 @@ import { billboardApi, BillboardDetailDto, BillboardMarkerDto } from 'src/entiti
 import './selectableBillboardMarker.scss';
 import { BillboardBalloonCard } from 'src/features/billboardBalloonCard';
 import { imagesApi } from 'src/shared/api/images-service';
+import toast from 'react-hot-toast';
+import gsap from 'gsap';
 
 interface IBillboardMarkerProps {
     billboard: BillboardMarkerDto;
@@ -13,13 +15,22 @@ interface IBillboardMarkerProps {
 const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboardMarkerProps) => {
     const [ billboardInfo, setBillboardInfo ] = useState<BillboardDetailDto>();
     const [ selectedPlaceMarkId, setSelectedPlaceMarkId ] = useState<string>('');
+    const [ billboardSides, setBillboardSides ] = useState<string[]>([]);
+    const [ billboardSideIndex, setBillboardSideIndex ] = useState<number>(0);
+    const [ changedSideFlag, setChangedSideFlag ] = useState(false);
 
-    const getBillboard = async(id: string) => {
+    const getBillboard = async(id: string, sideIndex: number) => {
         try {
+            const billboardFetchedSides = [ 'A', 'B' ]; //todo temp: пример (нужен новый хвост)
+            setBillboardSides(billboardFetchedSides);
+
             const billboard = await billboardApi.getBillboardInfo({
                 id,
-                side: 'A',
+                side: billboardFetchedSides[sideIndex],
             });
+
+            setBillboardSideIndex(sideIndex);
+
             const billboardImages = await imagesApi.getBillboardImages({
                 id,
                 side: billboard.side,
@@ -34,40 +45,107 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
                 ? imagePath
                 : `${baseUrl}${imagePath}`;            
 
+            billboard.image_url = import.meta.env.VITE_REACT_APP_API_URL + billboardImages.images[0].file_path;
+
             setBillboardInfo(billboard);
         } catch (error) {
+            toast.error(error.response.data.detail);
             console.error(error);
         }
     };
 
-    const balloonContentLayout = ymaps.templateLayoutFactory.createClass(
-        BillboardBalloonCard(billboardInfo),
-        {
-            build() {
-                this.constructor.superclass.build.call(this);
-                const events = this.getData().geoObject.events;
+    const balloonContentLayout = useMemo(() => {
+        if (!ymaps?.templateLayoutFactory) return null;
 
-                this.getParentElement().querySelector('.balloon-card__cart-btn')
-                    ?.addEventListener('click', () => {
-                        window.dispatchEvent(new CustomEvent('cartClicked', { detail: { id: billboardInfo?.id } }));
+        return ymaps.templateLayoutFactory.createClass(
+            BillboardBalloonCard(billboardInfo, billboardSideIndex === billboardSides.length - 1),
+            {
+                build() {
+                    this.constructor.superclass.build.call(this);
+                    const events = this.getData().geoObject.events;
+                    const balloonElement = this.getParentElement();
+
+                    if (billboardInfo && !changedSideFlag) {
+                        // Создаем timeline с небольшой задержкой
+                        const tl = gsap.timeline({
+                            defaults: { ease: 'power2.out' },
+                            delay: 0.1,
+                        });
+
+                        tl.fromTo(balloonElement.querySelector('.balloon-card__image-wrapper'), {
+                            rotateY: '5deg',
+                        }, {
+                            rotateY: 0,
+                            duration: 0.4,
+                        }, 0)
+                        .fromTo(balloonElement.querySelector('.balloon-card__side-btn'), {
+                            opacity: 0,
+                            x: 100,
+                        }, {
+                            opacity: 1,
+                            x: -10,
+                            duration: 0.3,
+                        }, 0.1)
+                        .fromTo(balloonElement.querySelector('.balloon-card__info'), {
+                            opacity: 0,
+                        }, {
+                            opacity: 1,
+                            duration: 0.4,
+                        }, 0.2)
+                        .fromTo(balloonElement.querySelectorAll('.balloon-card__info > *'), {
+                            opacity: 0,
+                            x: -100,
+                        }, {
+                            opacity: 1,
+                            x: 0,
+                            stagger: 0.05,
+                            duration: 0.3,
+                        }, 0.3);
+
+                        // Сохраняем timeline для очистки
+                        this._gsapTimeline = tl;
+                    }
+
+                    this.getParentElement().querySelector('.balloon-card__cart-btn')
+                        ?.addEventListener('click', () => {
+                            window.dispatchEvent(new CustomEvent('cartClicked', { detail: { id: billboardInfo?.id, side: billboardInfo?.side } }));
+                        });
+
+                    this.getParentElement().querySelector('.balloon-card__request-btn')
+                        ?.addEventListener('click', () => {
+                            window.dispatchEvent(new CustomEvent('requestClicked', { detail: { id: billboardInfo?.id, side: billboardInfo?.side } }));
+                        });
+
+                    this.getParentElement().querySelector('.balloon-card__detailed-btn')
+                        ?.addEventListener('click', () => {
+                            window.dispatchEvent(new CustomEvent('detailedClicked',
+                                { detail: { id: billboardInfo?.id, side: billboardInfo?.side } }));
+                        });
+
+                    this.getParentElement().querySelector('.balloon-card__side-btn')
+                        ?.addEventListener('click', () => {
+                            if (!billboardInfo) return;
+                            getBillboard(billboardInfo?.id, billboardSideIndex + 1 !== billboardSides.length ? billboardSideIndex + 1 : 0);
+                            setChangedSideFlag(true);
+                        });
+
+                    events.add('balloonclose', () => {
+                        document.getElementById(selectedPlaceMarkId)
+                            ?.classList
+                            .remove('billboard-marker__active');
+                        setBillboardInfo(undefined);
+                        setChangedSideFlag(false);
                     });
-
-                this.getParentElement().querySelector('.balloon-card__request-btn')
-                    ?.addEventListener('click', () => {
-                        window.dispatchEvent(new CustomEvent('requestClicked', { detail: { id: billboardInfo?.id } }));
-                    });
-
-                events.add('balloonclose', () => {
-                    document.getElementById(selectedPlaceMarkId)
-                        ?.classList
-                        .remove('billboard-marker__active');
-                });
+                },
+                clear: function() {
+                    if (this._gsapTimeline) {
+                        this._gsapTimeline.kill();
+                    }
+                    this.constructor.superclass.clear.call(this);
+                },
             },
-            clear: function() {
-                this.constructor.superclass.clear.call(this);
-            },
-        },
-    );
+        );
+    }, [ ymaps.templateLayoutFactory, billboardInfo, billboardSideIndex, billboardSides.length, changedSideFlag, selectedPlaceMarkId ]);
 
     const iconLayout = useMemo(() => {
         if (!ymaps?.templateLayoutFactory) return null;
@@ -103,7 +181,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
 
                         this.getData().geoObject.events.add('click', () => {
                             setSelectedPlaceMarkId(billboard.id);
-                            getBillboard(billboard.id);
+                            getBillboard(billboard.id, 0);
                         });
                     }
                 },

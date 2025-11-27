@@ -1,4 +1,5 @@
 export const routes = {
-    MAP: '/bot-garden-map/',
-    CART: '/bot-garden-map/cart',
+    MAP: '/',
+    CART: '/cart',
+    BILLBOARD_INFO: '/billboard-info/:billboardId/:side',
 };

@@ -19,3 +19,28 @@ h1 {
   font-size: 40px;
   font-weight: 600;
 }
+
+// Yandex Maps Balloon Styles
+.ymaps-2-1-79-balloon {
+  box-shadow: none !important;
+}
+
+.ymaps-2-1-79-balloon__layout {
+  border-radius: 20px;
+  box-shadow: 0 4px 35px 0 #35B44A80 !important;
+}
+
+.ymaps-2-1-79-balloon__close {
+  display: none;
+}
+
+.ymaps-2-1-79-balloon__content {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+//Yandex Maps Styles
+
+.ymaps-2-1-79-map-copyrights-promo {
+  display: none;
+}

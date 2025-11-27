@@ -1,6 +1,6 @@
 .button {
   padding: 10px 18px;
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 500;
   border: 1px solid #35B44A;
   border-radius: 14px;
@@ -24,7 +24,6 @@
 
   &--outlined {
     color: #000;
-    font-size: 15px;
 
     &:hover {
       background-color: #35B44A;

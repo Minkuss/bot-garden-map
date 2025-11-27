@@ -1,0 +1,44 @@
+.yearPicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  font-size: 25px;
+}
+
+.arrow {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+  color: #000;
+  transition: opacity 0.2s ease;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+
+    &:hover {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  &:hover {
+    opacity: 0.6;
+  }
+
+  &:active {
+    opacity: 0.4;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.year {
+  min-width: 50px;
+  text-align: center;
+  color: #000;
+}

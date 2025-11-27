@@ -1,16 +1,83 @@
 .map {
   display: flex;
   flex-direction: column;
-  gap: 53px;
+  gap: 20px;
 
-  .heading {
+  transform: translateY(70%);
+  opacity: 0;
 
-    .dash {
-      color: #35B44A;
+  .map-header {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: #35B44A;
+      }
+
+      &:hover > svg {
+        path {
+          stroke: #35B44A;
+        }
+      }
+
+      svg {
+        width: 43px;
+        height: 43px;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        path, circle {
+          transition:
+                  opacity 0.2s ease,
+                  stroke 0.2s ease,
+                  stroke-dashoffset 0.3s ease,
+                  d 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+      }
     }
 
-    .point {
-      color: #35B44A;
+    .icon-open {
+      // Начальное состояние - иконка слайдеров
+      transform: rotate(0deg);
+    }
+
+    .icon-close {
+      // Крестик - поворот на 90 градусов
+      transform: rotate(-90deg);
+
+      // Скрываем лишние элементы
+      path:nth-child(3),
+      path:nth-child(4),
+      path:nth-child(5),
+      path:nth-child(6),
+      circle {
+        opacity: 0;
+      }
+
+      // Трансформируем первые 2 линии в крестик
+      path:nth-child(1) {
+        d: path("M12 12 L31 31");
+      }
+
+      path:nth-child(2) {
+        d: path("M31 12 L12 31");
+      }
+    }
+
+    .heading {
+      .dash {
+        color: #35B44A;
+      }
+
+      .point {
+        color: #35B44A;
+      }
     }
   }
 }

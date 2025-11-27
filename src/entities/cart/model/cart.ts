@@ -5,6 +5,7 @@ export type CartItem = {
     id: string;
     start: string;
     end: string;
+    side: string;
 };
 
 /**
