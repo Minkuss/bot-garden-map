@@ -6,6 +6,14 @@ import { BillboardBalloonCard } from 'src/features/billboardBalloonCard';
 import toast from 'react-hot-toast';
 import gsap from 'gsap';
 import { getModifiedBillboardInfo } from 'src/shared/utils/getModifiedBillboardWithDates';
+import { BillboardStatusEnumType } from 'src/entities/billboard/enums/billboardStatusEnum';
+import { getMarkerSvgByType } from 'src/features/billboardBalloonCard/utils/getMarkerIcon';
+
+const BILLBOARD_STATUS_COLORS: Record<BillboardStatusEnumType, string> = {
+    available: '#35B44A',
+    reserved: '#F5A623',
+    occupied: '#D93636',
+};
 
 interface IBillboardMarkerProps {
     billboard: BillboardMarkerDto;
@@ -131,9 +139,12 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
     const iconLayout = useMemo(() => {
         if (!ymaps?.templateLayoutFactory) return null;
 
+        const color = BILLBOARD_STATUS_COLORS['available'];
+        const svg = getMarkerSvgByType('banner', color);
+
         return ymaps.templateLayoutFactory.createClass(
-            `<div class='billboard-marker' id={selectedPlaceMarkId}>
-                <div class="billboard-marker__pin"></div>
+            `<div class="billboard-marker" id="${billboard.id}">
+                ${svg}
             </div>`,
             {
                 build: function() {
