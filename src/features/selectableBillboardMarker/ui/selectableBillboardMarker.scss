@@ -7,16 +7,6 @@
   transition: transform 0.2s ease;
   transform: translate(-50%, -100%);
 
-  &__pin {
-    width: 32px;
-    height: 32px;
-    background: #35B44A;
-    border-radius: 50% 50% 50% 0;
-    border: 3px solid white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    transform: rotate(-45deg);
-  }
-
   &__label {
     margin-top: 4px;
     font-size: 12px;
@@ -26,10 +16,6 @@
     padding: 2px 6px;
     border-radius: 4px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  }
-
-  &--active &__pin {
-    background: #44FF44;
   }
 
   &--hover {

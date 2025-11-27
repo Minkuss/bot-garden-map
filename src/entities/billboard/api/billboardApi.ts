@@ -4,15 +4,11 @@ import { BillboardDetailDto } from 'src/entities/billboard/model/billboardDetail
 
 export const billboardApi = {
     async getBillboardsCoords(): Promise<BillboardMarkerDto[]> {
-        const response = await baseApi.get('/billboards/coordinates');
+        const response = await baseApi.get('/bitrix/billboards/coordinates');
         return response.data;
     },
     async getBillboardInfo(params: { id: string, side: string }): Promise<BillboardDetailDto> {
-        const response = await baseApi.get(`/billboards/${params.id}`, {
-            params: {
-                billboard_side: params.side,
-            },
-        });
+        const response = await baseApi.get(`/bitrix/billboards/${params.id}/${params.side}`);
         return response.data;
     },
 };

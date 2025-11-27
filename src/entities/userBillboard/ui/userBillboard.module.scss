@@ -1,0 +1,40 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #35B44A;
+  border-radius: 20px;
+  padding: 20px 32px 41px;
+  font-family: 'Hero Light Bold', sans-serif;
+  font-size: 20px;
+  gap: 18px;
+  min-height: 516px;
+
+  button {
+    margin-top: auto;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    align-self: center;
+
+    .price {
+      font-size: 25px;
+    }
+  }
+
+  .img-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 20px;
+    max-width: 372px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+  }
+}

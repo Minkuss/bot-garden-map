@@ -4,15 +4,17 @@ import s from './link.module.scss';
 
 interface ILinkProps extends PropsWithChildren {
     href: string;
+    onClick?: () => void;
 }
 
 export const Link = (props: ILinkProps) => {
-    const { children, href } = props;
+    const { children, href, onClick } = props;
 
     return (
         <RouterLink
             to={href}
             className={s['link']}
+            onClick={onClick}
         >
             {children}
         </RouterLink>

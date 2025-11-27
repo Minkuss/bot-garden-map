@@ -4,6 +4,8 @@ import { AppLayout } from 'src/app/layout/AppLayout';
 import { MapPage } from 'src/pages/map/ui/page';
 import { CartPage } from 'src/pages/cart/ui/page';
 import { BillboardInfoPage } from 'src/pages/billboardInfo/ui/page';
+import { RegisterPage } from 'src/pages/register/ui/page';
+import { AccountPage } from 'src/pages/account/ui/page';
 
 export const router = createBrowserRouter([
     {
@@ -20,6 +22,14 @@ export const router = createBrowserRouter([
             {
                 path: routes.BILLBOARD_INFO,
                 element: <BillboardInfoPage/>,
+            },
+            {
+                path: routes.REGISTER,
+                element: <RegisterPage/>,
+            },
+            {
+                path: routes.ACCOUNT,
+                element: <AccountPage/>,
             },
         ],
     },

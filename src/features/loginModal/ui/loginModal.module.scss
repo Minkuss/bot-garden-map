@@ -1,0 +1,49 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 60px 70px;
+  gap: 36px;
+  font-size: 20px;
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    gap: 31px;
+    align-items: center;
+
+    .title {
+      font-size: 30px;
+      font-family: "Hero Light Bold", sans-serif;
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+
+    button {
+      padding: 11px 57px;
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 17px;
+
+      .link {
+        font-size: 17px;
+        font-family: "Hero Light Regular", sans-serif;
+        color: #35B44A;
+        transition: color 0.3s ease;
+        cursor: pointer;
+
+        &:hover {
+          color: black;
+        }
+      }
+    }
+  }
+}

@@ -9,6 +9,7 @@ import CheckedLight from 'src/app/assets/images/svg/checked_light.svg?react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import s from './leaveOrderModal.module.scss';
+import { EMAIL_PATTERN, PHONE_PATTERN } from 'src/shared/utils/regsPatterns';
 
 export interface LeaveOrderInputs {
     lastName: string;
@@ -33,9 +34,6 @@ interface ILeaveOrderFormProps {
     values?: FormValues;
     showMonthInput?: boolean;
 }
-
-const PHONE_PATTERN = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const LeaveOrderForm = (props: ILeaveOrderFormProps) => {
     const { onSubmitted, values, billboardId, side, showMonthInput = true } = props;
