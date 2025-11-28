@@ -5,8 +5,8 @@ import { Button } from 'src/shared/ui/button/button';
 const mock = {
     src: 'https://rpk-rostov.ru/wp-content/uploads/2021/10/fl1455871649-2048x1574-min-1024x787.jpg',
     address: 'Ул. Некрасова - Серышева',
-    startDate: format(new Date('2025-11-27'), 'dd-MM-yyyy'),
-    endDate: format(new Date('2025-11-30'), 'dd-MM-yyyy'),
+    startDate: format(new Date('2025-11-27'), 'dd.MM.yyyy'),
+    endDate: format(new Date('2025-11-30'), 'dd.MM.yyyy'),
     price: '34000',
 };
 

@@ -155,7 +155,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
 
                     this.getData().options.set('shape', {
                         type: 'Circle',
-                        coordinates: offset || [ 0, 0 ],
+                        coordinates: offset || [ 5, -20 ],
                         radius: (size?.[0] || 40) / 2,
                     });
 
