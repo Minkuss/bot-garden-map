@@ -1,7 +1,7 @@
 import { BillboardTypeEnumType } from 'src/entities/billboard/enums/billboardTypeEnum';
 
 const getBannerSvg = (color: string) => `
-<svg width="40" height="50" viewBox="0 0 25 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="30" height="40" viewBox="0 0 25 33" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M13 1.5C19.3513 1.5 24.5 6.64873 24.5 13C24.5 16.2097 23.1888 20.8768 21.0479 24.7432C19.9798 26.6718 18.7201 28.374 17.3408 29.5879C15.9608 30.8024 14.4949 31.5 13 31.5C11.5051 31.5 10.0392 30.8024 8.65918 29.5879C7.27988 28.374 6.02016 26.6718 4.95215 24.7432C2.81117 20.8768 1.5 16.2097 1.5 13C1.5 6.64873 6.64873 1.5 13 1.5Z" fill="white" stroke="${color}"/>
 <path d="M19 9V21" stroke="${color}" stroke-width="1.73333" stroke-linecap="round"/>
 <path d="M7 9V21" stroke="${color}" stroke-width="1.73333" stroke-linecap="round"/>
@@ -24,7 +24,7 @@ const getBannerSvg = (color: string) => `
 `;
 
 const getPrismSvg = (color: string) => `
-<svg width="40" height="50" viewBox="0 0 24 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="30" height="40" viewBox="0 0 24 31" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M12 0.5C18.3513 0.5 23.5 5.64873 23.5 12C23.5 15.2097 22.1888 19.8768 20.0479 23.7432C18.9798 25.6718 17.7201 27.374 16.3408 28.5879C14.9608 29.8024 13.4949 30.5 12 30.5C10.5051 30.5 9.03924 29.8024 7.65918 28.5879C6.27988 27.374 5.02016 25.6718 3.95215 23.7432C1.81117 19.8768 0.5 15.2097 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5Z" fill="white" stroke="${color}"/>
 <g filter="url(#filter0_d_453_384)">
 <path d="M19.1169 9L16.5288 18.9995" stroke="${color}" stroke-width="2" stroke-miterlimit="16" stroke-linecap="square"/>
@@ -135,7 +135,7 @@ const getPrismSvg = (color: string) => `
 </svg>
 `;
 const getScrollSvg = (color: string) => `
-<svg width="40" height="50" viewBox="0 0 25 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="30" height="40" viewBox="0 0 25 31" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M13 0.5C19.3513 0.5 24.5 5.64873 24.5 12C24.5 15.2097 23.1888 19.8768 21.0479 23.7432C19.9798 25.6718 18.7201 27.374 17.3408 28.5879C15.9608 29.8024 14.4949 30.5 13 30.5C11.5051 30.5 10.0392 29.8024 8.65918 28.5879C7.27988 27.374 6.02016 25.6718 4.95215 23.7432C2.81117 19.8768 1.5 15.2097 1.5 12C1.5 5.64873 6.64873 0.5 13 0.5Z" fill="white" stroke="${color}"/>
 <path d="M13 13V22" stroke="${color}" stroke-width="4" stroke-linecap="round"/>
 <g filter="url(#filter0_d_453_398)">

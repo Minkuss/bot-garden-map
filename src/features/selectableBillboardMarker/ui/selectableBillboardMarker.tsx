@@ -13,6 +13,7 @@ const BILLBOARD_STATUS_COLORS: Record<BillboardStatusEnumType, string> = {
     available: '#35B44A',
     reserved: '#F5A623',
     occupied: '#D93636',
+    maintenance: '#35B44A',
 };
 
 interface IBillboardMarkerProps {
@@ -139,8 +140,8 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
     const iconLayout = useMemo(() => {
         if (!ymaps?.templateLayoutFactory) return null;
 
-        const color = BILLBOARD_STATUS_COLORS['available'];
-        const svg = getMarkerSvgByType('banner', color);
+        const color = BILLBOARD_STATUS_COLORS['occupied'];
+        const svg = getMarkerSvgByType('scroll', color);
 
         return ymaps.templateLayoutFactory.createClass(
             `<div class="billboard-marker" id="${billboard.id}">
@@ -155,8 +156,8 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
 
                     this.getData().options.set('shape', {
                         type: 'Circle',
-                        coordinates: offset || [ 5, -20 ],
-                        radius: (size?.[0] || 40) / 2,
+                        coordinates: offset || [ 5, -15 ],
+                        radius: (size?.[0] || 30) / 2,
                     });
 
                     const element = this.getParentElement()

@@ -10,6 +10,8 @@ import toast from 'react-hot-toast';
 import s from './registerForm.module.scss';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { useNavigate } from 'react-router-dom';
+import { routes } from 'src/shared/routes';
 
 interface RegisterInputs {
     lastName: string;
@@ -29,6 +31,7 @@ export const RegisterForm = () => {
         watch,
     } = useForm<RegisterInputs>();
     const formRef = useRef<HTMLFormElement>(null);
+    const navigate = useNavigate();
 
     const [ checked, setChecked ] = useState(false);
     const [ phoneError, setPhoneError ] = useState(false);
@@ -62,7 +65,9 @@ export const RegisterForm = () => {
             toast.error('Введите корректный email');
             return;
         }
-        console.log(data);
+
+        //todo
+        navigate(routes.MAP);
     };
 
     useGSAP(() => {
