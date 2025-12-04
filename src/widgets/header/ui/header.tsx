@@ -2,7 +2,6 @@ import s from './header.module.scss';
 import { Link } from 'src/shared/ui/link/link';
 import botSadLogo from 'src/app/assets/images/bot-sad-logo.png';
 import BasketLight from 'src/app/assets/images/svg/basket-light.svg?react';
-import { useCart } from 'src/entities/cart';
 import { routes } from 'src/shared/routes';
 import { Container } from 'src/shared/ui/container/container';
 import { useEffect, useRef } from 'react';
@@ -17,9 +16,9 @@ import UserIcon from 'src/app/assets/images/svg/user.svg?react';
 import { useStore } from 'src/shared/store';
 
 export const Header = () => {
-    const { cart } = useCart();
     const user = useStore(state => state.user);
     const login = useStore(state => state.login);
+    const cart = useStore(state => state.cart);
 
     const cartRef = useRef<HTMLLIElement>(null);
     const { contextSafe } = useGSAP({ scope: cartRef });

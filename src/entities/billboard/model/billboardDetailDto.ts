@@ -9,7 +9,7 @@ export interface BillboardDetailDto {
     longitude: number;
     latitude: number;
     size: string;
-    side: string | null;
+    side: string;
     lighting: boolean;
     type: BillboardTypeEnumType;
     status: BillboardStatusEnumType | null;

@@ -7,13 +7,14 @@ import toast from 'react-hot-toast';
 import { MonthRangeInput, SelectedMonth } from 'src/shared/ui/monthRangeInput/monthRangeInput';
 import { useBillboardPrice } from 'src/shared/hooks/useBillboardPrice';
 import { SkeletonLoader } from 'src/shared/ui/skeletonLoader/skeletonLoader';
-import { BookingCreateParams, useCart } from 'src/entities/cart';
+import { BookingCreateParams } from 'src/entities/cart';
 import { getDateRangeFromSelection } from 'src/features/selectDateRangeModal/utils/getDateRangeFromSelection';
 import { format, parse } from 'date-fns';
 import s from './detailedBillboardInfo.module.scss';
 import { LeaveOrderInputs } from 'src/entities/order/ui/leaveOrderForm';
 import NiceModal from '@ebay/nice-modal-react';
 import CartLeaveOrderModal from 'src/features/cartLeaveOrderModal/ui/cartLeaveOrderModal';
+import { useStore } from 'src/shared/store';
 
 interface IDetailedBillboardInfoProps {
     billboardId: string;
@@ -29,7 +30,9 @@ export const DetailedBillboardInfo = (props: IDetailedBillboardInfoProps) => {
     const [ selectedMonths, setSelectedMonths ] = useState<SelectedMonth[]>([]);
     const [ loading, setLoading ] = useState<boolean>(true);
     const contentWrapperRef = useRef<HTMLDivElement>(null);
-    const { add, cart, clearCart } = useCart();
+    const add = useStore(store => store.addToCart);
+    const cart = useStore(store => store.cart);
+    const clearCart = useStore(store => store.clearCart);
 
     const dates = useMemo(() => getDateRangeFromSelection(selectedMonths), [ selectedMonths ]);
 
@@ -50,7 +53,12 @@ export const DetailedBillboardInfo = (props: IDetailedBillboardInfoProps) => {
             return;
         }
 
-        add(billboardId, side, start, end);
+        add({
+            id: billboardId,
+            side,
+            start,
+            end,
+        });
 
         toast.success('Товар добавлен в корзину.');
     };
