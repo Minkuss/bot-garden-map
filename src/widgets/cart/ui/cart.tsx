@@ -1,4 +1,4 @@
-import { BookingCreateParams, useCart } from 'src/entities/cart';
+import { BookingCreateParams } from 'src/entities/cart';
 import { CartItem } from 'src/entities/cart/ui/cartItem';
 import plural from 'plural-ru';
 import s from './cart.module.scss';
@@ -9,9 +9,12 @@ import CartLeaveOrderModal from 'src/features/cartLeaveOrderModal/ui/cartLeaveOr
 import { format, parse } from 'date-fns';
 import { getModifiedBillboardWithDates, ModifiedCartItem } from 'src/shared/utils/getModifiedBillboardWithDates';
 import { LeaveOrderInputs } from 'src/entities/order/ui/leaveOrderForm';
+import { useStore } from 'src/shared/store';
 
 export const Cart = () => {
-    const { cart, remove, clearCart } = useCart();
+    const cart = useStore(store => store.cart);
+    const remove = useStore(store => store.removeFromCart);
+    const clearCart = useStore(store => store.clearCart);
     const [ cartItems, setCartItems ] = useState<ModifiedCartItem[]>([]);
     const [ totalCost, setTotalCost ] = useState<number>(0);
     const [ loading, setLoading ] = useState(false);

@@ -2,23 +2,27 @@ import { Checkbox } from 'src/shared/ui/checkbox/checkbox';
 import s from './filterSection.module.scss';
 import { useEffect, useState } from 'react';
 import CheckedLight from 'src/app/assets/images/svg/checked_light.svg?react';
+import { EnumEntry, EnumMap, EnumValue } from 'src/entities/billboard/enums/enum';
 
-interface IFilterSectionProps {
+interface FilterSectionProps<TEnum extends EnumMap> {
     title: string;
-    items: string[];
-    value: string[];
-
-    onChangeFilters: (filters: string[]) => void;
+    enumMap: TEnum;
+    value: EnumValue<TEnum>[];
+    onChangeFilters: (filters: EnumValue<TEnum>[]) => void;
 }
 
-export const FilterSection = (props: IFilterSectionProps) => {
-    const { title, items, onChangeFilters, value } = props;
+export const FilterSection = <TEnum extends EnumMap>(
+    props: FilterSectionProps<TEnum>,
+) => {
+    const { title, enumMap, onChangeFilters, value } = props;
 
-    const [ filters, setFilters ] = useState<string[]>([]);
+    const [ filters, setFilters ] = useState<EnumValue<TEnum>[]>([]);
 
     useEffect(() => {
         setFilters(value);
     }, [ value ]);
+
+    const options = Object.values(enumMap) as EnumEntry<TEnum>[];
 
     return (
         <div
@@ -33,30 +37,28 @@ export const FilterSection = (props: IFilterSectionProps) => {
             <ul
                 className={s['list']}
             >
-                {
-                    items.map(item => (
-                        <li
-                            key={item}
-                        >
-                            <Checkbox
-                                icon={<CheckedLight/>}
-                                id={item}
-                                className={s['checkbox']}
-                                checked={filters.includes(item)}
-                                onChange={e => {
-                                    const newFilters = e.target.checked
-                                        ? [ ...filters, item ]
-                                        : filters.filter(filter => filter !== item);
+                {options.map(opt => (
+                    <li
+                        key={opt.value}
+                    >
+                        <Checkbox
+                            icon={<CheckedLight />}
+                            id={String(opt.value)}
+                            className={s['checkbox']}
+                            checked={filters.includes(opt.value)}
+                            onChange={e => {
+                                const newFilters = e.target.checked
+                                    ? [ ...filters, opt.value ]
+                                    : filters.filter(filter => filter !== opt.value);
 
-                                    setFilters(newFilters);
-                                    onChangeFilters(newFilters);
-                                }}
-                            >
-                                {item}
-                            </Checkbox>
-                        </li>
-                    ))
-                }
+                                setFilters(newFilters);
+                                onChangeFilters(newFilters);
+                            }}
+                        >
+                            {opt.name}
+                        </Checkbox>
+                    </li>
+                ))}
             </ul>
         </div>
     );

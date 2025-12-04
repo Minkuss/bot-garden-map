@@ -26,7 +26,7 @@ export const CartItem = (props: ICartItemProps) => {
                 >
                     <img
                         className={s['banner-image']}
-                        src={cartItem?.image_url}
+                        src={cartItem?.photo_url}
                         alt={'Баннер'}
                     />
                 </div>

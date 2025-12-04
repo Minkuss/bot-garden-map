@@ -5,30 +5,30 @@ import { StatusFilter } from 'src/features/billboardsMapSideMenu/ui/billboardsFi
 import { SizeFilter } from 'src/features/billboardsMapSideMenu/ui/billboardsFilters/sizeFilter/sizeFilter';
 import { MonthRangeInput, SelectedMonth } from 'src/shared/ui/monthRangeInput/monthRangeInput';
 import { RangeSlider } from 'src/shared/ui/rangeSlider/rangeSlider';
-import { useMapFilters } from 'src/features/billboardsMapSideMenu/hooks/useMapFilters';
 import { useRef, useState } from 'react';
 import { getDateRangeFromSelection } from 'src/features/selectDateRangeModal/utils/getDateRangeFromSelection';
 import toast from 'react-hot-toast';
+import { useStore } from 'src/shared/store';
 
 export const BillboardsFilters = () => {
-    const { filters, updateFilter, resetFilters } = useMapFilters({
-        districts: [],
-        constructionTypes: [],
-        status: [],
-        sizes: [],
-        monthRange: null,
-        priceRange: [ 0, 100000 ],
-    });
+    const filters = useStore(store => store.filters);
+    const updateFilter = useStore(store => store.updateFilter);
+    const resetFilters = useStore(store => store.resetFilters);
+
+    console.log(filters);
+
     const [ selectedMonth, setSelectedMonth ] = useState<SelectedMonth[]>([]);
     const filterListRef = useRef<HTMLDivElement>(null);
 
     const handleMonthRangeChange = (months: SelectedMonth[]) => {
-        updateFilter('monthRange', getDateRangeFromSelection(months));
+        //todo: потом добавить когда появится на бэке
+        // updateFilter('monthRange', getDateRangeFromSelection(months));
         setSelectedMonth(months);
     };
 
     const handlePriceChange = (min: number, max: number) => {
-        updateFilter('priceRange', [ min, max ]);
+        updateFilter('min_price', min);
+        updateFilter('max_price', max);
     };
 
     const handleResetFilters = () => {
@@ -53,34 +53,34 @@ export const BillboardsFilters = () => {
                 ref={filterListRef}
             >
                 <DistrictFilter
-                    value={filters.districts}
-                    onChangeFilters={filters => updateFilter('districts', filters)}
+                    value={filters.district}
+                    onChangeFilters={filters => updateFilter('district', filters)}
                 />
                 <ConstructionTypeFilter
-                    value={filters.constructionTypes}
-                    onChangeFilters={filters => updateFilter('constructionTypes', filters)}
+                    value={filters.billboard_type}
+                    onChangeFilters={filters => updateFilter('billboard_type', filters)}
                 />
                 <StatusFilter
-                    value={filters.status}
-                    onChangeFilters={filters => updateFilter('status', filters)}
+                    value={filters.billboard_status}
+                    onChangeFilters={filters => updateFilter('billboard_status', filters)}
                 />
                 <SizeFilter
-                    value={filters.sizes}
-                    onChangeFilters={filters => updateFilter('sizes', filters)}
+                    value={filters.billboard_size}
+                    onChangeFilters={filters => updateFilter('billboard_size', filters)}
                 />
-                <div
-                    className={s['month-filter']}
-                >
-                    <h5
-                        className={s['month-title']}
-                    >
-                        Месяцы
-                    </h5>
-                    <MonthRangeInput
-                        value={selectedMonth}
-                        onMonthsChange={handleMonthRangeChange}
-                    />
-                </div>
+                {/*<div*/}
+                {/*    className={s['month-filter']}*/}
+                {/*>*/}
+                {/*    <h5*/}
+                {/*        className={s['month-title']}*/}
+                {/*    >*/}
+                {/*        Месяцы*/}
+                {/*    </h5>*/}
+                {/*    <MonthRangeInput*/}
+                {/*        value={selectedMonth}*/}
+                {/*        onMonthsChange={handleMonthRangeChange}*/}
+                {/*    />*/}
+                {/*</div>*/}
                 <RangeSlider
                     min={0}
                     max={100000}
@@ -89,7 +89,7 @@ export const BillboardsFilters = () => {
                     maxValue={100000}
                     label={'Цена'}
                     suffix={'₽'}
-                    value={filters.priceRange}
+                    value={[ filters.min_price, filters.max_price ]}
                     onChange={handlePriceChange}
                 />
             </div>

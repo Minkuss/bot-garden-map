@@ -2,7 +2,7 @@ import { Map, YMaps } from '@pbe/react-yandex-maps';
 import { useEffect, useRef, useState } from 'react';
 import { billboardApi, BillboardMarkerDto } from 'src/entities/billboard';
 import { SelectableBillboardMarker } from 'src/features/selectableBillboardMarker';
-import { BookingCreateParams, useCart } from 'src/entities/cart';
+import { BookingCreateParams } from 'src/entities/cart';
 import NiceModal from '@ebay/nice-modal-react';
 import SelectDateRangeModal from 'src/features/selectDateRangeModal/ui/selectDateRangeModal';
 import { format, parse } from 'date-fns';
@@ -15,12 +15,15 @@ import { BillboardsMapSideMenu } from 'src/features/billboardsMapSideMenu/ui/bil
 import { generatePath, useNavigate } from 'react-router-dom';
 import { routes } from 'src/shared/routes';
 import { LeaveOrderInputs } from 'src/entities/order/ui/leaveOrderForm';
+import { useStore } from 'src/shared/store';
 
 export const BillboardsMap = () => {
     const navigate = useNavigate();
     const [ billboardsMarkers, setBillboardsMarkers ] = useState<BillboardMarkerDto[]>([]);
-    const { add, clearCart } = useCart();
+    const add = useStore(store => store.addToCart);
+    const clearCart = useStore(store => store.clearCart);
     const mapRef = useRef<any>(null);
+    const filters = useStore(state => state.filters);
 
     /**
      * Слушаем ивент на нажатие "Добавить в корзину" в карточке баннера на карте
@@ -35,7 +38,12 @@ export const BillboardsMap = () => {
                 const start = format(result.startDate, 'dd.MM.yyyy');
                 const end = format(result.endDate, 'dd.MM.yyyy');
 
-                add(id, side, start, end);
+                add({
+                    id,
+                    side,
+                    start,
+                    end,
+                });
 
                 toast.success('Товар добавлен в корзину');
             } catch (error) {
@@ -121,15 +129,15 @@ export const BillboardsMap = () => {
     useEffect(() => {
         const loadBillBoardsMarkers = async() => {
             try {
-                const data = await billboardApi.getBillboardsCoords();
-                setBillboardsMarkers(data);
+                const data = await billboardApi.getBillboardsCoords(filters);
+                setBillboardsMarkers(data.coordinates);
             } catch (error) {
                 console.error(error);
             }
         };
 
         loadBillBoardsMarkers();
-    }, []);
+    }, [ filters ]);
 
     /**
      * Сайд эффект для закрытия балуна при клике на свободное место на карте

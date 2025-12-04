@@ -10,7 +10,7 @@ export function BillboardBalloonCard(billboardInfo: BillboardDetailDto | undefin
             billboardInfo
                 ? `
                     <img
-                      src=${billboardInfo?.image_url}
+                      src=${billboardInfo?.photo_url}
                       alt="Баннер"
                       class="balloon-card__image"
                     />
@@ -43,7 +43,7 @@ export function BillboardBalloonCard(billboardInfo: BillboardDetailDto | undefin
                       Адрес: ${billboardInfo?.address ?? ''}
                     </span>
                     <span>
-                      Размер: ${billboardInfo?.width ?? ''}x${billboardInfo?.height ?? ''}
+                      Размер: ${billboardInfo.size ?? ''}
                     </span>
                     <span>
                       Тип: ${billboardInfo?.type ? BillboardTypeEnum[billboardInfo?.type].name : 'Неизвестен'}

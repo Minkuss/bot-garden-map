@@ -1,5 +1,4 @@
 import { billboardApi, BillboardDetailDto } from 'src/entities/billboard';
-import { imagesApi } from 'src/shared/api/images-service';
 
 export interface ModifiedCartItem extends BillboardDetailDto {
     start_date: string;
@@ -11,19 +10,6 @@ export const getModifiedBillboardWithDates = async(id: string, side: string, sta
         id: id,
         side,
     });
-    const billboardImages = await imagesApi.getBillboardImages({
-        id: id,
-        side: billboard.side,
-    });
-
-    const baseUrl = import.meta.env.VITE_API_URL || '';
-    const imagePath = billboardImages.images[0].file_path;
-
-    //todo
-    // billboard.image_url = imagePath.startsWith('http')
-    //     ? imagePath
-    //     : `${baseUrl}${imagePath}`;
-    billboard.image_url = import.meta.env.VITE_REACT_APP_API_URL + billboardImages.images[0].file_path;
 
     const modifiedBillboard: ModifiedCartItem = {
         ...billboard,
@@ -34,23 +20,8 @@ export const getModifiedBillboardWithDates = async(id: string, side: string, sta
     return modifiedBillboard;
 };
 
-export const getModifiedBillboardInfo: (id: string, side: string) => Promise<BillboardDetailDto> = async(id: string, side: string) => {
-    const billboard = await billboardApi.getBillboardInfo({
+export const getModifiedBillboardInfo: (id: string, side: string) => Promise<BillboardDetailDto> = async(id: string, side: string) =>
+    await billboardApi.getBillboardInfo({
         id: id,
         side,
     });
-    const billboardImages = await imagesApi.getBillboardImages({
-        id: id,
-        side: billboard.side,
-    });
-
-    const baseUrl = import.meta.env.VITE_API_URL || '';
-    const imagePath = billboardImages.images[0].file_path;
-
-    // billboard.image_url = imagePath.startsWith('http')
-    //     ? imagePath
-    //     : `${baseUrl}${imagePath}`;
-    billboard.image_url = import.meta.env.VITE_REACT_APP_API_URL + billboardImages.images[0].file_path;
-
-    return billboard;
-};

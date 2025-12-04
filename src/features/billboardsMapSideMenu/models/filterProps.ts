@@ -1,4 +1,4 @@
-export interface FilterProps {
-    onChangeFilters: (filters: string[]) => void;
-    value: string[];
+export interface FilterProps<TValue> {
+    onChangeFilters: (filters: TValue[]) => void;
+    value: TValue[];
 }

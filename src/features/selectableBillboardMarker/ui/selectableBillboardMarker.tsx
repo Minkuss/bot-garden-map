@@ -30,16 +30,16 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
 
     const getBillboard = async(id: string, sideIndex: number) => {
         try {
-            const billboardFetchedSides = [ 'A', 'B' ]; //todo temp: пример (нужен новый хвост)
+            const billboardFetchedSides = [ 'А', 'Б' ]; //todo temp: пример (нужен новый хвост)
             setBillboardSides(billboardFetchedSides);
-
-            setBillboardSideIndex(sideIndex);
 
             const billboard = await getModifiedBillboardInfo(id, billboardFetchedSides[sideIndex]);
 
+            setBillboardSideIndex(sideIndex);
+
             setBillboardInfo(billboard);
         } catch (error) {
-            toast.error(error.response.data.detail);
+            toast.error(error.response.data.detail.message);
             console.error(error);
         }
     };
@@ -140,8 +140,8 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
     const iconLayout = useMemo(() => {
         if (!ymaps?.templateLayoutFactory) return null;
 
-        const color = BILLBOARD_STATUS_COLORS['occupied'];
-        const svg = getMarkerSvgByType('scroll', color);
+        const color = BILLBOARD_STATUS_COLORS['available'];
+        const svg = getMarkerSvgByType(billboard.type, color);
 
         return ymaps.templateLayoutFactory.createClass(
             `<div class="billboard-marker" id="${billboard.id}">
