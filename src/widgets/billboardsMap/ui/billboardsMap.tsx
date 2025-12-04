@@ -1,5 +1,5 @@
 import { Map, YMaps } from '@pbe/react-yandex-maps';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { billboardApi, BillboardMarkerDto } from 'src/entities/billboard';
 import { SelectableBillboardMarker } from 'src/features/selectableBillboardMarker';
 import { BookingCreateParams } from 'src/entities/cart';
