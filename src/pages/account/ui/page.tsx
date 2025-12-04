@@ -1,15 +1,15 @@
 import { AccountUserInfo } from 'src/widgets/accountUserInfo/ui/accountUserInfo';
 import { Container } from 'src/shared/ui/container/container';
 import { AccountBillboardsInfo } from 'src/widgets/accountBillboardsInfo/ui/accountBillboardsInfo';
-import { useAuth } from 'src/shared/auth/hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 import { routes } from 'src/shared/routes';
 import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { useStore } from 'src/shared/store';
 
 export const AccountPage = () => {
-    const { user } = useAuth();
+    const user = useStore(state => state.user);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {

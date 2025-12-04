@@ -12,13 +12,14 @@ import classNames from 'classnames';
 import { HeaderLink } from './headerLink/headerLink';
 import NiceModal from '@ebay/nice-modal-react';
 import LoginModal, { LoginInputs } from 'src/features/loginModal/ui/loginModal';
-import { useAuth } from 'src/shared/auth/hooks/useAuth';
 import toast from 'react-hot-toast';
 import UserIcon from 'src/app/assets/images/svg/user.svg?react';
+import { useStore } from 'src/shared/store';
 
 export const Header = () => {
     const { cart } = useCart();
-    const { login, user } = useAuth();
+    const user = useStore(state => state.user);
+    const login = useStore(state => state.login);
 
     const cartRef = useRef<HTMLLIElement>(null);
     const { contextSafe } = useGSAP({ scope: cartRef });
