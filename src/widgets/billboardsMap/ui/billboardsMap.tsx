@@ -122,7 +122,7 @@ export const BillboardsMap = () => {
         const loadBillBoardsMarkers = async() => {
             try {
                 const data = await billboardApi.getBillboardsCoords();
-                setBillboardsMarkers(data);
+                setBillboardsMarkers(data.coordinates);
             } catch (error) {
                 console.error(error);
             }

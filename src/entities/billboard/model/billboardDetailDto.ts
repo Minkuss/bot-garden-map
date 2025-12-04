@@ -5,16 +5,16 @@ export interface BillboardDetailDto {
     id: string;
     address: string;
     city: string;
+    city_district: string;
     longitude: number;
     latitude: number;
-    width: number;
-    height: number;
-    side: string;
+    size: string;
+    side: string | null;
     lighting: boolean;
     type: BillboardTypeEnumType;
-    status: BillboardStatusEnumType;
+    status: BillboardStatusEnumType | null;
     rent_price: number;
     service_price: number;
     manufacturing_cost: number;
-    image_url: string;
+    photo_url: string | null;
 }
