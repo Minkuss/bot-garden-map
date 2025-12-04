@@ -1,5 +1,5 @@
 import { Map, YMaps } from '@pbe/react-yandex-maps';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { billboardApi, BillboardMarkerDto } from 'src/entities/billboard';
 import { SelectableBillboardMarker } from 'src/features/selectableBillboardMarker';
 import { BookingCreateParams } from 'src/entities/cart';
@@ -163,7 +163,7 @@ export const BillboardsMap = () => {
         <div
             className={s['map']}
         >
-            <BillboardsMapSideMenu/>
+            <BillboardsMapSideMenu billboards={billboardsMarkers}/>
             <YMaps
                 query={{
                     apikey: import.meta.env.VITE_YANDEX_MAPS_API_KEY,

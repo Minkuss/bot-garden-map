@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Placemark, withYMaps } from '@pbe/react-yandex-maps';
-import { BillboardDetailDto, BillboardMarkerDto } from 'src/entities/billboard';
+import { billboardApi, BillboardDetailDto, BillboardMarkerDto } from 'src/entities/billboard';
 import './selectableBillboardMarker.scss';
 import { BillboardBalloonCard } from 'src/features/billboardBalloonCard';
 import toast from 'react-hot-toast';
@@ -30,7 +30,8 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
 
     const getBillboard = async(id: string, sideIndex: number) => {
         try {
-            const billboardFetchedSides = [ 'А', 'Б' ]; //todo temp: пример (нужен новый хвост)
+            //todo: подумать как оптимизировать чтобы при переключении сторон не фетчить их повторно
+            const billboardFetchedSides = await billboardApi.getBillboardSides(id);
             setBillboardSides(billboardFetchedSides);
 
             const billboard = await getModifiedBillboardInfo(id, billboardFetchedSides[sideIndex]);
@@ -48,7 +49,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
         if (!ymaps?.templateLayoutFactory) return null;
 
         return ymaps.templateLayoutFactory.createClass(
-            BillboardBalloonCard(billboardInfo, billboardSideIndex === billboardSides.length - 1),
+            BillboardBalloonCard(billboardInfo, billboardSides.length === 1 ? false : billboardSideIndex === billboardSides.length - 1),
             {
                 build() {
                     this.constructor.superclass.build.call(this);
@@ -140,7 +141,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
     const iconLayout = useMemo(() => {
         if (!ymaps?.templateLayoutFactory) return null;
 
-        const color = BILLBOARD_STATUS_COLORS['available'];
+        const color = BILLBOARD_STATUS_COLORS['available']; //todo хардкод, потом убрать когда появится поле на бэке
         const svg = getMarkerSvgByType(billboard.type, color);
 
         return ymaps.templateLayoutFactory.createClass(

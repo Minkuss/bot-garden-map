@@ -6,8 +6,15 @@ import { SideMenuHeader } from 'src/features/billboardsMapSideMenu/ui/sideMenuHe
 import { BillboardsFilters } from 'src/features/billboardsMapSideMenu/ui/billboardsFilters/billboardsFilters';
 import classNames from 'classnames';
 import { BillboardsSideList } from 'src/features/billboardsMapSideMenu/ui/billboardsSideList/billboardsSideList';
+import { BillboardMarkerDto } from 'src/entities/billboard';
 
-export const BillboardsMapSideMenu = () => {
+interface IBillboardsMapSideMenuProps {
+    billboards: BillboardMarkerDto[];
+}
+
+export const BillboardsMapSideMenu = (props: IBillboardsMapSideMenuProps) => {
+    const { billboards } = props;
+
     const [ show, setShow ] = useState(false);
     const [ selectedTab, setSelectedTab ] = useState(0);
     const wrapperRef = useRef<HTMLDivElement>(null);
@@ -42,7 +49,7 @@ export const BillboardsMapSideMenu = () => {
                 />
                 {
                     selectedTab === 0
-                        ? <BillboardsSideList/>
+                        ? <BillboardsSideList billboards={billboards} />
                         : <BillboardsFilters/>
                 }
             </div>

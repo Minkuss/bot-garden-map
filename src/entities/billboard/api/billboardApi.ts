@@ -14,8 +14,8 @@ export const billboardApi = {
         const response = await baseApi.get(`/bitrix/billboards/${params.id}/${params.side}`);
         return response.data;
     },
-    async getBillboardSides(params: { id: string }): Promise<string[]> {
-        const response = await baseApi.get(`/bitrix/screens/${params.id}`);
+    async getBillboardSides(id: string): Promise<string[]> {
+        const response = await baseApi.get(`/bitrix/screens/${id}`);
         return response.data;
     },
 };

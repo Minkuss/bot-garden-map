@@ -15,8 +15,6 @@ export const BillboardsFilters = () => {
     const updateFilter = useStore(store => store.updateFilter);
     const resetFilters = useStore(store => store.resetFilters);
 
-    console.log(filters);
-
     const [ selectedMonth, setSelectedMonth ] = useState<SelectedMonth[]>([]);
     const filterListRef = useRef<HTMLDivElement>(null);
 
