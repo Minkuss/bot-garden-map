@@ -21,6 +21,8 @@ export const BillboardsSideList = (props: IBillboardsSideListProps) => {
                         address={billboard.address}
                         rent_price={billboard.rent_price}
                         image_url={billboard.photo_url}
+                        long={billboard.longitude}
+                        lat={billboard.latitude}
                     />
                 ))
             }

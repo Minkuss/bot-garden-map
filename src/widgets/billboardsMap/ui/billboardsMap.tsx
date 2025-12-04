@@ -24,6 +24,7 @@ export const BillboardsMap = () => {
     const clearCart = useStore(store => store.clearCart);
     const mapRef = useRef<any>(null);
     const filters = useStore(state => state.filters);
+    const zoomCoords = useStore(store => store.zoomCoords);
 
     /**
      * Слушаем ивент на нажатие "Добавить в корзину" в карточке баннера на карте
@@ -158,6 +159,14 @@ export const BillboardsMap = () => {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ mapRef.current ]);
+
+    useEffect(() => {
+        if (!mapRef.current || !zoomCoords) return;
+
+        mapRef.current.setCenter([ zoomCoords.lat, zoomCoords.long ], 15, {
+            duration: 300,
+        });
+    }, [ zoomCoords ]);
 
     return (
         <div
