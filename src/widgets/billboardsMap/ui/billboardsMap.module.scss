@@ -1,6 +1,8 @@
 .map {
   position: relative;
-  height: 600px;
+  height: calc(100vh - 200px);
+  min-height: 500px;
+  max-height: 1200px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 4px 35px 0 #35B44A80;

@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { MapFilterValues } from 'src/features/billboardsMapFilters/models/mapFilterValues';
+import { MapFilterValues } from 'src/features/billboardsMapSideMenu/models/mapFilterValues';
 
 export const useMapFilters = (initialValues?: Partial<MapFilterValues>) => {
     const [ filters, setFilters ] = useState<MapFilterValues>({

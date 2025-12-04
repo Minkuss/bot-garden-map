@@ -1,6 +1,6 @@
-import { FilterSection } from 'src/features/billboardsMapFilters/ui/filterSection/filterSection';
+import { FilterSection } from 'src/features/billboardsMapSideMenu/ui/billboardsFilters/filterSection/filterSection';
 import { useCallback } from 'react';
-import { FilterProps } from 'src/features/billboardsMapFilters/models/filterProps';
+import { FilterProps } from 'src/features/billboardsMapSideMenu/models/filterProps';
 
 export const DistrictFilter = (props: FilterProps) => {
     const { onChangeFilters, value } = props;

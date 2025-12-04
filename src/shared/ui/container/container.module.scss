@@ -5,11 +5,16 @@
   width: 100%;
   padding-top: $container-padding-top-bottom;
 
-  @media (max-width: $breakpoint-lg) {
+  @media (max-width: $breakpoint-xxl) {
     @include paddingLeftRight(100px)
   }
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: $breakpoint-lg) {
     @include paddingLeftRight(50px)
+  }
+
+  @media (max-width: $breakpoint-md) {
+    @include paddingLeftRight(10px);
+    scroll-snap-align: none !important;
   }
 }

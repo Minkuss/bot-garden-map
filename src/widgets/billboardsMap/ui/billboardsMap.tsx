@@ -11,18 +11,12 @@ import CartLeaveOrderModal from 'src/features/cartLeaveOrderModal/ui/cartLeaveOr
 import { getModifiedBillboardWithDates } from 'src/shared/utils/getModifiedBillboardWithDates';
 import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
 import s from './billboardsMap.module.scss';
-import { BillboardsMapFilters } from 'src/features/billboardsMapFilters/ui/billboardsMapFilters';
+import { BillboardsMapSideMenu } from 'src/features/billboardsMapSideMenu/ui/billboardsMapSideMenu';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { routes } from 'src/shared/routes';
 import { LeaveOrderInputs } from 'src/entities/order/ui/leaveOrderForm';
 
-interface IBillboardsMapProps {
-    showFilters: boolean;
-}
-
-export const BillboardsMap = (props: IBillboardsMapProps) => {
-    const { showFilters } = props;
-
+export const BillboardsMap = () => {
     const navigate = useNavigate();
     const [ billboardsMarkers, setBillboardsMarkers ] = useState<BillboardMarkerDto[]>([]);
     const { add, clearCart } = useCart();
@@ -161,9 +155,7 @@ export const BillboardsMap = (props: IBillboardsMapProps) => {
         <div
             className={s['map']}
         >
-            <BillboardsMapFilters
-                show={showFilters}
-            />
+            <BillboardsMapSideMenu/>
             <YMaps
                 query={{
                     apikey: import.meta.env.VITE_YANDEX_MAPS_API_KEY,
