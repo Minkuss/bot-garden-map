@@ -1,26 +1,23 @@
 import { FilterSection } from 'src/features/billboardsMapSideMenu/ui/billboardsFilters/filterSection/filterSection';
 import { useCallback } from 'react';
 import { FilterProps } from 'src/features/billboardsMapSideMenu/models/filterProps';
+import { BillboardStatusEnum, BillboardStatusEnumType } from 'src/entities/billboard/enums/billboardStatusEnum';
 
-export const StatusFilter = (props: FilterProps) => {
+export const StatusFilter = (props: FilterProps<BillboardStatusEnumType>) => {
     const { onChangeFilters, value } = props;
 
-    const handleChangeFilters = useCallback((filters: string[]) => {
-        onChangeFilters(filters);
-    }, [ onChangeFilters ]);
+    const handleChangeFilters = useCallback(
+        (filters: BillboardStatusEnumType[]) => {
+            onChangeFilters(filters);
+        },
+        [ onChangeFilters ],
+    );
 
     return (
         <FilterSection
-            value={value}
             title={'Статус'}
-            items={
-                [
-                    'Свободно',
-                    'Занято',
-                    'Зарезервировано',
-                    'На ремонте',
-                ]
-            }
+            enumMap={BillboardStatusEnum}
+            value={value}
             onChangeFilters={handleChangeFilters}
         />
     );

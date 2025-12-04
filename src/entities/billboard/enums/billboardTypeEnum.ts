@@ -1,3 +1,5 @@
+import { EnumValue } from 'src/entities/billboard/enums/enum';
+
 export const BillboardTypeEnum = {
     banner: {
         value: 'banner',
@@ -13,4 +15,4 @@ export const BillboardTypeEnum = {
     },
 } as const;
 
-export type BillboardTypeEnumType = keyof typeof BillboardTypeEnum;
+export type BillboardTypeEnumType = EnumValue<typeof BillboardTypeEnum>;

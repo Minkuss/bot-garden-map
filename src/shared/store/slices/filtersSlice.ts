@@ -12,12 +12,13 @@ export interface FiltersSlice {
 }
 
 const defaultFilters: MapFilterValues = {
-    districts: [],
-    constructionTypes: [],
-    status: [],
-    sizes: [],
-    monthRange: null,
-    priceRange: [ 0, 100000 ],
+    district: [],
+    billboard_type: [],
+    billboard_status: [],
+    billboard_size: [],
+    // monthRange: null,
+    min_price: 0,
+    max_price: 100000,
 };
 
 export const createFiltersSlice: StoreSlice<FiltersSlice> = set => ({

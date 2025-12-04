@@ -15,12 +15,14 @@ import { BillboardsMapSideMenu } from 'src/features/billboardsMapSideMenu/ui/bil
 import { generatePath, useNavigate } from 'react-router-dom';
 import { routes } from 'src/shared/routes';
 import { LeaveOrderInputs } from 'src/entities/order/ui/leaveOrderForm';
+import { useStore } from 'src/shared/store';
 
 export const BillboardsMap = () => {
     const navigate = useNavigate();
     const [ billboardsMarkers, setBillboardsMarkers ] = useState<BillboardMarkerDto[]>([]);
     const { add, clearCart } = useCart();
     const mapRef = useRef<any>(null);
+    const filters = useStore(state => state.filters);
 
     /**
      * Слушаем ивент на нажатие "Добавить в корзину" в карточке баннера на карте
@@ -121,7 +123,7 @@ export const BillboardsMap = () => {
     useEffect(() => {
         const loadBillBoardsMarkers = async() => {
             try {
-                const data = await billboardApi.getBillboardsCoords();
+                const data = await billboardApi.getBillboardsCoords(filters);
                 setBillboardsMarkers(data.coordinates);
             } catch (error) {
                 console.error(error);
@@ -129,7 +131,7 @@ export const BillboardsMap = () => {
         };
 
         loadBillBoardsMarkers();
-    }, []);
+    }, [ filters ]);
 
     /**
      * Сайд эффект для закрытия балуна при клике на свободное место на карте

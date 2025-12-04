@@ -89,7 +89,7 @@ export const DetailedBillboardInfo = (props: IDetailedBillboardInfoProps) => {
     const getBillboard = useCallback(async(sideIndex: number, changeSide: boolean) => {
         try {
             if (!changeSide) setLoading(true);
-            const billboardFetchedSides = [ 'A', 'B' ]; //todo temp: пример (нужен новый хвост)
+            const billboardFetchedSides = [ 'А', 'Б' ]; //todo temp: пример (нужен новый хвост)
             setBillboardSides(billboardFetchedSides);
 
             const billboard = await getModifiedBillboardInfo(billboardId, billboardFetchedSides[sideIndex]);
