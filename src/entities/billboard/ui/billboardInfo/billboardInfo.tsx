@@ -7,13 +7,6 @@ import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { textSlideAnim } from 'src/shared/lib/gsap/animations/textSlideAnim';
 
-const tempTags = [
-    '#университет',
-    '#школа',
-    '#детский сад',
-    '#больница',
-];
-
 interface IBillboardInfoProps {
     billboardInfo?: BillboardDetailDto;
 }
@@ -22,8 +15,7 @@ export const BillboardInfo = (props: IBillboardInfoProps) => {
     const { billboardInfo } = props;
     const priceRef = useRef<HTMLSpanElement | null>(null);
     const addressRef = useRef<HTMLSpanElement | null>(null);
-    const sizeWidthRef = useRef<HTMLSpanElement | null>(null);
-    const sizeHeightRef = useRef<HTMLSpanElement | null>(null);
+    const sizeRef = useRef<HTMLSpanElement | null>(null);
     const typeRef = useRef<HTMLSpanElement | null>(null);
     const statusRef = useRef<HTMLSpanElement | null>(null);
 
@@ -44,20 +36,12 @@ export const BillboardInfo = (props: IBillboardInfoProps) => {
     }, [ billboardInfo?.address ]);
 
     useGSAP(() => {
-        if (!sizeWidthRef.current) return;
+        if (!sizeRef.current) return;
 
-        const sizeWidth = sizeWidthRef.current;
+        const sizeWidth = sizeRef.current;
 
-        textSlideAnim(sizeWidth, String(billboardInfo?.width ?? ''));
-    }, [ billboardInfo?.width ]);
-
-    useGSAP(() => {
-        if (!sizeHeightRef.current) return;
-
-        const sizeHeight = sizeHeightRef.current;
-
-        textSlideAnim(sizeHeight, String(billboardInfo?.height ?? ''));
-    }, [ billboardInfo?.height ]);
+        textSlideAnim(sizeWidth, String(billboardInfo?.size ?? ''));
+    }, [ billboardInfo?.size ]);
 
     useGSAP(() => {
         if (!typeRef.current) return;
@@ -95,9 +79,7 @@ export const BillboardInfo = (props: IBillboardInfoProps) => {
                 </span>
                 <span>
                     Размер:
-                    <span ref={sizeWidthRef}/>
-                    x
-                    <span ref={sizeHeightRef}/>
+                    <span ref={sizeRef}/>
                 </span>
                 <span>
                     Тип:
@@ -125,10 +107,10 @@ export const BillboardInfo = (props: IBillboardInfoProps) => {
                     className={s['list']}
                 >
                     {
-                        tempTags.map((tag, index) => (
+                        billboardInfo?.hashtags.map((tag, index) => (
                             <Tag
                                 key={index}
-                                label={tag}
+                                label={'#' + tag}
                             />
                         ))
                     }

@@ -2,7 +2,7 @@ import { Map, YMaps } from '@pbe/react-yandex-maps';
 import { useEffect, useRef, useState } from 'react';
 import { billboardApi, BillboardMarkerDto } from 'src/entities/billboard';
 import { SelectableBillboardMarker } from 'src/features/selectableBillboardMarker';
-import { BookingCreateParams, useCart } from 'src/entities/cart';
+import { BookingCreateParams } from 'src/entities/cart';
 import NiceModal from '@ebay/nice-modal-react';
 import SelectDateRangeModal from 'src/features/selectDateRangeModal/ui/selectDateRangeModal';
 import { format, parse } from 'date-fns';
@@ -11,22 +11,20 @@ import CartLeaveOrderModal from 'src/features/cartLeaveOrderModal/ui/cartLeaveOr
 import { getModifiedBillboardWithDates } from 'src/shared/utils/getModifiedBillboardWithDates';
 import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
 import s from './billboardsMap.module.scss';
-import { BillboardsMapFilters } from 'src/features/billboardsMapFilters/ui/billboardsMapFilters';
+import { BillboardsMapSideMenu } from 'src/features/billboardsMapSideMenu/ui/billboardsMapSideMenu';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { routes } from 'src/shared/routes';
 import { LeaveOrderInputs } from 'src/entities/order/ui/leaveOrderForm';
+import { useStore } from 'src/shared/store';
 
-interface IBillboardsMapProps {
-    showFilters: boolean;
-}
-
-export const BillboardsMap = (props: IBillboardsMapProps) => {
-    const { showFilters } = props;
-
+export const BillboardsMap = () => {
     const navigate = useNavigate();
     const [ billboardsMarkers, setBillboardsMarkers ] = useState<BillboardMarkerDto[]>([]);
-    const { add, clearCart } = useCart();
+    const add = useStore(store => store.addToCart);
+    const clearCart = useStore(store => store.clearCart);
     const mapRef = useRef<any>(null);
+    const filters = useStore(state => state.filters);
+    const zoomCoords = useStore(store => store.zoomCoords);
 
     /**
      * Слушаем ивент на нажатие "Добавить в корзину" в карточке баннера на карте
@@ -41,7 +39,12 @@ export const BillboardsMap = (props: IBillboardsMapProps) => {
                 const start = format(result.startDate, 'dd.MM.yyyy');
                 const end = format(result.endDate, 'dd.MM.yyyy');
 
-                add(id, side, start, end);
+                add({
+                    id,
+                    side,
+                    start,
+                    end,
+                });
 
                 toast.success('Товар добавлен в корзину');
             } catch (error) {
@@ -127,15 +130,15 @@ export const BillboardsMap = (props: IBillboardsMapProps) => {
     useEffect(() => {
         const loadBillBoardsMarkers = async() => {
             try {
-                const data = await billboardApi.getBillboardsCoords();
-                setBillboardsMarkers(data);
+                const data = await billboardApi.getBillboardsCoords(filters);
+                setBillboardsMarkers(data.coordinates);
             } catch (error) {
                 console.error(error);
             }
         };
 
         loadBillBoardsMarkers();
-    }, []);
+    }, [ filters ]);
 
     /**
      * Сайд эффект для закрытия балуна при клике на свободное место на карте
@@ -157,13 +160,19 @@ export const BillboardsMap = (props: IBillboardsMapProps) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ mapRef.current ]);
 
+    useEffect(() => {
+        if (!mapRef.current || !zoomCoords) return;
+
+        mapRef.current.setCenter([ zoomCoords.lat, zoomCoords.long ], 15, {
+            duration: 300,
+        });
+    }, [ zoomCoords ]);
+
     return (
         <div
             className={s['map']}
         >
-            <BillboardsMapFilters
-                show={showFilters}
-            />
+            <BillboardsMapSideMenu billboards={billboardsMarkers}/>
             <YMaps
                 query={{
                     apikey: import.meta.env.VITE_YANDEX_MAPS_API_KEY,

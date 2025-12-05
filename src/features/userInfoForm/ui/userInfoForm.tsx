@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { EMAIL_PATTERN, PHONE_PATTERN } from 'src/shared/utils/regsPatterns';
 import toast from 'react-hot-toast';
 import s from './userInfoForm.module.scss';
-import { useAuth } from 'src/shared/auth/hooks/useAuth';
+import { useStore } from 'src/shared/store';
 
 interface UserInfoFormInputs {
     lastName: string;
@@ -26,7 +26,7 @@ export const UserInfoForm = () => {
         watch,
         setValue,
     } = useForm<UserInfoFormInputs>();
-    const { user } = useAuth();
+    const user = useStore(state => state.user);
 
     const formRef = useRef<HTMLFormElement>(null);
 

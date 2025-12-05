@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Placemark, withYMaps } from '@pbe/react-yandex-maps';
-import { BillboardDetailDto, BillboardMarkerDto } from 'src/entities/billboard';
+import { billboardApi, BillboardDetailDto, BillboardMarkerDto } from 'src/entities/billboard';
 import './selectableBillboardMarker.scss';
 import { BillboardBalloonCard } from 'src/features/billboardBalloonCard';
 import toast from 'react-hot-toast';
@@ -30,16 +30,17 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
 
     const getBillboard = async(id: string, sideIndex: number) => {
         try {
-            const billboardFetchedSides = [ 'A', 'B' ]; //todo temp: пример (нужен новый хвост)
+            //todo: подумать как оптимизировать чтобы при переключении сторон не фетчить их повторно
+            const billboardFetchedSides = await billboardApi.getBillboardSides(id);
             setBillboardSides(billboardFetchedSides);
-
-            setBillboardSideIndex(sideIndex);
 
             const billboard = await getModifiedBillboardInfo(id, billboardFetchedSides[sideIndex]);
 
+            setBillboardSideIndex(sideIndex);
+
             setBillboardInfo(billboard);
         } catch (error) {
-            toast.error(error.response.data.detail);
+            toast.error(error.response.data.detail.message);
             console.error(error);
         }
     };
@@ -48,7 +49,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
         if (!ymaps?.templateLayoutFactory) return null;
 
         return ymaps.templateLayoutFactory.createClass(
-            BillboardBalloonCard(billboardInfo, billboardSideIndex === billboardSides.length - 1),
+            BillboardBalloonCard(billboardInfo, billboardSides.length === 1 ? false : billboardSideIndex === billboardSides.length - 1),
             {
                 build() {
                     this.constructor.superclass.build.call(this);
@@ -140,8 +141,8 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
     const iconLayout = useMemo(() => {
         if (!ymaps?.templateLayoutFactory) return null;
 
-        const color = BILLBOARD_STATUS_COLORS['occupied'];
-        const svg = getMarkerSvgByType('scroll', color);
+        const color = BILLBOARD_STATUS_COLORS[billboard.available ? 'available' : 'occupied'];
+        const svg = getMarkerSvgByType(billboard.type, color);
 
         return ymaps.templateLayoutFactory.createClass(
             `<div class="billboard-marker" id="${billboard.id}">

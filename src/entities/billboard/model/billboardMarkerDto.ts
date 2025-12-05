@@ -1,10 +1,13 @@
 import { BillboardTypeEnumType } from 'src/entities/billboard/enums/billboardTypeEnum';
-import { BillboardStatusEnumType } from 'src/entities/billboard/enums/billboardStatusEnum';
 
 export interface BillboardMarkerDto {
     id: string;
     longitude: number;
     latitude: number;
+    address: string;
+    available: boolean;
+    photo_url: string | null;
+    size: string;
+    rent_price: number;
     type: BillboardTypeEnumType;
-    status: BillboardStatusEnumType;
 }

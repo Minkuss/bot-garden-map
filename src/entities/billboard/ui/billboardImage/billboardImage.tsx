@@ -30,7 +30,7 @@ export const BillboardImage = (props: IBillboardImageProps) => {
         >
             <img
                 className={s['image']}
-                src={billboardInfo.image_url}
+                src={billboardInfo.photo_url}
             />
             <button
                 className={s['side-btn']}

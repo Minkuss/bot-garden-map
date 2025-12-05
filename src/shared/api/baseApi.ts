@@ -6,4 +6,7 @@ export const baseApi = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
+    paramsSerializer: {
+        indexes: null,
+    },
 });
