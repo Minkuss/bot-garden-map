@@ -5,10 +5,10 @@ import { BillboardSizeEnumType } from 'src/entities/billboard/enums/billboardSiz
 import { DateRange } from 'src/features/selectDateRangeModal/model/dateRange';
 
 export interface MapFilterValues {
-    district: BillboardDistrictValue[];
-    billboard_type: BillboardTypeEnumType[];
-    billboard_status: BillboardStatusEnumType[];
-    billboard_size: BillboardSizeEnumType[];
+    districts: BillboardDistrictValue[];
+    billboard_types: BillboardTypeEnumType[];
+    billboard_statuses: BillboardStatusEnumType[];
+    billboard_sizes: BillboardSizeEnumType[];
     // monthRange: DateRange | null;
     min_price: number;
     max_price: number;

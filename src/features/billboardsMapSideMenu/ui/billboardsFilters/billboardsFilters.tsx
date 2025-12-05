@@ -51,20 +51,20 @@ export const BillboardsFilters = () => {
                 ref={filterListRef}
             >
                 <DistrictFilter
-                    value={filters.district}
-                    onChangeFilters={filters => updateFilter('district', filters)}
+                    value={filters.districts}
+                    onChangeFilters={filters => updateFilter('districts', filters)}
                 />
                 <ConstructionTypeFilter
-                    value={filters.billboard_type}
-                    onChangeFilters={filters => updateFilter('billboard_type', filters)}
+                    value={filters.billboard_types}
+                    onChangeFilters={filters => updateFilter('billboard_types', filters)}
                 />
                 <StatusFilter
-                    value={filters.billboard_status}
-                    onChangeFilters={filters => updateFilter('billboard_status', filters)}
+                    value={filters.billboard_statuses}
+                    onChangeFilters={filters => updateFilter('billboard_statuses', filters)}
                 />
                 <SizeFilter
-                    value={filters.billboard_size}
-                    onChangeFilters={filters => updateFilter('billboard_size', filters)}
+                    value={filters.billboard_sizes}
+                    onChangeFilters={filters => updateFilter('billboard_sizes', filters)}
                 />
                 {/*<div*/}
                 {/*    className={s['month-filter']}*/}

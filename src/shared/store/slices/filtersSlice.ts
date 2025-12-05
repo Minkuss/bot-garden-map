@@ -12,10 +12,10 @@ export interface FiltersSlice {
 }
 
 const defaultFilters: MapFilterValues = {
-    district: [],
-    billboard_type: [],
-    billboard_status: [],
-    billboard_size: [],
+    districts: [],
+    billboard_types: [],
+    billboard_statuses: [],
+    billboard_sizes: [],
     // monthRange: null,
     min_price: 0,
     max_price: 100000,
