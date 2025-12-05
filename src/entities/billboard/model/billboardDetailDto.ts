@@ -17,4 +17,5 @@ export interface BillboardDetailDto {
     service_price: number;
     manufacturing_cost: number;
     photo_url: string | null;
+    hashtags: string[];
 }
