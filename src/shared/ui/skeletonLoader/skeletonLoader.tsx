@@ -1,21 +1,15 @@
 import s from './skeletonLoader.module.scss';
 
 interface ISkeletonLoaderProps {
-    minHeight?: string;
+    style?: React.CSSProperties ;
 }
 
 export const SkeletonLoader = (props: ISkeletonLoaderProps) => {
-    const { minHeight } = props;
+    const { style } = props;
 
     return (
         <div
-            style={
-                minHeight
-                    ? {
-                        minHeight,
-                    }
-                    : undefined
-            }
+            style={style}
             className={s['skeleton-loader']}
         />
     );

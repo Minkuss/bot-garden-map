@@ -156,7 +156,9 @@ export const DetailedBillboardInfo = (props: IDetailedBillboardInfoProps) => {
             {
                 loading
                     ? <SkeletonLoader
-                        minHeight={'220px'}
+                        style={{
+                            minHeight: '220px',
+                        }}
                     />
                     : <BillboardImage
                         billboardInfo={billboardInfo}
