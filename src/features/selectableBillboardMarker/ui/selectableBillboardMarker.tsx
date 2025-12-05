@@ -141,7 +141,7 @@ const SelectableBillboardMarkerCore = React.memo(({ billboard, ymaps }: IBillboa
     const iconLayout = useMemo(() => {
         if (!ymaps?.templateLayoutFactory) return null;
 
-        const color = BILLBOARD_STATUS_COLORS['available']; //todo хардкод, потом убрать когда появится поле на бэке
+        const color = BILLBOARD_STATUS_COLORS[billboard.available ? 'available' : 'occupied'];
         const svg = getMarkerSvgByType(billboard.type, color);
 
         return ymaps.templateLayoutFactory.createClass(
